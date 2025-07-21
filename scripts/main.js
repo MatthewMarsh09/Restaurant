@@ -200,7 +200,24 @@ const createSuggestionItem = (suggestion, index) => {
         transition: background-color 0.2s;
         font-size: 0.95rem;
     `;
-    item.textContent = suggestion.display_name;
+    
+    // Clean up the address display - remove county and country info for cleaner look
+    let displayText = suggestion.display_name;
+    
+    // Remove ", United States" if present
+    displayText = displayText.replace(', United States', '');
+    
+    // If it's too long, try to shorten it intelligently
+    if (displayText.length > 60) {
+        const parts = displayText.split(', ');
+        // Keep the first 3-4 most relevant parts (address, city, state)
+        if (parts.length > 4) {
+            displayText = parts.slice(0, 4).join(', ');
+        }
+    }
+    
+    item.textContent = displayText;
+    
     item.addEventListener('mouseenter', () => {
         item.style.background = 'rgba(240,244,255,0.8)';
     });
@@ -257,20 +274,84 @@ const searchAddresses = async (query) => {
     try {
         // Focus on Houston metro area for better results
         const bounds = '28.5,-96.5,30.5,-94.5'; // Rough Houston metro bounds
-        const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query + ' Houston Texas')}&viewbox=${bounds}&bounded=1`;
         
-        const response = await fetch(url);
-        const results = await response.json();
+        // Try multiple search strategies for better results
+        const searches = [
+            // Direct search with Houston Texas
+            `${query} Houston Texas`,
+            // Just the query with Texas
+            `${query} Texas`,
+            // Query with common street suffixes if none provided
+            query.includes('st') || query.includes('street') || query.includes('ave') || 
+            query.includes('rd') || query.includes('ln') || query.includes('dr') ? 
+            query : `${query} street Houston Texas`
+        ];
         
-        // Filter for addresses that actually contain the query
-        const filteredResults = results.filter(result => 
-            result.display_name.toLowerCase().includes(query.toLowerCase()) &&
-            (result.display_name.toLowerCase().includes('texas') || 
-             result.display_name.toLowerCase().includes('tx'))
-        );
+        let allResults = [];
         
-        currentSuggestions = filteredResults;
-        showAutocomplete(filteredResults);
+        for (const searchQuery of searches) {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=3&q=${encodeURIComponent(searchQuery)}&viewbox=${bounds}&bounded=1`;
+            
+            try {
+                const response = await fetch(url);
+                const results = await response.json();
+                allResults = allResults.concat(results);
+            } catch (err) {
+                console.warn('Search failed for:', searchQuery);
+            }
+        }
+        
+        // Remove duplicates and filter for Houston area
+        const uniqueResults = [];
+        const seen = new Set();
+        
+        allResults.forEach(result => {
+            const key = `${result.lat}-${result.lon}`;
+            if (!seen.has(key) && 
+                (result.display_name.toLowerCase().includes('texas') || 
+                 result.display_name.toLowerCase().includes('tx') ||
+                 result.display_name.toLowerCase().includes('houston'))) {
+                
+                // Prioritize results that closely match the query
+                const displayLower = result.display_name.toLowerCase();
+                const queryLower = query.toLowerCase();
+                
+                // Boost exact matches or close matches
+                if (displayLower.includes(queryLower) || 
+                    queryLower.split(' ').some(word => displayLower.includes(word))) {
+                    seen.add(key);
+                    uniqueResults.push(result);
+                }
+            }
+        });
+        
+        // Sort by relevance - exact matches first
+        const sortedResults = uniqueResults.sort((a, b) => {
+            const aLower = a.display_name.toLowerCase();
+            const bLower = b.display_name.toLowerCase();
+            const queryLower = query.toLowerCase();
+            
+            // Exact matches first
+            const aExact = aLower.includes(queryLower);
+            const bExact = bLower.includes(queryLower);
+            
+            if (aExact && !bExact) return -1;
+            if (!aExact && bExact) return 1;
+            
+            // Then by how early the match appears
+            const aIndex = aLower.indexOf(queryLower);
+            const bIndex = bLower.indexOf(queryLower);
+            
+            if (aIndex !== -1 && bIndex !== -1) {
+                return aIndex - bIndex;
+            }
+            
+            return 0;
+        });
+        
+        currentSuggestions = sortedResults.slice(0, 5); // Limit to 5 results
+        showAutocomplete(currentSuggestions);
+        
     } catch (error) {
         console.error('Address search failed:', error);
         hideAutocomplete();
