@@ -125,19 +125,37 @@ const initializeDropdown = () => {
     });
 };
 
-// GPS location with optimized error handling
+// Reverse geocode coordinates to get an address using OpenStreetMap
+const reverseGeocode = async (lat, lng) => {
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`, {
+            headers: { 'User-Agent': 'HoustonFoodFinder/1.0 (https://matthewmarsh09.github.io/Restaurant/)' }
+        });
+        if (!response.ok) throw new Error('Reverse geocoding failed');
+        const data = await response.json();
+        return data.display_name || `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    } catch (error) {
+        console.error('Reverse geocode error:', error);
+        return `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)}`; // Fallback to GPS coordinates
+    }
+};
+
+// GPS location with optimized error handling and reverse geocoding
 const requestUserLocation = () => {
     const btn = document.getElementById('useLocationBtn'), status = document.getElementById('locationStatus');
     if (!navigator.geolocation) return status.textContent = 'Geolocation not supported', status.className = 'location-status error';
     
-    btn.disabled = true; btn.textContent = '📍 Getting Location...'; status.textContent = 'Getting GPS...'; status.className = 'location-status loading';
+    btn.disabled = true; btn.textContent = '📍 Getting Location...'; status.textContent = 'Getting GPS signal...'; status.className = 'location-status loading';
     
     navigator.geolocation.getCurrentPosition(
-        pos => {
+        async pos => {
             userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-            const coords = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
-            document.getElementById('address').value = `GPS: ${coords}`;
-            status.textContent = `✓ Located (±${Math.round(pos.coords.accuracy)}m)`;
+            status.textContent = `✓ GPS Lock (±${Math.round(pos.coords.accuracy)}m). Finding address...`;
+            
+            const address = await reverseGeocode(userLocation.lat, userLocation.lng);
+            document.getElementById('address').value = address;
+            
+            status.textContent = `✓ Closest Address Found!`;
             status.className = 'location-status success';
             btn.disabled = false; btn.textContent = '📍 Use My Exact Location';
             setTimeout(() => currentResults.length === 0 && searchAndShow('list'), 1500);
