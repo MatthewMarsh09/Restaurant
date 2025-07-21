@@ -186,5 +186,18 @@
     {"name": "CAVA Cinco Ranch", "cuisine": "mediterranean", "rating": 4.5, "address": "2643 Commercial Center Blvd #C300, Katy, TX 77494", "lat": 29.7384, "lng": -95.7589},
     {"name": "Salata Salad Kitchen", "cuisine": "salads", "rating": 4.3, "address": "23501 Cinco Ranch Blvd #P150, Katy, TX 77494", "lat": 29.7386, "lng": -95.7595},
     {"name": "Piada Italian Street Food", "cuisine": "italian", "rating": 4.4, "address": "1930 Highway 6, Sugar Land, TX 77478", "lat": 29.6385, "lng": -95.6021},
-    {"name": "In-N-Out Burger", "cuisine": "american", "rating": 4.6, "address": "1010 Katy-Fort Bend Rd, Katy, TX 77493", "lat": 29.7284, "lng": -95.7458}
+    {"name": "In-N-Out Burger", "cuisine": "american", "rating": 4.6, "address": "1010 Katy-Fort Bend Rd, Katy, TX 77493", "lat": 29.7284, "lng": -95.7458},
+    {"name": "Redfish Seafood Grill", "cuisine": "seafood", "rating": 4.7, "address": "19550 TX-249, Houston, TX 77070", "lat": 30.0589, "lng": -95.4673},
+    {"name": "King of India (Cypress)", "cuisine": "indian", "rating": 4.5, "address": "25250 Northwest Fwy #190, Cypress, TX 77429", "lat": 29.9621, "lng": -95.6914},
+    {"name": "Red Dot Cuisine", "cuisine": "indian", "rating": 4.4, "address": "5218 Louetta Rd, Houston, TX 77070", "lat": 30.0123, "lng": -95.4987},
+    {"name": "Louisiana Fish House (Spring Cypress)", "cuisine": "cajun", "rating": 4.3, "address": "12603 Spring Cypress Rd, Cypress, TX 77429", "lat": 30.0125, "lng": -95.6234},
+    {"name": "Louisiana Fish House (Pinehurst)", "cuisine": "cajun", "rating": 4.3, "address": "5611 Treaschwig Rd, Spring, TX 77373", "lat": 30.1234, "lng": -95.4956},
+    {"name": "Louisiana Fish House (Magnolia)", "cuisine": "cajun", "rating": 4.3, "address": "32905 FM 2978, Magnolia, TX 77354", "lat": 30.2145, "lng": -95.7234},
+    {"name": "Louisiana Fish House (Crosstimbers)", "cuisine": "cajun", "rating": 4.3, "address": "7979 Spring Cypress Rd, Spring, TX 77379", "lat": 30.0456, "lng": -95.5678},
+    {"name": "Super Yummy Mongolian Stir-Fry", "cuisine": "asian", "rating": 4.4, "address": "14257 FM 2920 #160, Tomball, TX 77377", "lat": 30.0934, "lng": -95.6159},
+    {"name": "China One", "cuisine": "chinese", "rating": 4.2, "address": "10850 Spring Cypress Rd, Cypress, TX 77429", "lat": 30.0123, "lng": -95.6234},
+    {"name": "Locatelli's Italian Restaurant", "cuisine": "italian", "rating": 4.6, "address": "5218 Grant Rd, Cypress, TX 77429", "lat": 29.9987, "lng": -95.6789},
+    {"name": "Lama Mediterranean Cuisine", "cuisine": "mediterranean", "rating": 4.5, "address": "1644 Research Forest Dr #100, The Woodlands, TX 77381", "lat": 30.1793, "lng": -95.4665},
+    {"name": "Lama Mediterranean Cuisine (Conroe)", "cuisine": "mediterranean", "rating": 4.5, "address": "721 SH-105 E, Conroe, TX 77301", "lat": 30.3201, "lng": -95.4512},
+    {"name": "Yummy Tummy", "cuisine": "american", "rating": 4.3, "address": "241 FM 1960 Bypass Rd E, Humble, TX 77338", "lat": 30.0156, "lng": -95.2678}
 ] 
