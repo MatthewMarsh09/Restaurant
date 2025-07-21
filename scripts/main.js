@@ -698,7 +698,7 @@ function showMapView() {
     const userMarker = L.marker([userLocation.lat, userLocation.lng], {
         icon: L.divIcon({
             className: 'user-location-marker',
-            html: '<div style="background: #ff6b35; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
+            html: '<div style="background: #EB6E1F; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
             iconSize: [20, 20],
             iconAnchor: [10, 10]
         })
@@ -708,8 +708,8 @@ function showMapView() {
     // Add radius circle
     const range = parseInt(document.getElementById('range').value) || 10;
     const radiusCircle = L.circle([userLocation.lat, userLocation.lng], {
-        color: '#ff6b35',
-        fillColor: '#ff6b35',
+        color: '#002D62',
+        fillColor: '#EB6E1F',
         fillOpacity: 0.1,
         radius: range * 1609.34 // Convert miles to meters
     }).addTo(map);
@@ -719,9 +719,9 @@ function showMapView() {
         const marker = L.marker([restaurant.lat, restaurant.lng]).addTo(map);
         marker.bindPopup(`
             <div style="text-align: center;">
-                <h4 style="color: #ea580c; margin-bottom: 5px;">${restaurant.name}</h4>
-                <p style="margin: 5px 0;"><span style="background: #fef2f2; color: #ea580c; padding: 2px 8px; border-radius: 10px; font-size: 12px;">${restaurant.cuisine}</span></p>
-                <p style="margin: 5px 0;">⭐ ${restaurant.rating} • ${restaurant.calculatedDistance} miles</p>
+                <h4 style="color: #002D62; margin-bottom: 5px;">${restaurant.name}</h4>
+                <p style="margin: 5px 0;"><span style="background: #f0f4ff; color: #002D62; padding: 2px 8px; border-radius: 10px; font-size: 12px;">${restaurant.cuisine}</span></p>
+                <p style="margin: 5px 0; color: #EB6E1F; font-weight: 600;">⭐ ${restaurant.rating} • ${restaurant.calculatedDistance} miles</p>
                 <p style="font-size: 12px; color: #666;">${restaurant.address}</p>
             </div>
         `);
@@ -792,7 +792,7 @@ function applyDynamicStyles() {
     if (searchForm) {
         searchForm.style.background = 'linear-gradient(145deg, #ffffff, #f8f9fa)';
         searchForm.style.borderRadius = '20px';
-        searchForm.style.boxShadow = '0 20px 40px rgba(0,0,0,0.1)';
+        searchForm.style.boxShadow = '0 20px 40px rgba(0,45,98,0.1)';
         searchForm.style.border = '1px solid #e9ecef';
     }
     
@@ -807,12 +807,12 @@ function applyDynamicStyles() {
         // Add hover effects via JavaScript
         btn.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px) scale(1.05)';
-            this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.2)';
+            this.style.boxShadow = '0 8px 25px rgba(0,45,98,0.2)';
         });
         
         btn.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
-            this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            this.style.boxShadow = '0 4px 15px rgba(0,45,98,0.1)';
         });
     });
     
@@ -821,16 +821,29 @@ function applyDynamicStyles() {
     if (header) {
         header.style.background = 'rgba(255, 255, 255, 0.95)';
         header.style.backdropFilter = 'blur(10px)';
-        header.style.borderBottom = '1px solid rgba(255, 107, 53, 0.2)';
+        header.style.borderBottom = '1px solid rgba(0, 45, 98, 0.2)';
     }
     
     // Style the brand title
     const brand = document.querySelector('.nav__brand h1');
     if (brand) {
-        brand.style.background = 'linear-gradient(45deg, #ff6b35, #f7931e)';
+        brand.style.background = 'linear-gradient(45deg, #002D62, #EB6E1F)';
         brand.style.webkitBackgroundClip = 'text';
         brand.style.webkitTextFillColor = 'transparent';
         brand.style.backgroundClip = 'text';
     }
+    
+    // Update user location marker color
+    const userLocationStyle = `
+        .user-location-marker div {
+            background: #EB6E1F !important;
+            border: 3px solid white !important;
+        }
+    `;
+    
+    // Add dynamic style to head
+    const style = document.createElement('style');
+    style.textContent = userLocationStyle;
+    document.head.appendChild(style);
 }
 
