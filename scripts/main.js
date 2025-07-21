@@ -96,53 +96,58 @@ const initializeDropdown = () => {
     });
 };
 
-// Reverse geocode coordinates to get an address using OpenStreetMap
-const reverseGeocode = async (lat, lng) => {
-    try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`, {
-            headers: { 'User-Agent': 'HoustonFoodFinder/1.0 (https://matthewmarsh09.github.io/Restaurant/)' }
-        });
-        if (!response.ok) throw new Error('Reverse geocoding failed');
-        const data = await response.json();
-        return data.display_name || `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-    } catch (error) {
-        console.error('Reverse geocode error:', error);
-        return `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)}`; // Fallback to GPS coordinates
-    }
-};
-
-// GPS location with optimized error handling and reverse geocoding
+// GPS location functionality - updated to use exact coordinates and display "Current Location"
 const requestUserLocation = () => {
-    const btn = document.getElementById('useLocationBtn'), status = document.getElementById('locationStatus');
-    if (!navigator.geolocation) return status.textContent = 'Geolocation not supported', status.className = 'location-status error';
+    const btn = document.getElementById('useLocationBtn'), status = document.getElementById('locationStatus'), addressInput = document.getElementById('address');
+    if (!navigator.geolocation) {
+        status.textContent = 'Geolocation is not supported by your browser.';
+        status.className = 'location-status error';
+        return;
+    }
     
-    btn.disabled = true; btn.textContent = '📍 Getting Location...'; status.textContent = 'Getting GPS signal...'; status.className = 'location-status loading';
+    btn.disabled = true; 
+    btn.textContent = '📍 Getting Location...'; 
+    status.textContent = 'Requesting GPS signal...'; 
+    status.className = 'location-status loading';
     
     navigator.geolocation.getCurrentPosition(
-        async pos => {
+        pos => {
+            // Store the precise coordinates globally
             userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-            status.textContent = `✓ GPS Lock (±${Math.round(pos.coords.accuracy)}m). Finding address...`;
             
-            const address = await reverseGeocode(userLocation.lat, userLocation.lng);
-            document.getElementById('address').value = address;
-            
-            status.textContent = `✓ Closest Address Found!`;
+            // Update the UI to reflect the new location status
+            addressInput.value = "Current Location";
+            status.textContent = `✓ GPS Lock Acquired (Accuracy: ${Math.round(pos.coords.accuracy)}m)`;
             status.className = 'location-status success';
-            btn.disabled = false; btn.textContent = '📍 Use My Exact Location';
-            setTimeout(() => currentResults.length === 0 && searchAndShow('list'), 1500);
+            btn.disabled = false; 
+            btn.textContent = '📍 Use My Exact Location';
+            
+            // Automatically trigger a search after finding the location
+            setTimeout(() => searchAndShow('list'), 500);
         },
         err => {
-            const msgs = ['Location denied', 'Location unavailable', 'Location timeout', 'Location error'];
-            status.textContent = msgs[err.code - 1] || msgs[3]; status.className = 'location-status error';
-            btn.disabled = false; btn.textContent = '📍 Use My Exact Location';
+            const msgs = {
+                1: 'Permission denied. Please enable location services.',
+                2: 'Location unavailable. Could not detect a position.',
+                3: 'Request timed out. Please try again.'
+            };
+            status.textContent = msgs[err.code] || 'An unknown location error occurred.';
+            status.className = 'location-status error';
+            btn.disabled = false; 
+            btn.textContent = '📍 Use My Exact Location';
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
     );
 };
 
-// Optimized geocoding
+// Optimized geocoding - updated to handle "Current Location"
 const geocodeLocation = async input => {
-    if (!input?.trim()) return { lat: 29.7604, lng: -95.3698 };
+    // If "Current Location" is used, return the precise GPS coordinates stored in the global variable
+    if (input?.trim().toLowerCase() === 'current location') {
+        return userLocation;
+    }
+
+    if (!input?.trim()) return { lat: 29.7604, lng: -95.3698 }; // Default to Houston if empty
     const loc = input.toLowerCase().trim();
     
     // GPS coordinates
@@ -160,6 +165,9 @@ const geocodeLocation = async input => {
     for (const [city, coords] of Object.entries(cities)) 
         if (loc.includes(city)) return { lat: coords[0], lng: coords[1] };
     
+    // A proper implementation would use a geocoding API here for addresses.
+    // For now, if no city matches, default to Houston.
+    console.warn("Manual address entry did not match a known city, defaulting to Houston. Consider implementing a full geocoding API for better address resolution.");
     return { lat: 29.7604, lng: -95.3698 };
 };
 

@@ -147,5 +147,19 @@
     {"name": "Spring Asian Cuisine", "cuisine": "asian", "rating": 4.4, "address": "2907 Rayford Rd #106, Spring, TX 77386", "lat": 30.1287, "lng": -95.4021},
     {"name": "The Olive Oil Restaurant", "cuisine": "greek", "rating": 4.6, "address": "373 Sawdust Rd, Spring, TX 77380", "lat": 30.1456, "lng": -95.4579},
     {"name": "Shogun Japanese Grill & Sushi Bar", "cuisine": "japanese", "rating": 4.3, "address": "3532 Harmony Commons Dr, Spring, TX 77386", "lat": 30.1345, "lng": -95.3812},
-    {"name": "Las Cascadas Mexican Restaurant", "cuisine": "mexican", "rating": 4.2, "address": "250 Cypresswood Dr, Spring, TX 77388", "lat": 30.0543, "lng": -95.4412}
+    {"name": "Las Cascadas Mexican Restaurant", "cuisine": "mexican", "rating": 4.2, "address": "250 Cypresswood Dr, Spring, TX 77388", "lat": 30.0543, "lng": -95.4412},
+    {"name": "La Brisa Mexican Bar + Grill", "cuisine": "mexican", "rating": 4.4, "address": "5822 FM 1960 E, Atascocita, TX 77346", "lat": 29.9881, "lng": -95.1812},
+    {"name": "Four Wind Asian Bistro", "cuisine": "asian", "rating": 4.3, "address": "9441 FM 1960 Bypass Rd W, Humble, TX 77338", "lat": 29.9889, "lng": -95.2536},
+    {"name": "Marsala's Italian Grill", "cuisine": "italian", "rating": 4.5, "address": "18321 W Lake Houston Pkwy, Atascocita, TX 77346", "lat": 29.9721, "lng": -95.1581},
+    {"name": "Asian City Restaurant", "cuisine": "asian", "rating": 4.2, "address": "20205 Highway 59 N, Humble, TX 77338", "lat": 30.0156, "lng": -95.2678},
+    {"name": "Las Flores Mexican Restaurant", "cuisine": "mexican", "rating": 4.3, "address": "14243 Stuebner Airline Rd, Houston, TX 77069", "lat": 30.0123, "lng": -95.4987},
+    {"name": "Village Pizza & Seafood", "cuisine": "pizza", "rating": 4.2, "address": "777 Sheldon Rd, Channelview, TX 77530", "lat": 29.8051, "lng": -95.1211},
+    {"name": "Monument Inn", "cuisine": "seafood", "rating": 4.6, "address": "4406 Independence Pkwy S, La Porte, TX 77571", "lat": 29.7711, "lng": -95.0518},
+    {"name": "Floyd's Mont Belvieu", "cuisine": "cajun", "rating": 4.5, "address": "1101 W Main St, Mont Belvieu, TX 77523", "lat": 29.8553, "lng": -94.8692},
+    {"name": "The Lost Cajun", "cuisine": "cajun", "rating": 4.4, "address": "1201 S Main St, Channelview, TX 77530", "lat": 29.7789, "lng": -95.1098},
+    {"name": "Mi Rancho Mexican Grill & Bar", "cuisine": "mexican", "rating": 4.3, "address": "6914 S Texas 6, Houston, TX 77083", "lat": 29.7041, "lng": -95.6518},
+    {"name": "Biryani Pot", "cuisine": "indian", "rating": 4.5, "address": "6509 Westheimer Rd, Houston, TX 77057", "lat": 29.7378, "lng": -95.4981},
+    {"name": "King of India", "cuisine": "indian", "rating": 4.4, "address": "25250 Northwest Fwy, Cypress, TX 77429", "lat": 29.9621, "lng": -95.6914},
+    {"name": "Thai Cottage", "cuisine": "thai", "rating": 4.2, "address": "14092 Southwest Fwy, Sugar Land, TX 77478", "lat": 29.6385, "lng": -95.6021},
+    {"name": "Pho-jita", "cuisine": "thai", "rating": 4.6, "address": "11910 S Texas 6, Sugar Land, TX 77498", "lat": 29.6455, "lng": -95.6499}
 ] 
