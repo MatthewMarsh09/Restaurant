@@ -15,73 +15,72 @@ const mockRestaurants = [
     {name: "El Tiempo Cantina", cuisine: "mexican", rating: 4.4, address: "3130 Richmond Ave, Houston, TX 77098", lat: 29.7341, lng: -95.4094},
     {name: "Pondicheri", cuisine: "indian", rating: 4.6, address: "2800 Kirby Dr, Houston, TX 77098", lat: 29.7258, lng: -95.4194},
     {name: "Truth BBQ", cuisine: "american", rating: 4.7, address: "110 N Main St, Houston, TX 77002", lat: 29.7620, lng: -95.3698},
-    {name: "Killen's Barbecue", cuisine: "american", rating: 4.8, address: "3613 E Broadway St, Pearland, TX 77581", lat: 29.5583, lng: -95.2861},
     {name: "Underbelly", cuisine: "american", rating: 4.5, address: "1100 Westheimer Rd, Houston, TX 77006", lat: 29.7399, lng: -95.3794},
     {name: "Roka Akor", cuisine: "japanese", rating: 4.6, address: "2929 Weslayan St, Houston, TX 77027", lat: 29.7399, lng: -95.4294},
     {name: "Georgia James", cuisine: "american", rating: 4.7, address: "3503 W Dallas St, Houston, TX 77019", lat: 29.7641, lng: -95.4094},
     {name: "Arepas Cafe", cuisine: "venezuelan", rating: 4.5, address: "2630 Dunvale Rd, Houston, TX 77063", lat: 29.7341, lng: -95.4594},
     {name: "Degust", cuisine: "french", rating: 4.6, address: "3309 Richmond Ave, Houston, TX 77098", lat: 29.7341, lng: -95.4194},
-
-    // Major Suburbs (8 per area)
-    // Katy
-    {name: "Local Foods", cuisine: "american", rating: 4.4, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7391, lng: -95.7521},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "1910 W Grand Pkwy S, Katy, TX 77494", lat: 29.7191, lng: -95.7621},
-    {name: "Cava", cuisine: "mediterranean", rating: 4.3, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7391, lng: -95.7521},
-    {name: "In-N-Out Burger", cuisine: "american", rating: 4.4, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7291, lng: -95.7421},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7091, lng: -95.7521},
-    {name: "Black Walnut Cafe", cuisine: "american", rating: 4.4, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.6791, lng: -95.7821},
-    {name: "Saltgrass Steak House", cuisine: "american", rating: 4.3, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.6691, lng: -95.7921},
-    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.6591, lng: -95.8021},
-
-    // Sugar Land
-    {name: "Perry's Steakhouse", cuisine: "american", rating: 4.5, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5844, lng: -95.6349},
-    {name: "Ristorante Cavour", cuisine: "italian", rating: 4.6, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5744, lng: -95.6249},
-    {name: "Torchy's Tacos", cuisine: "mexican", rating: 4.3, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5644, lng: -95.6149},
-    {name: "Seasons 52", cuisine: "american", rating: 4.4, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5544, lng: -95.6049},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5444, lng: -95.5949},
-    {name: "Jason's Deli", cuisine: "american", rating: 4.2, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5244, lng: -95.5749},
-    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5144, lng: -95.5649},
-    {name: "Himalaya Restaurant", cuisine: "pakistani", rating: 4.4, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5044, lng: -95.5549},
-
-    // The Woodlands
-    {name: "Amerigo's Grille", cuisine: "italian", rating: 4.5, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1588, lng: -95.4913},
-    {name: "Fleming's Prime Steakhouse", cuisine: "american", rating: 4.6, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1488, lng: -95.4813},
-    {name: "Cava", cuisine: "mediterranean", rating: 4.3, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1488, lng: -95.4813},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1588, lng: -95.4913},
-    {name: "Salata", cuisine: "american", rating: 4.2, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1288, lng: -95.4613},
-    {name: "Jersey Mike's", cuisine: "american", rating: 4.3, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.0588, lng: -95.3913},
-    {name: "Panera Bread", cuisine: "american", rating: 4.1, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.0288, lng: -95.3613},
-    {name: "Pho Vietnam", cuisine: "vietnamese", rating: 4.2, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.0188, lng: -95.3513},
-
-    // Pearland  
     {name: "Killen's Barbecue", cuisine: "american", rating: 4.8, address: "3613 E Broadway St, Pearland, TX 77581", lat: 29.5583, lng: -95.2861},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.5283, lng: -95.2561},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.5183, lng: -95.2461},
-    {name: "Texas Roadhouse", cuisine: "american", rating: 4.3, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.5083, lng: -95.2361},
-    {name: "Pei Wei Asian Kitchen", cuisine: "chinese", rating: 4.1, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.4983, lng: -95.2261},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.5383, lng: -95.2661},
-    {name: "McDonald's", cuisine: "american", rating: 3.4, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.4183, lng: -95.1461},
-    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "11920 Broadway St, Pearland, TX 77584", lat: 29.4083, lng: -95.1361},
 
-    // Cypress
-    {name: "Galiana's Tex Mex", cuisine: "mexican", rating: 4.6, address: "24110 US-290, Cypress, TX 77429", lat: 29.9633, lng: -95.6804},
-    {name: "Spring Creek Barbeque", cuisine: "american", rating: 4.3, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9533, lng: -95.6704},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9633, lng: -95.6804},
-    {name: "Chick-fil-A", cuisine: "american", rating: 4.4, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9433, lng: -95.6604},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9333, lng: -95.6504},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9233, lng: -95.6404},
-    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9133, lng: -95.6304},
-    {name: "Pho Houston", cuisine: "vietnamese", rating: 4.1, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9033, lng: -95.6204},
+    // Katy (8 restaurants)
+    {name: "Local Foods", cuisine: "american", rating: 4.4, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7391, lng: -95.7521},
+    {name: "Black Walnut Cafe", cuisine: "american", rating: 4.4, address: "24114 Westheimer Pkwy, Katy, TX 77494", lat: 29.7191, lng: -95.7621},
+    {name: "Cava", cuisine: "mediterranean", rating: 4.3, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7291, lng: -95.7521},
+    {name: "In-N-Out Burger", cuisine: "american", rating: 4.4, address: "25630 Westheimer Pkwy, Katy, TX 77494", lat: 29.7191, lng: -95.7721},
+    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "24024 Westheimer Pkwy, Katy, TX 77494", lat: 29.7091, lng: -95.7621},
+    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "1910 W Grand Pkwy S, Katy, TX 77494", lat: 29.6991, lng: -95.7821},
+    {name: "Saltgrass Steak House", cuisine: "american", rating: 4.3, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.6891, lng: -95.7921},
+    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "23119 Colonial Pkwy, Katy, TX 77494", lat: 29.6791, lng: -95.8021},
 
-    // Humble
+    // Sugar Land (8 restaurants)
+    {name: "Perry's Steakhouse", cuisine: "american", rating: 4.5, address: "2831 Town Center Blvd, Sugar Land, TX 77479", lat: 29.5844, lng: -95.6349},
+    {name: "Ristorante Cavour", cuisine: "italian", rating: 4.6, address: "2120 Dulles Ave, Sugar Land, TX 77478", lat: 29.5744, lng: -95.6249},
+    {name: "Torchy's Tacos", cuisine: "mexican", rating: 4.3, address: "15903 City Walk, Sugar Land, TX 77479", lat: 29.5644, lng: -95.6149},
+    {name: "Seasons 52", cuisine: "american", rating: 4.4, address: "4410 Highway 6, Sugar Land, TX 77478", lat: 29.5544, lng: -95.6049},
+    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "15959 City Walk, Sugar Land, TX 77479", lat: 29.5444, lng: -95.5949},
+    {name: "Jason's Deli", cuisine: "american", rating: 4.2, address: "2277 Plaza Dr, Sugar Land, TX 77479", lat: 29.5344, lng: -95.5849},
+    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "16535 Southwest Fwy, Sugar Land, TX 77479", lat: 29.5244, lng: -95.5749},
+    {name: "Himalaya Restaurant", cuisine: "pakistani", rating: 4.4, address: "12500 Southwest Fwy, Stafford, TX 77477", lat: 29.5144, lng: -95.5649},
+
+    // The Woodlands (8 restaurants)
+    {name: "Amerigo's Grille", cuisine: "italian", rating: 4.5, address: "25250 Grogans Mill Rd, The Woodlands, TX 77380", lat: 30.1588, lng: -95.4913},
+    {name: "Fleming's Prime Steakhouse", cuisine: "american", rating: 4.6, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1488, lng: -95.4813},
+    {name: "Cava", cuisine: "mediterranean", rating: 4.3, address: "9595 Six Pines Dr, The Woodlands, TX 77380", lat: 30.1388, lng: -95.4713},
+    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "1764 Research Forest Dr, Shenandoah, TX 77380", lat: 30.1288, lng: -95.4613},
+    {name: "Salata", cuisine: "american", rating: 4.2, address: "9595 Six Pines Dr, The Woodlands, TX 77380", lat: 30.1188, lng: -95.4513},
+    {name: "Jersey Mike's", cuisine: "american", rating: 4.3, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1088, lng: -95.4413},
+    {name: "Panera Bread", cuisine: "american", rating: 4.1, address: "9595 Six Pines Dr, The Woodlands, TX 77380", lat: 30.0988, lng: -95.4313},
+    {name: "Pho Vietnam", cuisine: "vietnamese", rating: 4.2, address: "1764 Research Forest Dr, Shenandoah, TX 77380", lat: 30.0888, lng: -95.4213},
+
+    // Pearland (8 restaurants)
+    {name: "Killen's Barbecue", cuisine: "american", rating: 4.8, address: "3613 E Broadway St, Pearland, TX 77581", lat: 29.5583, lng: -95.2861},
+    {name: "Texas Roadhouse", cuisine: "american", rating: 4.3, address: "11200 Broadway St, Pearland, TX 77584", lat: 29.5483, lng: -95.2761},
+    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "11200 Broadway St, Pearland, TX 77584", lat: 29.5383, lng: -95.2661},
+    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "2405 Pearland Pkwy, Pearland, TX 77581", lat: 29.5283, lng: -95.2561},
+    {name: "Pei Wei Asian Kitchen", cuisine: "chinese", rating: 4.1, address: "11200 Broadway St, Pearland, TX 77584", lat: 29.5183, lng: -95.2461},
+    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "2405 Pearland Pkwy, Pearland, TX 77581", lat: 29.5083, lng: -95.2361},
+    {name: "McDonald's", cuisine: "american", rating: 3.4, address: "10712 Broadway St, Pearland, TX 77584", lat: 29.4983, lng: -95.2261},
+    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "2405 Pearland Pkwy, Pearland, TX 77581", lat: 29.4883, lng: -95.2161},
+
+    // Cypress (8 restaurants)
+    {name: "Galiana's Tex Mex", cuisine: "mexican", rating: 4.6, address: "24110 US-290, Cypress, TX 77429", lat: 29.9733, lng: -95.6904},
+    {name: "Spring Creek Barbeque", cuisine: "american", rating: 4.3, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9633, lng: -95.6804},
+    {name: "Chick-fil-A", cuisine: "american", rating: 4.4, address: "12920 Northwest Fwy, Cypress, TX 77429", lat: 29.9533, lng: -95.6704},
+    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "11902 Northwest Fwy, Cypress, TX 77429", lat: 29.9433, lng: -95.6604},
+    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "19401 US-290, Cypress, TX 77433", lat: 29.9333, lng: -95.6504},
+    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "12848 Northwest Fwy, Cypress, TX 77429", lat: 29.9233, lng: -95.6404},
+    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "12935 Northwest Fwy, Cypress, TX 77429", lat: 29.9133, lng: -95.6304},
+    {name: "Pho Houston", cuisine: "vietnamese", rating: 4.1, address: "11434 Northwest Fwy, Cypress, TX 77429", lat: 29.9033, lng: -95.6204},
+
+    // Humble (8 restaurants)
     {name: "Riva's Italian Restaurant", cuisine: "italian", rating: 4.5, address: "20131 Highway 59 N, Humble, TX 77338", lat: 30.0133, lng: -95.2604},
-    {name: "BJ's Restaurant", cuisine: "american", rating: 4.1, address: "20131 Highway 59 N, Humble, TX 77338", lat: 30.0033, lng: -95.2504},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "20131 Highway 59 N, Humble, TX 77338", lat: 30.0133, lng: -95.2604},
-    {name: "Chili's", cuisine: "american", rating: 3.9, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9933, lng: -95.2404},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9833, lng: -95.2304},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9733, lng: -95.2204},
-    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9633, lng: -95.2104},
-    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9533, lng: -95.2004}
+    {name: "BJ's Restaurant", cuisine: "american", rating: 4.1, address: "7925 FM 1960 Rd E, Humble, TX 77346", lat: 30.0033, lng: -95.2504},
+    {name: "Chili's", cuisine: "american", rating: 3.9, address: "7979 FM 1960 Rd E, Humble, TX 77346", lat: 29.9933, lng: -95.2404},
+    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9833, lng: -95.2304},
+    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "7925 FM 1960 Rd E, Humble, TX 77346", lat: 29.9733, lng: -95.2204},
+    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "7979 FM 1960 Rd E, Humble, TX 77346", lat: 29.9633, lng: -95.2104},
+    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "8202 Farm to Market 1960 Rd E, Humble, TX 77346", lat: 29.9533, lng: -95.2004},
+    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9433, lng: -95.1904}
 ];
 
 let map, currentResults = [], userLocation = { lat: 29.7604, lng: -95.3698 };
