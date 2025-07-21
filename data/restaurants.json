@@ -78,5 +78,18 @@
     {"name": "All Season Seafood", "cuisine": "seafood", "rating": 4.3, "address": "8201 Broadway St, Pearland, TX 77581", "lat": 29.5691, "lng": -95.2754},
     {"name": "Tang's Kitchen", "cuisine": "chinese", "rating": 4.5, "address": "2975 Kingsley Dr, Pearland, TX 77584", "lat": 29.5532, "lng": -95.3458},
     {"name": "Pearl Dynasty", "cuisine": "chinese", "rating": 4.4, "address": "8321 Broadway St, Pearland, TX 77581", "lat": 29.5682, "lng": -95.2771},
-    {"name": "Steamboat Bill's", "cuisine": "cajun", "rating": 4.3, "address": "1134 N Main St, Pearland, TX 77581", "lat": 29.5746, "lng": -95.2891}
+    {"name": "Steamboat Bill's", "cuisine": "cajun", "rating": 4.3, "address": "1134 N Main St, Pearland, TX 77581", "lat": 29.5746, "lng": -95.2891},
+    {"name": "Ploy Thai Cuisine", "cuisine": "thai", "rating": 4.5, "address": "9561 Jones Rd, Houston, TX 77065", "lat": 29.8943, "lng": -95.5928},
+    {"name": "Casa Maria Mexican Restaurant", "cuisine": "mexican", "rating": 4.4, "address": "3811 N Fry Rd, Katy, TX 77449", "lat": 29.8339, "lng": -95.7089},
+    {"name": "Lozano's Mexican Restaurant", "cuisine": "mexican", "rating": 4.5, "address": "1251 Pin Oak Rd, Katy, TX 77494", "lat": 29.7825, "lng": -95.7865},
+    {"name": "Babin's Seafood House", "cuisine": "cajun", "rating": 4.3, "address": "21851 Katy Fwy, Katy, TX 77450", "lat": 29.7828, "lng": -95.7504},
+    {"name": "Crawfish Cafe", "cuisine": "cajun", "rating": 4.5, "address": "24330 US-290, Cypress, TX 77429", "lat": 29.9575, "lng": -95.6792},
+    {"name": "Cypress Station Grill", "cuisine": "american", "rating": 4.3, "address": "26010 Hempstead Rd, Cypress, TX 77429", "lat": 29.9675, "lng": -95.6981},
+    {"name": "King of India", "cuisine": "indian", "rating": 4.4, "address": "25250 Northwest Fwy, Cypress, TX 77429", "lat": 29.9621, "lng": -95.6914},
+    {"name": "Galiana's Tex-Mex", "cuisine": "mexican", "rating": 4.5, "address": "24110 US-290, Cypress, TX 77429", "lat": 29.9554, "lng": -95.6766},
+    {"name": "The Red Brick Tavern", "cuisine": "american", "rating": 4.5, "address": "119 Simonton St, Conroe, TX 77301", "lat": 30.3133, "lng": -95.4571},
+    {"name": "Kuntry Katfish", "cuisine": "seafood", "rating": 4.4, "address": "5901 W Davis St, Conroe, TX 77304", "lat": 30.3235, "lng": -95.5323},
+    {"name": "Pacific Yard House", "cuisine": "american", "rating": 4.3, "address": "101 Metcalf St, Conroe, TX 77301", "lat": 30.3101, "lng": -95.4566},
+    {"name": "Walk-On's Sports Bistreaux", "cuisine": "cajun", "rating": 4.2, "address": "1000 Outpost Dr, Conroe, TX 77304", "lat": 30.3421, "lng": -95.4955},
+    {"name": "Kitchen Tales", "cuisine": "american", "rating": 4.6, "address": "449 S Loop 336 W, Conroe, TX 77304", "lat": 30.2933, "lng": -95.4951}
 ] 
