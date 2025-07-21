@@ -1,6 +1,6 @@
 // Mock restaurant data with real coordinates for distance calculation
 const mockRestaurants = [
-    // Houston Restaurants
+    // Houston (Top 3 Iconic)
     {
         name: "The Original Ninfa's",
         cuisine: "mexican",
@@ -11,17 +11,6 @@ const mockRestaurants = [
         city: "Houston",
         state: "TX",
         zipcode: "77003"
-    },
-    {
-        name: "Hugo's",
-        cuisine: "mexican",
-        rating: 4.7,
-        address: "1600 Westheimer Rd, Houston, TX 77006",
-        lat: 29.7407,
-        lng: -95.4013,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77006"
     },
     {
         name: "Uchi",
@@ -35,130 +24,42 @@ const mockRestaurants = [
         zipcode: "77006"
     },
     {
-        name: "Xochi",
+        name: "Hugo's",
         cuisine: "mexican",
-        rating: 4.6,
-        address: "1777 Walker St, Houston, TX 77010",
-        lat: 29.7520,
-        lng: -95.3698,
+        rating: 4.7,
+        address: "1600 Westheimer Rd, Houston, TX 77006",
+        lat: 29.7407,
+        lng: -95.4013,
         city: "Houston",
         state: "TX",
-        zipcode: "77010"
-    },
-    {
-        name: "Turkey Leg Hut",
-        cuisine: "american",
-        rating: 4.2,
-        address: "4830 Almeda Rd, Houston, TX 77004",
-        lat: 29.7265,
-        lng: -95.3632,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77004"
-    },
-    {
-        name: "Nancy's Hustle",
-        cuisine: "american",
-        rating: 4.5,
-        address: "2704 Polk St, Houston, TX 77003",
-        lat: 29.7604,
-        lng: -95.3598,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77003"
-    },
-    {
-        name: "Coltivare Pizza & Garden",
-        cuisine: "pizza",
-        rating: 4.4,
-        address: "3320 White Oak Dr, Houston, TX 77007",
-        lat: 29.7965,
-        lng: -95.4215,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77007"
-    },
-    {
-        name: "Himalaya Restaurant",
-        cuisine: "indian",
-        rating: 4.3,
-        address: "5938 Hillcroft St, Houston, TX 77036",
-        lat: 29.7265,
-        lng: -95.4894,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77036"
-    },
-    {
-        name: "Pho Binh Trailer",
-        cuisine: "vietnamese",
-        rating: 4.6,
-        address: "10928 Bellaire Blvd, Houston, TX 77072",
-        lat: 29.7058,
-        lng: -95.5694,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77072"
-    },
-    {
-        name: "Mala Sichuan Bistro",
-        cuisine: "chinese",
-        rating: 4.5,
-        address: "9348 Bellaire Blvd, Houston, TX 77036",
-        lat: 29.7058,
-        lng: -95.4894,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77036"
+        zipcode: "77006"
     },
 
-    // Katy Restaurants
+    // Katy (Top 2)
     {
-        name: "Local Table",
+        name: "Babin's Seafood",
         cuisine: "american",
-        rating: 4.4,
-        address: "23501 Cinco Ranch Blvd, Katy, TX 77494",
+        rating: 4.5,
+        address: "21851 Katy Freeway, Katy, TX 77450",
         lat: 29.7391,
         lng: -95.7521,
         city: "Katy",
         state: "TX",
-        zipcode: "77494"
+        zipcode: "77450"
     },
     {
-        name: "Katy Vibes",
-        cuisine: "american",
-        rating: 4.3,
-        address: "25632 Westheimer Pkwy, Katy, TX 77494",
-        lat: 29.7391,
-        lng: -95.7721,
-        city: "Katy",
-        state: "TX",
-        zipcode: "77494"
-    },
-    {
-        name: "Peli Peli Kitchen",
-        cuisine: "american",
-        rating: 4.5,
-        address: "1001 S Fry Rd, Katy, TX 77450",
-        lat: 29.7391,
+        name: "Palinuro Italian Cuisine",
+        cuisine: "italian",
+        rating: 4.7,
+        address: "1450 S Mason Rd, Katy, TX 77450",
+        lat: 29.7191,
         lng: -95.7321,
         city: "Katy",
         state: "TX",
         zipcode: "77450"
     },
 
-    // Sugar Land Restaurants
-    {
-        name: "Pondicheri",
-        cuisine: "indian",
-        rating: 4.5,
-        address: "2800 Kirby Dr, Houston, TX 77098",
-        lat: 29.7341,
-        lng: -95.4113,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77098"
-    },
+    // Sugar Land
     {
         name: "Perry's Steakhouse",
         cuisine: "american",
@@ -170,19 +71,8 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77479"
     },
-    {
-        name: "B&B Butchers",
-        cuisine: "american",
-        rating: 4.7,
-        address: "1814 Washington Ave, Houston, TX 77007",
-        lat: 29.7965,
-        lng: -95.4015,
-        city: "Houston",
-        state: "TX",
-        zipcode: "77007"
-    },
 
-    // Pearland Restaurants
+    // Pearland (Top 2 - Killen's Empire)
     {
         name: "Killen's Barbecue",
         cuisine: "american",
@@ -205,19 +95,8 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77581"
     },
-    {
-        name: "Grazia Italian Kitchen",
-        cuisine: "italian",
-        rating: 4.4,
-        address: "11920 Broadway St, Pearland, TX 77584",
-        lat: 29.5383,
-        lng: -95.2661,
-        city: "Pearland",
-        state: "TX",
-        zipcode: "77584"
-    },
 
-    // The Woodlands Restaurants
+    // The Woodlands
     {
         name: "Seasons 52",
         cuisine: "american",
@@ -229,30 +108,8 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77380"
     },
-    {
-        name: "Yama Sushi",
-        cuisine: "japanese",
-        rating: 4.6,
-        address: "4775 W Panther Creek Dr, The Woodlands, TX 77381",
-        lat: 30.1688,
-        lng: -95.5013,
-        city: "The Woodlands",
-        state: "TX",
-        zipcode: "77381"
-    },
-    {
-        name: "Cafe Express",
-        cuisine: "american",
-        rating: 4.2,
-        address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380",
-        lat: 30.1488,
-        lng: -95.4813,
-        city: "The Woodlands",
-        state: "TX",
-        zipcode: "77380"
-    },
 
-    // Spring Restaurants
+    // Spring (Top 2)
     {
         name: "Corkscrew BBQ",
         cuisine: "american",
@@ -265,18 +122,18 @@ const mockRestaurants = [
         zipcode: "77373"
     },
     {
-        name: "Taste of Texas",
+        name: "Puffabelly's Restaurant",
         cuisine: "american",
-        rating: 4.4,
-        address: "10505 Katy Fwy, Houston, TX 77024",
-        lat: 29.7799,
-        lng: -95.5471,
-        city: "Houston",
+        rating: 4.3,
+        address: "100 Main St, Spring, TX 77373",
+        lat: 30.0799,
+        lng: -95.4171,
+        city: "Spring",
         state: "TX",
-        zipcode: "77024"
+        zipcode: "77373"
     },
 
-    // Conroe Restaurants
+    // Conroe
     {
         name: "Republic Grille",
         cuisine: "american",
@@ -288,91 +145,69 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77385"
     },
-    {
-        name: "Margaritaville",
-        cuisine: "american",
-        rating: 4.1,
-        address: "1000 Lake Front Cir, Conroe, TX 77384",
-        lat: 30.3233,
-        lng: -95.5004,
-        city: "Conroe",
-        state: "TX",
-        zipcode: "77384"
-    },
 
-    // Cypress Restaurants
+    // Cypress (Top 2)
     {
-        name: "Goode Company BBQ",
-        cuisine: "american",
-        rating: 4.5,
-        address: "20102 NW Fwy, Cypress, TX 77429",
-        lat: 29.9733,
-        lng: -95.6904,
-        city: "Cypress",
-        state: "TX",
-        zipcode: "77429"
-    },
-    {
-        name: "Pappadeaux Seafood",
-        cuisine: "american",
-        rating: 4.4,
-        address: "13080 NW Fwy, Cypress, TX 77429",
+        name: "Galiana's Tex Mex",
+        cuisine: "mexican",
+        rating: 4.6,
+        address: "24110 US-290 #500, Cypress, TX 77429",
         lat: 29.9633,
         lng: -95.6804,
         city: "Cypress",
         state: "TX",
         zipcode: "77429"
     },
-
-    // Humble Restaurants
     {
-        name: "Southern Smoke BBQ",
+        name: "Villa Roma Italian Ristorante",
+        cuisine: "italian",
+        rating: 4.7,
+        address: "12640 Telge Road Suite E, Cypress, TX 77429",
+        lat: 29.9933,
+        lng: -95.7104,
+        city: "Cypress",
+        state: "TX",
+        zipcode: "77429"
+    },
+
+    // Humble
+    {
+        name: "Humble City Cafe",
         cuisine: "american",
-        rating: 4.6,
-        address: "18331 US-59, Humble, TX 77338",
+        rating: 4.4,
+        address: "200 E Main St, Humble, TX 77338",
         lat: 30.0133,
         lng: -95.2604,
         city: "Humble",
         state: "TX",
         zipcode: "77338"
     },
-    {
-        name: "El Tiempo Cantina",
-        cuisine: "mexican",
-        rating: 4.3,
-        address: "20940 Atascocita Rd, Humble, TX 77338",
-        lat: 30.0233,
-        lng: -95.2704,
-        city: "Humble",
-        state: "TX",
-        zipcode: "77338"
-    },
 
-    // Pasadena Restaurants
+    // Pasadena (Top 2)
     {
-        name: "Pappas Seafood House",
+        name: "Sudie's Catfish House",
         cuisine: "american",
-        rating: 4.4,
-        address: "6945 Spencer Hwy, Pasadena, TX 77505",
-        lat: 29.6911,
-        lng: -95.2091,
+        rating: 4.6,
+        address: "4910 Spencer Hwy, Pasadena, TX 77505",
+        lat: 29.6711,
+        lng: -95.1891,
         city: "Pasadena",
         state: "TX",
         zipcode: "77505"
     },
     {
-        name: "Los Cucos Mexican Cafe",
+        name: "Casa Olé",
         cuisine: "mexican",
-        rating: 4.2,
-        address: "4312 Fairmont Pkwy, Pasadena, TX 77504",
-        lat: 29.6811,
-        lng: -95.1991,
+        rating: 4.1,
+        address: "7750 Spencer Highway, Pasadena, TX 77505",
+        lat: 29.6611,
+        lng: -95.1791,
         city: "Pasadena",
         state: "TX",
-        zipcode: "77504"
+        zipcode: "77505"
     },
 
-    // Texas City Restaurants
+    // Texas City
     {
         name: "Yaga's Burger Haus",
         cuisine: "american",
@@ -384,19 +219,8 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77590"
     },
-    {
-        name: "Monument Inn",
-        cuisine: "american",
-        rating: 4.5,
-        address: "4406 Independence Pkwy S, La Porte, TX 77571",
-        lat: 29.6338,
-        lng: -95.0827,
-        city: "La Porte",
-        state: "TX",
-        zipcode: "77571"
-    },
 
-    // Galveston Restaurants
+    // Galveston (Top 2)
     {
         name: "The Rooftop Bar",
         cuisine: "american",
@@ -419,19 +243,21 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77550"
     },
+
+    // Richmond
     {
-        name: "Fishy's Seafood",
+        name: "Pier 36 Seafood Restaurant & Oyster Bar",
         cuisine: "american",
-        rating: 4.2,
-        address: "3801 Ave O, Galveston, TX 77550",
-        lat: 29.2913,
-        lng: -94.7877,
-        city: "Galveston",
+        rating: 4.7,
+        address: "1410 E Hwy 90A #200, Richmond, TX 77406",
+        lat: 29.5820,
+        lng: -95.7605,
+        city: "Richmond",
         state: "TX",
-        zipcode: "77550"
+        zipcode: "77406"
     },
 
-    // Richmond/Rosenberg Restaurants
+    // Rosenberg (Top 2)
     {
         name: "Bull Creek Cafe & Grill",
         cuisine: "american",
@@ -454,52 +280,8 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77471"
     },
-    {
-        name: "T. Jin China Diner",
-        cuisine: "chinese",
-        rating: 4.3,
-        address: "24301 Brazos Town Crossing #700, Rosenberg, TX 77471",
-        lat: 29.5470,
-        lng: -95.7966,
-        city: "Rosenberg",
-        state: "TX",
-        zipcode: "77471"
-    },
-    {
-        name: "The Burger Barn",
-        cuisine: "american",
-        rating: 4.4,
-        address: "1101 Damon Street, Rosenberg, TX 77471",
-        lat: 29.5520,
-        lng: -95.8016,
-        city: "Rosenberg",
-        state: "TX",
-        zipcode: "77471"
-    },
-    {
-        name: "Schulze's Bar-B-Q and Catering",
-        cuisine: "american",
-        rating: 4.5,
-        address: "1214 1st Street, Rosenberg, TX 77471",
-        lat: 29.5580,
-        lng: -95.8076,
-        city: "Rosenberg",
-        state: "TX",
-        zipcode: "77471"
-    },
-    {
-        name: "Nuevo Leon Mexican Restaurant",
-        cuisine: "mexican",
-        rating: 4.4,
-        address: "1209 2nd St, Rosenberg, TX 77471",
-        lat: 29.5570,
-        lng: -95.8066,
-        city: "Rosenberg",
-        state: "TX",
-        zipcode: "77471"
-    },
 
-    // Alvin Restaurants
+    // Alvin (Top 2)
     {
         name: "Juanita's Taqueria",
         cuisine: "mexican",
@@ -522,259 +304,18 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77511"
     },
-    {
-        name: "Alvin Seafood",
-        cuisine: "american",
-        rating: 4.3,
-        address: "617 S Gordon St, Alvin, TX 77511",
-        lat: 29.4139,
-        lng: -95.2541,
-        city: "Alvin",
-        state: "TX",
-        zipcode: "77511"
-    },
 
-    // Richmond Restaurants
+    // La Porte
     {
-        name: "Pier 36 Seafood Restaurant & Oyster Bar",
-        cuisine: "american",
-        rating: 4.7,
-        address: "1410 E Hwy 90A #200, Richmond, TX 77406",
-        lat: 29.5820,
-        lng: -95.7605,
-        city: "Richmond",
-        state: "TX",
-        zipcode: "77406"
-    },
-    {
-        name: "Texas Borders Bar & Grill 1093",
-        cuisine: "american",
-        rating: 4.3,
-        address: "26440 FM 1093 Rd, Richmond, TX 77406",
-        lat: 29.5720,
-        lng: -95.7505,
-        city: "Richmond",
-        state: "TX",
-        zipcode: "77406"
-    },
-    {
-        name: "La Cocina Mexican Restaurant",
-        cuisine: "mexican",
-        rating: 4.4,
-        address: "515 FM359, Richmond, TX 77406",
-        lat: 29.5920,
-        lng: -95.7705,
-        city: "Richmond",
-        state: "TX",
-        zipcode: "77406"
-    },
-
-    // Cypress Restaurants (Additional)
-    {
-        name: "Cypress Station Grill",
-        cuisine: "american",
-        rating: 4.4,
-        address: "26010 Hempstead Rd, Cypress, TX 77429",
-        lat: 29.9733,
-        lng: -95.6904,
-        city: "Cypress",
-        state: "TX",
-        zipcode: "77429"
-    },
-    {
-        name: "Galiana's Tex Mex",
-        cuisine: "mexican",
-        rating: 4.6,
-        address: "24110 US-290 #500, Cypress, TX 77429",
-        lat: 29.9633,
-        lng: -95.6804,
-        city: "Cypress",
-        state: "TX",
-        zipcode: "77429"
-    },
-    {
-        name: "King of India",
-        cuisine: "indian",
-        rating: 4.5,
-        address: "25250 Northwest Fwy #190, Cypress, TX 77429",
-        lat: 29.9833,
-        lng: -95.7004,
-        city: "Cypress",
-        state: "TX",
-        zipcode: "77429"
-    },
-    {
-        name: "Villa Roma Italian Ristorante",
-        cuisine: "italian",
-        rating: 4.7,
-        address: "12640 Telge Road Suite E, Cypress, TX 77429",
-        lat: 29.9933,
-        lng: -95.7104,
-        city: "Cypress",
-        state: "TX",
-        zipcode: "77429"
-    },
-
-    // Katy Restaurants (Additional)
-    {
-        name: "Babin's Seafood",
+        name: "Monument Inn",
         cuisine: "american",
         rating: 4.5,
-        address: "21851 Katy Freeway, Katy, TX 77450",
-        lat: 29.7391,
-        lng: -95.7521,
-        city: "Katy",
+        address: "4406 Independence Pkwy S, La Porte, TX 77571",
+        lat: 29.6338,
+        lng: -95.0827,
+        city: "La Porte",
         state: "TX",
-        zipcode: "77450"
-    },
-    {
-        name: "Hong Kong Food Street",
-        cuisine: "chinese",
-        rating: 4.0,
-        address: "22939 Colonial Pkwy, Ste A101, Katy, TX 77449",
-        lat: 29.7291,
-        lng: -95.7421,
-        city: "Katy",
-        state: "TX",
-        zipcode: "77449"
-    },
-    {
-        name: "Postino Cinco Ranch",
-        cuisine: "italian",
-        rating: 4.4,
-        address: "23501 Cinco Ranch Blvd Ste D100, Katy, TX 77494",
-        lat: 29.7391,
-        lng: -95.7521,
-        city: "Katy",
-        state: "TX",
-        zipcode: "77494"
-    },
-    {
-        name: "Palinuro Italian Cuisine",
-        cuisine: "italian",
-        rating: 4.7,
-        address: "1450 S Mason Rd, Katy, TX 77450",
-        lat: 29.7191,
-        lng: -95.7321,
-        city: "Katy",
-        state: "TX",
-        zipcode: "77450"
-    },
-
-    // Spring Restaurants (Additional)
-    {
-        name: "Puffabelly's Restaurant",
-        cuisine: "american",
-        rating: 4.3,
-        address: "100 Main St, Spring, TX 77373",
-        lat: 30.0799,
-        lng: -95.4171,
-        city: "Spring",
-        state: "TX",
-        zipcode: "77373"
-    },
-    {
-        name: "Sitar Cuisine of India",
-        cuisine: "indian",
-        rating: 4.6,
-        address: "25701 Interstate Hwy 45 #12, Spring, TX 77380",
-        lat: 30.0899,
-        lng: -95.4271,
-        city: "Spring",
-        state: "TX",
-        zipcode: "77380"
-    },
-    {
-        name: "Italian Cafe",
-        cuisine: "italian",
-        rating: 4.5,
-        address: "19620 Kuykendahl Road, Spring, TX 77379",
-        lat: 30.0999,
-        lng: -95.4371,
-        city: "Spring",
-        state: "TX",
-        zipcode: "77379"
-    },
-    {
-        name: "Beto's Mexican Grill",
-        cuisine: "mexican",
-        rating: 4.3,
-        address: "2711 Riley Fuzzel Rd, Spring, TX 77386",
-        lat: 30.0599,
-        lng: -95.3971,
-        city: "Spring",
-        state: "TX",
-        zipcode: "77386"
-    },
-
-    // Humble Restaurants (Additional)
-    {
-        name: "Humble City Cafe",
-        cuisine: "american",
-        rating: 4.4,
-        address: "200 E Main St, Humble, TX 77338",
-        lat: 30.0133,
-        lng: -95.2604,
-        city: "Humble",
-        state: "TX",
-        zipcode: "77338"
-    },
-    {
-        name: "Fish Tales Humble",
-        cuisine: "american",
-        rating: 4.3,
-        address: "8009 FM 1960 E, Humble, TX 77346",
-        lat: 30.0033,
-        lng: -95.2504,
-        city: "Humble",
-        state: "TX",
-        zipcode: "77346"
-    },
-    {
-        name: "HB Japanese Steak House",
-        cuisine: "japanese",
-        rating: 4.4,
-        address: "9556 FM 1960 Byp, Humble, TX 77338",
-        lat: 30.0033,
-        lng: -95.2504,
-        city: "Humble",
-        state: "TX",
-        zipcode: "77338"
-    },
-
-    // Pasadena Restaurants (Additional)
-    {
-        name: "Sudie's Catfish House",
-        cuisine: "american",
-        rating: 4.6,
-        address: "4910 Spencer Hwy, Pasadena, TX 77505",
-        lat: 29.6711,
-        lng: -95.1891,
-        city: "Pasadena",
-        state: "TX",
-        zipcode: "77505"
-    },
-    {
-        name: "Peppers Steak & Seafood",
-        cuisine: "american",
-        rating: 4.5,
-        address: "3604 Fairmont Pkwy, Pasadena, TX 77504",
-        lat: 29.6811,
-        lng: -95.1991,
-        city: "Pasadena",
-        state: "TX",
-        zipcode: "77504"
-    },
-    {
-        name: "Casa Olé",
-        cuisine: "mexican",
-        rating: 4.1,
-        address: "7750 Spencer Highway, Pasadena, TX 77505",
-        lat: 29.6611,
-        lng: -95.1791,
-        city: "Pasadena",
-        state: "TX",
-        zipcode: "77505"
+        zipcode: "77571"
     }
 ];
 
