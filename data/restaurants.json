@@ -117,5 +117,19 @@
     {"name": "Fisherman's Wharf", "cuisine": "seafood", "rating": 4.3, "address": "2200 Harborside Dr, Galveston, TX 77550", "lat": 29.3175, "lng": -94.7865},
     {"name": "Willie G's Seafood", "cuisine": "seafood", "rating": 4.4, "address": "2100 Harborside Dr, Galveston, TX 77550", "lat": 29.3168, "lng": -94.7879},
     {"name": "Fish Tales", "cuisine": "seafood", "rating": 4.2, "address": "2502 Seawall Blvd, Galveston, TX 77550", "lat": 29.2908, "lng": -94.7997},
-    {"name": "Salsa's Mexican Restaurant", "cuisine": "mexican", "rating": 4.3, "address": "4604 Seawall Blvd, Galveston, TX 77551", "lat": 29.2731, "lng": -94.8273}
+    {"name": "Salsa's Mexican Restaurant", "cuisine": "mexican", "rating": 4.3, "address": "4604 Seawall Blvd, Galveston, TX 77551", "lat": 29.2731, "lng": -94.8273},
+    {"name": "Lake Jackson Seafood", "cuisine": "seafood", "rating": 4.3, "address": "466 Plantation Dr, Lake Jackson, TX 77566", "lat": 29.0494, "lng": -95.4412},
+    {"name": "Tokyo Japanese Steakhouse & Sushi Bar", "cuisine": "japanese", "rating": 4.4, "address": "602 Highway 332, Lake Jackson, TX 77566", "lat": 29.0345, "lng": -95.4532},
+    {"name": "The Grape Taste", "cuisine": "american", "rating": 4.5, "address": "125 That Way St, Lake Jackson, TX 77566", "lat": 29.0371, "lng": -95.4563},
+    {"name": "El Toro Mexican Restaurant", "cuisine": "mexican", "rating": 4.2, "address": "813 W Plantation Dr, Clute, TX 77531", "lat": 29.0211, "lng": -95.4055},
+    {"name": "Poly-Pop", "cuisine": "hawaiian", "rating": 4.6, "address": "213 W Way, Lake Jackson, TX 77566", "lat": 29.0378, "lng": -95.4581},
+    {"name": "Main 101 Grill & Bar", "cuisine": "american", "rating": 4.5, "address": "101 E Main St, La Porte, TX 77571", "lat": 29.6643, "lng": -95.0195},
+    {"name": "Ed's Bistro", "cuisine": "american", "rating": 4.6, "address": "102 W Main St, La Porte, TX 77571", "lat": 29.6645, "lng": -95.0203},
+    {"name": "Southern Komfort Kitchen", "cuisine": "american", "rating": 4.4, "address": "2501 S Broadway St, La Porte, TX 77571", "lat": 29.6431, "lng": -95.0345},
+    {"name": "Happy Crazy Cajun", "cuisine": "cajun", "rating": 4.3, "address": "129 N 10th St, La Porte, TX 77571", "lat": 29.6672, "lng": -95.0321},
+    {"name": "Ninfa's", "cuisine": "mexican", "rating": 4.4, "address": "5730 Hwy 6, Missouri City, TX 77459", "lat": 29.5891, "lng": -95.5562},
+    {"name": "Baytown Seafood Restaurant", "cuisine": "seafood", "rating": 4.2, "address": "2409 FM 1092 Rd, Missouri City, TX 77459", "lat": 29.5968, "lng": -95.5781},
+    {"name": "Happy Crab", "cuisine": "cajun", "rating": 4.3, "address": "5418 Hwy 6, Missouri City, TX 77459", "lat": 29.5946, "lng": -95.5521},
+    {"name": "Micheaux's Southern Cuisine", "cuisine": "southern", "rating": 4.5, "address": "6850 Hwy 6, Missouri City, TX 77459", "lat": 29.5782, "lng": -95.5651},
+    {"name": "Orient Cafe", "cuisine": "asian", "rating": 4.1, "address": "3340 FM 1092 Rd, Missouri City, TX 77459", "lat": 29.5889, "lng": -95.5893}
 ] 
