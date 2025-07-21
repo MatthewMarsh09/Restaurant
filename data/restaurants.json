@@ -375,5 +375,19 @@
     {"name": "Domino's Pizza (Galveston)", "cuisine": "fast food", "rating": 3.7, "address": "5600 Seawall Blvd #150, Galveston, TX 77551", "lat": 29.2731, "lng": -94.8273},
     {"name": "Domino's Pizza (Texas City)", "cuisine": "fast food", "rating": 3.7, "address": "2101 Palmer Hwy #150, Texas City, TX 77590", "lat": 29.3917, "lng": -94.9221},
     {"name": "Domino's Pizza (Rosenberg)", "cuisine": "fast food", "rating": 3.7, "address": "27402 Southwest Fwy #150, Rosenberg, TX 77471", "lat": 29.5311, "lng": -95.7752},
-    {"name": "Domino's Pizza (Missouri City)", "cuisine": "fast food", "rating": 3.7, "address": "5730 Highway 6 #150, Missouri City, TX 77459", "lat": 29.5891, "lng": -95.5562}
+    {"name": "Domino's Pizza (Missouri City)", "cuisine": "fast food", "rating": 3.7, "address": "5730 Highway 6 #150, Missouri City, TX 77459", "lat": 29.5891, "lng": -95.5562},
+    {"name": "Sabor Venezolano Restaurante", "cuisine": "venezuelan", "rating": 4.5, "address": "2340 N Fry Rd, Katy, TX 77084", "lat": 29.8164, "lng": -95.7092},
+    {"name": "El Kourmet (Cinco Ranch)", "cuisine": "venezuelan", "rating": 4.6, "address": "25757 Westheimer Pkwy #100, Katy, TX 77494", "lat": 29.7384, "lng": -95.7658},
+    {"name": "El Kourmet (North Katy)", "cuisine": "venezuelan", "rating": 4.6, "address": "3939 N Fry Rd #C, Katy, TX 77449", "lat": 29.8339, "lng": -95.7089},
+    {"name": "El Kourmet (The Woodlands)", "cuisine": "venezuelan", "rating": 4.6, "address": "25115 Gosling Rd #105, Spring, TX 77389", "lat": 30.1287, "lng": -95.4021},
+    {"name": "Budare Arepa Express", "cuisine": "venezuelan", "rating": 4.4, "address": "402 W Grand Pkwy S, Katy, TX 77494", "lat": 29.7261, "lng": -95.7458},
+    {"name": "Pastel Pizza (Katy)", "cuisine": "venezuelan", "rating": 4.7, "address": "700 S Mason Rd, Katy, TX 77450", "lat": 29.7659, "lng": -95.7089},
+    {"name": "Pastel Pizza (Spring)", "cuisine": "venezuelan", "rating": 4.7, "address": "25115 Gosling Rd #110, Spring, TX 77389", "lat": 30.1287, "lng": -95.4021},
+    {"name": "Pastel Pizza (Houston)", "cuisine": "venezuelan", "rating": 4.7, "address": "8334 FM 529 Rd, Houston, TX 77433", "lat": 29.9575, "lng": -95.6792},
+    {"name": "Pastel Pizza (FM 1463)", "cuisine": "venezuelan", "rating": 4.7, "address": "1433 FM 1463 Rd #650, Katy, TX 77494", "lat": 29.7147, "lng": -95.7883},
+    {"name": "Arepas y Empanadas Dona Maria", "cuisine": "venezuelan", "rating": 4.3, "address": "9889 Bellaire Blvd, Houston, TX 77036", "lat": 29.7131, "lng": -95.5539},
+    {"name": "Deli's Gourmet (Venezuelan)", "cuisine": "venezuelan", "rating": 4.4, "address": "5555 Gessner Rd #B, Houston, TX 77041", "lat": 29.7458, "lng": -95.5234},
+    {"name": "El Punto Criollo (Food Truck)", "cuisine": "venezuelan", "rating": 4.2, "address": "Beechnut St & Highway 6, Houston, TX 77072", "lat": 29.7042, "lng": -95.5925},
+    {"name": "La Casa de las Empanadas", "cuisine": "venezuelan", "rating": 4.3, "address": "2415 S Dairy Ashford Rd #D, Houston, TX 77077", "lat": 29.7234, "lng": -95.5678},
+    {"name": "Mi Ranchito Venezolano", "cuisine": "venezuelan", "rating": 4.2, "address": "10503 Grant Rd, Houston, TX 77070", "lat": 30.0123, "lng": -95.4987}
 ] 
