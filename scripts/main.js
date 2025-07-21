@@ -177,8 +177,13 @@ const geocodeLocation = async input => {
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     ['showList', 'showMap', 'randomPick', 'pickAnother', 'useLocationBtn'].forEach((id, i) => 
-        document.getElementById(id).onclick = [() => searchAndShow('list'), () => searchAndShow('map'), 
-        () => searchAndShow('random'), showRandomResult, requestUserLocation][i]);
+        document.getElementById(id).onclick = [
+            () => searchAndShow('list'), 
+            () => searchAndShow('map'), 
+            () => searchAndShow('random'), 
+            () => showRandomResult(), // <-- FIX: Wrapped in anonymous function
+            requestUserLocation
+        ][i]);
     initializeDropdown();
     document.getElementById('totalRestaurants').textContent = mockRestaurants.length;
 });
