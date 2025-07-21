@@ -91,5 +91,18 @@
     {"name": "Kuntry Katfish", "cuisine": "seafood", "rating": 4.4, "address": "5901 W Davis St, Conroe, TX 77304", "lat": 30.3235, "lng": -95.5323},
     {"name": "Pacific Yard House", "cuisine": "american", "rating": 4.3, "address": "101 Metcalf St, Conroe, TX 77301", "lat": 30.3101, "lng": -95.4566},
     {"name": "Walk-On's Sports Bistreaux", "cuisine": "cajun", "rating": 4.2, "address": "1000 Outpost Dr, Conroe, TX 77304", "lat": 30.3421, "lng": -95.4955},
-    {"name": "Kitchen Tales", "cuisine": "american", "rating": 4.6, "address": "449 S Loop 336 W, Conroe, TX 77304", "lat": 30.2933, "lng": -95.4951}
+    {"name": "Kitchen Tales", "cuisine": "american", "rating": 4.6, "address": "449 S Loop 336 W, Conroe, TX 77304", "lat": 30.2933, "lng": -95.4951},
+    {"name": "Joe Lee's Seafood Kitchen", "cuisine": "seafood", "rating": 4.5, "address": "1108 Marina Bay Dr, Kemah, TX 77565", "lat": 29.5447, "lng": -95.0211},
+    {"name": "Asian Fusion", "cuisine": "asian", "rating": 4.4, "address": "6640 South Shore Blvd, League City, TX 77573", "lat": 29.5352, "lng": -95.1221},
+    {"name": "Cafe Petra", "cuisine": "mediterranean", "rating": 4.6, "address": "2800 Marina Bay Dr, League City, TX 77573", "lat": 29.5298, "lng": -95.0645},
+    {"name": "Ocean Sushi & Grill", "cuisine": "japanese", "rating": 4.5, "address": "3020 Marina Bay Dr, League City, TX 77573", "lat": 29.5284, "lng": -95.0673},
+    {"name": "Baytown Seafood Restaurant", "cuisine": "seafood", "rating": 4.3, "address": "3324 Spencer Hwy, Pasadena, TX 77504", "lat": 29.6582, "lng": -95.2391},
+    {"name": "Ichibon Sushi & Steakhouse", "cuisine": "japanese", "rating": 4.5, "address": "4908 Fairmont Pkwy, Pasadena, TX 77505", "lat": 29.6381, "lng": -95.1762},
+    {"name": "La Playita Bar & Grill", "cuisine": "mexican", "rating": 4.2, "address": "906 Pasadena Blvd, Pasadena, TX 77506", "lat": 29.6974, "lng": -95.2281},
+    {"name": "Sudie's Catfish House", "cuisine": "seafood", "rating": 4.4, "address": "4910 Spencer Hwy, Pasadena, TX 77505", "lat": 29.6358, "lng": -95.1743},
+    {"name": "La Fonda Taqueria", "cuisine": "mexican", "rating": 4.3, "address": "514 Richey St, Pasadena, TX 77506", "lat": 29.6951, "lng": -95.2078},
+    {"name": "Fish Place", "cuisine": "seafood", "rating": 4.4, "address": "4609 Garth Rd, Baytown, TX 77521", "lat": 29.7745, "lng": -95.0189},
+    {"name": "Floyd's Seafood", "cuisine": "cajun", "rating": 4.5, "address": "1101 W Main St, Mont Belvieu, TX 77523", "lat": 29.8553, "lng": -94.8692},
+    {"name": "Shogun Japanese Grill & Sushi Bar", "cuisine": "japanese", "rating": 4.3, "address": "5075 Garth Rd, Baytown, TX 77521", "lat": 29.7821, "lng": -95.0194},
+    {"name": "Pipeline Grill", "cuisine": "american", "rating": 4.4, "address": "4501 N Main St, Baytown, TX 77521", "lat": 29.7731, "lng": -94.9961}
 ] 
