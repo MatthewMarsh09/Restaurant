@@ -38,19 +38,44 @@ const updateDropdownText = () => {
         `${selected.length} Cuisines Selected`;
 };
 
-const updateResultsCount = () => {
-    const selected = getSelectedCuisines(), counter = document.getElementById('totalRestaurants');
-    counter.textContent = selected.length === 0 ? `${mockRestaurants.length}` : 
-        `${mockRestaurants.filter(r => selected.includes(r.cuisine)).length} of ${mockRestaurants.length}`;
+// Debounced update function to prevent lag
+let updateTimeout;
+const debouncedUpdateResultsCount = () => {
+    clearTimeout(updateTimeout);
+    updateTimeout = setTimeout(() => {
+        const selected = getSelectedCuisines(), counter = document.getElementById('totalRestaurants');
+        if (selected.length === 0) {
+            counter.textContent = `${mockRestaurants.length}`;
+        } else {
+            // Use a more efficient filtering approach
+            let count = 0;
+            for (let i = 0; i < mockRestaurants.length; i++) {
+                if (selected.includes(mockRestaurants[i].cuisine)) {
+                    count++;
+                }
+            }
+            counter.textContent = `${count} of ${mockRestaurants.length}`;
+        }
+    }, 150); // 150ms debounce
 };
+
+// Cached DOM elements to avoid repeated queries
+let dropdownElements = null;
 
 // Initialize dropdown with event listeners
 const initializeDropdown = () => {
-    const dropdown = document.querySelector('.custom-dropdown');
-    const selected = document.getElementById('dropdownSelected');
-    const options = document.getElementById('dropdownOptions');
-    const checkboxes = document.querySelectorAll('.dropdown-option input[type="checkbox"]');
-    const allCuisinesCheckbox = document.querySelector('.dropdown-option input[value=""]');
+    // Cache all DOM elements once
+    if (!dropdownElements) {
+        dropdownElements = {
+            dropdown: document.querySelector('.custom-dropdown'),
+            selected: document.getElementById('dropdownSelected'),
+            options: document.getElementById('dropdownOptions'),
+            checkboxes: document.querySelectorAll('.dropdown-option input[type="checkbox"]'),
+            allCuisinesCheckbox: document.querySelector('.dropdown-option input[value=""]')
+        };
+    }
+
+    const { dropdown, selected, options, checkboxes, allCuisinesCheckbox } = dropdownElements;
 
     // Toggle dropdown visibility
     selected.addEventListener('click', (event) => {
@@ -67,27 +92,30 @@ const initializeDropdown = () => {
         }
     });
 
-    // Handle checkbox logic
+    // Handle checkbox logic with optimized performance
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            if (checkbox === allCuisinesCheckbox && checkbox.checked) {
-                // If "All Cuisines" is checked, uncheck all other options
-                checkboxes.forEach(cb => {
-                    if (cb !== allCuisinesCheckbox) cb.checked = false;
-                });
-            } else if (checkbox !== allCuisinesCheckbox && checkbox.checked) {
-                // If a specific cuisine is checked, uncheck "All Cuisines"
-                allCuisinesCheckbox.checked = false;
-            }
-            
-            // If no checkboxes are checked, default to "All Cuisines"
-            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-            if (!anyChecked) {
-                allCuisinesCheckbox.checked = true;
-            }
+            // Batch DOM updates to prevent layout thrashing
+            requestAnimationFrame(() => {
+                if (checkbox === allCuisinesCheckbox && checkbox.checked) {
+                    // If "All Cuisines" is checked, uncheck all other options
+                    checkboxes.forEach(cb => {
+                        if (cb !== allCuisinesCheckbox) cb.checked = false;
+                    });
+                } else if (checkbox !== allCuisinesCheckbox && checkbox.checked) {
+                    // If a specific cuisine is checked, uncheck "All Cuisines"
+                    allCuisinesCheckbox.checked = false;
+                }
+                
+                // If no checkboxes are checked, default to "All Cuisines"
+                const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                if (!anyChecked) {
+                    allCuisinesCheckbox.checked = true;
+                }
 
-            updateDropdownText();
-            updateResultsCount();
+                updateDropdownText();
+                debouncedUpdateResultsCount();
+            });
         });
     });
 
