@@ -122,6 +122,51 @@ const initializeDropdown = () => {
     });
 };
 
+// Initialize Google Maps Autocomplete
+function initMap() {
+    const addressInput = document.getElementById('address');
+    
+    // Create a bounding box for the Houston metro area to bias results
+    const houstonBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(29.1, -96.0), // Southwest corner
+        new google.maps.LatLng(30.4, -94.7)  // Northeast corner
+    );
+
+    const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+        bounds: houstonBounds,
+        strictBounds: false, // Allows searching slightly outside the bounds
+        componentRestrictions: { country: 'us' },
+        fields: ['formatted_address', 'geometry.location']
+    });
+
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry && place.geometry.location) {
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+            
+            // Store coordinates directly on the input element
+            addressInput.dataset.lat = lat;
+            addressInput.dataset.lng = lng;
+            
+            // Automatically trigger a search when a place is selected
+            searchAndShow('list'); 
+        } else {
+            // Handle case where user enters a place that is not suggested
+            delete addressInput.dataset.lat;
+            delete addressInput.dataset.lng;
+        }
+    });
+
+    // Prevent form submission when Enter is pressed on the address input
+    addressInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
+    });
+}
+
+
 // GPS location functionality - updated for clarity and reliability
 const requestUserLocation = () => {
     const btn = document.getElementById('useLocationBtn'), status = document.getElementById('locationStatus'), addressInput = document.getElementById('address');
@@ -166,257 +211,6 @@ const requestUserLocation = () => {
     );
 };
 
-// Address autocomplete functionality
-let autocompleteTimeout;
-let currentSuggestions = [];
-
-const createAutocompleteContainer = () => {
-    const container = document.createElement('div');
-    container.id = 'autocomplete-container';
-    container.style.cssText = `
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 2px solid #002D62;
-        border-top: none;
-        border-radius: 0 0 10px 10px;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 1001;
-        display: none;
-        box-shadow: 0 8px 32px rgba(0,45,98,0.2);
-    `;
-    return container;
-};
-
-const createSuggestionItem = (suggestion, index) => {
-    const item = document.createElement('div');
-    item.style.cssText = `
-        padding: 12px 16px;
-        cursor: pointer;
-        border-bottom: 1px solid #f0f0f0;
-        transition: background-color 0.2s;
-        font-size: 0.95rem;
-    `;
-    
-    // Clean up the address display - remove county and country info for cleaner look
-    let displayText = suggestion.display_name;
-    
-    // Remove ", United States" if present
-    displayText = displayText.replace(', United States', '');
-    
-    // If it's too long, try to shorten it intelligently
-    if (displayText.length > 60) {
-        const parts = displayText.split(', ');
-        // Keep the first 3-4 most relevant parts (address, city, state)
-        if (parts.length > 4) {
-            displayText = parts.slice(0, 4).join(', ');
-        }
-    }
-    
-    item.textContent = displayText;
-    
-    item.addEventListener('mouseenter', () => {
-        item.style.background = 'rgba(240,244,255,0.8)';
-    });
-    item.addEventListener('mouseleave', () => {
-        item.style.background = 'white';
-    });
-    item.addEventListener('click', () => {
-        selectSuggestion(suggestion);
-    });
-    return item;
-};
-
-const selectSuggestion = (suggestion) => {
-    const addressInput = document.getElementById('address');
-    addressInput.value = suggestion.display_name;
-    hideAutocomplete();
-    
-    // Store the exact coordinates for later use
-    addressInput.dataset.lat = suggestion.lat;
-    addressInput.dataset.lng = suggestion.lon;
-};
-
-const showAutocomplete = (suggestions) => {
-    const container = document.getElementById('autocomplete-container');
-    container.innerHTML = '';
-    
-    if (suggestions.length === 0) {
-        const noResults = document.createElement('div');
-        noResults.style.cssText = 'padding: 12px 16px; color: #666; font-style: italic;';
-        noResults.textContent = 'No addresses found';
-        container.appendChild(noResults);
-    } else {
-        suggestions.forEach((suggestion, index) => {
-            container.appendChild(createSuggestionItem(suggestion, index));
-        });
-    }
-    
-    container.style.display = 'block';
-};
-
-const hideAutocomplete = () => {
-    const container = document.getElementById('autocomplete-container');
-    if (container) {
-        container.style.display = 'none';
-    }
-};
-
-const searchAddresses = async (query) => {
-    if (query.length < 3) {
-        hideAutocomplete();
-        return;
-    }
-    
-    try {
-        // Focus on Houston metro area for better results
-        const bounds = '28.5,-96.5,30.5,-94.5'; // Rough Houston metro bounds
-        
-        // Try multiple search strategies for better results
-        const searches = [
-            // Direct search with Houston Texas
-            `${query} Houston Texas`,
-            // Just the query with Texas
-            `${query} Texas`,
-            // Query with common street suffixes if none provided
-            query.includes('st') || query.includes('street') || query.includes('ave') || 
-            query.includes('rd') || query.includes('ln') || query.includes('dr') ? 
-            query : `${query} street Houston Texas`
-        ];
-        
-        let allResults = [];
-        
-        for (const searchQuery of searches) {
-            const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=3&q=${encodeURIComponent(searchQuery)}&viewbox=${bounds}&bounded=1`;
-            
-            try {
-                const response = await fetch(url);
-                const results = await response.json();
-                allResults = allResults.concat(results);
-            } catch (err) {
-                console.warn('Search failed for:', searchQuery);
-            }
-        }
-        
-        // Remove duplicates and filter for Houston area
-        const uniqueResults = [];
-        const seen = new Set();
-        
-        allResults.forEach(result => {
-            const key = `${result.lat}-${result.lon}`;
-            if (!seen.has(key) && 
-                (result.display_name.toLowerCase().includes('texas') || 
-                 result.display_name.toLowerCase().includes('tx') ||
-                 result.display_name.toLowerCase().includes('houston'))) {
-                
-                // Prioritize results that closely match the query
-                const displayLower = result.display_name.toLowerCase();
-                const queryLower = query.toLowerCase();
-                
-                // Boost exact matches or close matches
-                if (displayLower.includes(queryLower) || 
-                    queryLower.split(' ').some(word => displayLower.includes(word))) {
-                    seen.add(key);
-                    uniqueResults.push(result);
-                }
-            }
-        });
-        
-        // Sort by relevance - exact matches first
-        const sortedResults = uniqueResults.sort((a, b) => {
-            const aLower = a.display_name.toLowerCase();
-            const bLower = b.display_name.toLowerCase();
-            const queryLower = query.toLowerCase();
-            
-            // Exact matches first
-            const aExact = aLower.includes(queryLower);
-            const bExact = bLower.includes(queryLower);
-            
-            if (aExact && !bExact) return -1;
-            if (!aExact && bExact) return 1;
-            
-            // Then by how early the match appears
-            const aIndex = aLower.indexOf(queryLower);
-            const bIndex = bLower.indexOf(queryLower);
-            
-            if (aIndex !== -1 && bIndex !== -1) {
-                return aIndex - bIndex;
-            }
-            
-            return 0;
-        });
-        
-        currentSuggestions = sortedResults.slice(0, 5); // Limit to 5 results
-        showAutocomplete(currentSuggestions);
-        
-    } catch (error) {
-        console.error('Address search failed:', error);
-        hideAutocomplete();
-    }
-};
-
-const initializeAddressAutocomplete = () => {
-    const addressInput = document.getElementById('address');
-    const formGroup = addressInput.parentElement;
-    
-    // Make the form group relative for positioning
-    formGroup.style.position = 'relative';
-    
-    // Create and append autocomplete container
-    const autocompleteContainer = createAutocompleteContainer();
-    formGroup.appendChild(autocompleteContainer);
-    
-    // Add input event listener for autocomplete
-    addressInput.addEventListener('input', (e) => {
-        const query = e.target.value.trim();
-        
-        // Clear stored coordinates when user types
-        delete addressInput.dataset.lat;
-        delete addressInput.dataset.lng;
-        
-        clearTimeout(autocompleteTimeout);
-        
-        if (query.length >= 3) {
-            autocompleteTimeout = setTimeout(() => {
-                searchAddresses(query);
-            }, 300); // 300ms debounce
-        } else {
-            hideAutocomplete();
-        }
-    });
-    
-    // Hide autocomplete when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!formGroup.contains(e.target)) {
-            hideAutocomplete();
-        }
-    });
-    
-    // Hide autocomplete when input loses focus
-    addressInput.addEventListener('blur', () => {
-        // Small delay to allow clicking on suggestions
-        setTimeout(hideAutocomplete, 150);
-    });
-    
-    // Handle keyboard navigation
-    addressInput.addEventListener('keydown', (e) => {
-        const container = document.getElementById('autocomplete-container');
-        const items = container.querySelectorAll('div[style*="cursor: pointer"]');
-        
-        if (e.key === 'Escape') {
-            hideAutocomplete();
-        } else if (e.key === 'ArrowDown' && items.length > 0) {
-            e.preventDefault();
-            const firstItem = items[0];
-            firstItem.style.background = 'rgba(240,244,255,0.8)';
-            firstItem.focus();
-        }
-    });
-};
-
 // Geocoding function - updated to use stored coordinates from autocomplete
 const geocodeLocation = async input => {
     const cleanedInput = input?.trim().toLowerCase();
@@ -427,7 +221,7 @@ const geocodeLocation = async input => {
 
     if (!cleanedInput) return HOUSTON_DEFAULT;
     
-    // Check if we have stored coordinates from autocomplete
+    // Check if we have stored coordinates from Google Places autocomplete
     const addressInput = document.getElementById('address');
     if (addressInput.dataset.lat && addressInput.dataset.lng) {
         return {
@@ -436,47 +230,19 @@ const geocodeLocation = async input => {
         };
     }
     
-    const coordMatch = cleanedInput.match(/^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/);
-    if (coordMatch) return { lat: parseFloat(coordMatch[1]), lng: parseFloat(coordMatch[2]) };
-    
-    // City lookup (basic fallback)
-    const cities = {
-        houston: [29.7604, -95.3698], katy: [29.7391, -95.7521], 'sugar land': [29.5844, -95.6349],
-        pearland: [29.5583, -95.2861], woodlands: [30.1588, -95.4913], spring: [30.0799, -95.4171],
-        conroe: [30.3133, -95.4904], cypress: [29.9733, -95.6904], humble: [30.0133, -95.2604],
-        pasadena: [29.6911, -95.2091], galveston: [29.3013, -94.7977]
-    };
-    
-    for (const [city, coords] of Object.entries(cities)) 
-        if (cleanedInput.includes(city)) return { lat: coords[0], lng: coords[1] };
-    
-    // If no match and it looks like an address, try to geocode it
-    if (cleanedInput.includes('st') || cleanedInput.includes('street') || 
-        cleanedInput.includes('ave') || cleanedInput.includes('avenue') ||
-        cleanedInput.includes('rd') || cleanedInput.includes('road') ||
-        cleanedInput.includes('ln') || cleanedInput.includes('lane') ||
-        cleanedInput.includes('dr') || cleanedInput.includes('drive') ||
-        /\d/.test(cleanedInput)) {
-        
-        try {
-            const bounds = '28.5,-96.5,30.5,-94.5';
-            const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(cleanedInput + ' Houston Texas')}&viewbox=${bounds}&bounded=1`;
-            const response = await fetch(url);
-            const results = await response.json();
-            
-            if (results.length > 0) {
-                return {
-                    lat: parseFloat(results[0].lat),
-                    lng: parseFloat(results[0].lon)
-                };
+    // Fallback for manual text entry using Google's Geocoder
+    return new Promise((resolve, reject) => {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': input, 'componentRestrictions': {'country': 'US', 'administrativeArea': 'TX'} }, (results, status) => {
+            if (status === 'OK' && results[0]) {
+                const location = results[0].geometry.location;
+                resolve({ lat: location.lat(), lng: location.lng() });
+            } else {
+                console.warn("Geocoding failed for input:", input, "Status:", status);
+                resolve(HOUSTON_DEFAULT); // Default to Houston on failure
             }
-        } catch (error) {
-            console.warn('Geocoding failed:', error);
-        }
-    }
-    
-    console.warn("Could not geocode input, defaulting to Houston.");
-    return HOUSTON_DEFAULT;
+        });
+    });
 };
 
 // Initialize app
@@ -492,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             requestUserLocation
         ][i]);
     initializeDropdown();
-    initializeAddressAutocomplete(); // Initialize address autocomplete
+    // Google Maps init is handled by the callback in the script tag
     document.getElementById('totalRestaurants').textContent = mockRestaurants.length;
 });
 
