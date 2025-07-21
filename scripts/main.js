@@ -4313,9 +4313,8 @@ let userLocation = { lat: 29.7604, lng: -95.3698 }; // Default to Houston center
 
 function getSelectedCuisines() {
     const select = document.getElementById('cuisineSelect');
-    const selectedOptions = Array.from(select.selectedOptions);
-    const selectedValues = selectedOptions.map(option => option.value).filter(value => value !== '');
-    return selectedValues;
+    const selectedValue = select.value;
+    return selectedValue ? [selectedValue] : [];
 }
 
 // Update restaurant counter dynamically
@@ -4345,7 +4344,6 @@ function initializeEventListeners() {
 
 // Update results count when filters change
 function updateResultsCount() {
-    // This could be expanded to show filtered count vs total count
     const selectedCuisines = getSelectedCuisines();
     if (selectedCuisines.length === 0) {
         document.getElementById('totalRestaurants').textContent = `${mockRestaurants.length}`;
