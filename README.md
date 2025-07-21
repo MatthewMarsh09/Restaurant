@@ -13,13 +13,18 @@ A location-based web application to discover restaurants throughout the Greater 
   - Random Pick: Surprise restaurant selector
 
 ## Restaurant Coverage
-- **50+ restaurants** across the Greater Houston metro area
-- **14+ cities covered**: Houston, Katy, Sugar Land, Pearland, The Woodlands, Spring, Conroe, Cypress, Humble, Pasadena, Texas City, Galveston, Richmond, Rosenberg, Alvin, La Porte
-- **Famous local spots**: Killen's Barbecue, Corkscrew BBQ, The Original Ninfa's, Uchi, Hugo's
+- **55+ authentic restaurants** across the Greater Houston metro area
+- **Real local establishments** sourced from TripAdvisor and Yelp reviews
+- **16+ cities covered**: Houston, Katy, Sugar Land, Pearland, The Woodlands, Spring, Conroe, Cypress, Humble, Pasadena, Texas City, Galveston, Richmond, Rosenberg, Alvin, La Porte
+- **Featured authentic spots**:
+  - **Rosenberg**: Bull Creek Cafe & Grill, Another Time Soda Fountain, Schulze's Bar-B-Q
+  - **Alvin**: Juanita's Taqueria (since 1999), Las Flores Tex Mex (25+ years)
+  - **Houston**: Killen's Barbecue, The Original Ninfa's, Uchi, Hugo's, Xochi
+  - **Spring**: Corkscrew BBQ
 - **Multiple neighborhoods**: Downtown, Montrose, River Oaks, Chinatown, Heights, and more
 
 ## How It Works
-1. **Enter your location** (city, address, or zip code)
+1. **Enter your location** (city dropdown, address, or zip code) or **use GPS location**
 2. **Set your search radius** (1-100 miles)
 3. **Select cuisine types** (optional)
 4. **Choose your view**: List (sorted by distance), Map (with radius circle), or Random Pick
@@ -34,11 +39,12 @@ Visit the app: [Houston Metro Food Finder](https://matthewmarsh09.github.io/Rest
 3. Start discovering Houston's best restaurants!
 
 ## Tech Stack
-- HTML5
-- CSS3 (Orange/Red theme)
+- HTML5 with Houston skyline background
+- CSS3 (Houston Astros theme with glassmorphism effects)
 - Vanilla JavaScript with Haversine distance calculation
-- Leaflet.js for interactive maps
-- 50+ real Houston metro restaurants with coordinates
+- Leaflet.js for interactive maps with user location
+- Geolocation API for GPS positioning
+- 55+ real Houston metro restaurants with coordinates
 
 ---
 Built with ❤️ for Houston metro food lovers 

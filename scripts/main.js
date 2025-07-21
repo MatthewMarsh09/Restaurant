@@ -433,6 +433,61 @@ const mockRestaurants = [
 
     // Richmond/Rosenberg Restaurants
     {
+        name: "Bull Creek Cafe & Grill",
+        cuisine: "american",
+        rating: 4.5,
+        address: "918 San Jacinto St, Rosenberg, TX 77471",
+        lat: 29.5570,
+        lng: -95.8066,
+        city: "Rosenberg",
+        state: "TX",
+        zipcode: "77471"
+    },
+    {
+        name: "Another Time Soda Fountain",
+        cuisine: "american",
+        rating: 4.6,
+        address: "800 Third Street, Rosenberg, TX 77471",
+        lat: 29.5570,
+        lng: -95.8066,
+        city: "Rosenberg",
+        state: "TX",
+        zipcode: "77471"
+    },
+    {
+        name: "T. Jin China Diner",
+        cuisine: "chinese",
+        rating: 4.3,
+        address: "24301 Brazos Town Crossing #700, Rosenberg, TX 77471",
+        lat: 29.5470,
+        lng: -95.7966,
+        city: "Rosenberg",
+        state: "TX",
+        zipcode: "77471"
+    },
+    {
+        name: "The Burger Barn",
+        cuisine: "american",
+        rating: 4.4,
+        address: "1101 Damon Street, Rosenberg, TX 77471",
+        lat: 29.5520,
+        lng: -95.8016,
+        city: "Rosenberg",
+        state: "TX",
+        zipcode: "77471"
+    },
+    {
+        name: "Schulze's Bar-B-Q and Catering",
+        cuisine: "american",
+        rating: 4.5,
+        address: "1214 1st Street, Rosenberg, TX 77471",
+        lat: 29.5580,
+        lng: -95.8076,
+        city: "Rosenberg",
+        state: "TX",
+        zipcode: "77471"
+    },
+    {
         name: "Nuevo Leon Mexican Restaurant",
         cuisine: "mexican",
         rating: 4.4,
@@ -443,24 +498,13 @@ const mockRestaurants = [
         state: "TX",
         zipcode: "77471"
     },
-    {
-        name: "Brookshire Brothers",
-        cuisine: "american",
-        rating: 4.1,
-        address: "24703 Southwest Fwy, Rosenberg, TX 77471",
-        lat: 29.5470,
-        lng: -95.7966,
-        city: "Rosenberg",
-        state: "TX",
-        zipcode: "77471"
-    },
 
     // Alvin Restaurants
     {
-        name: "Joe Allen's Pit BBQ",
-        cuisine: "american",
-        rating: 4.5,
-        address: "301 W House St, Alvin, TX 77511",
+        name: "Juanita's Taqueria",
+        cuisine: "mexican",
+        rating: 4.6,
+        address: "106 S. 3rd Street, Alvin, TX 77511",
         lat: 29.4239,
         lng: -95.2441,
         city: "Alvin",
@@ -468,10 +512,21 @@ const mockRestaurants = [
         zipcode: "77511"
     },
     {
-        name: "Nolan Ryan's All Star Grill",
+        name: "Las Flores Tex Mex",
+        cuisine: "mexican",
+        rating: 4.5,
+        address: "306 E House St, Alvin, TX 77511",
+        lat: 29.4239,
+        lng: -95.2441,
+        city: "Alvin",
+        state: "TX",
+        zipcode: "77511"
+    },
+    {
+        name: "Alvin Seafood",
         cuisine: "american",
-        rating: 4.2,
-        address: "2925 W Broadway St, Alvin, TX 77511",
+        rating: 4.3,
+        address: "617 S Gordon St, Alvin, TX 77511",
         lat: 29.4139,
         lng: -95.2541,
         city: "Alvin",
