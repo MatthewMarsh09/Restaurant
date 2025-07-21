@@ -122,52 +122,130 @@ const initializeDropdown = () => {
     });
 };
 
-// Initialize Google Maps Autocomplete
-function initMap() {
+// Address autocomplete functionality (OpenStreetMap)
+let autocompleteTimeout;
+let currentSuggestions = [];
+
+const createAutocompleteContainer = () => {
+    const container = document.createElement('div');
+    container.id = 'autocomplete-container';
+    container.style.cssText = `
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 2px solid #002D62;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1001;
+        display: none;
+        box-shadow: 0 8px 32px rgba(0,45,98,0.2);
+    `;
+    return container;
+};
+
+const createSuggestionItem = (suggestion, index) => {
+    const item = document.createElement('div');
+    item.style.cssText = `
+        padding: 12px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s;
+        font-size: 0.95rem;
+    `;
+    let displayText = suggestion.display_name.replace(', United States', '');
+    if (displayText.length > 60) {
+        const parts = displayText.split(', ');
+        if (parts.length > 4) displayText = parts.slice(0, 4).join(', ');
+    }
+    item.textContent = displayText;
+    item.addEventListener('mouseenter', () => { item.style.background = 'rgba(240,244,255,0.8)'; });
+    item.addEventListener('mouseleave', () => { item.style.background = 'white'; });
+    item.addEventListener('click', () => selectSuggestion(suggestion));
+    return item;
+};
+
+const selectSuggestion = (suggestion) => {
     const addressInput = document.getElementById('address');
-    
-    // Create a bounding box for the Houston metro area to bias results
-    const houstonBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(29.1, -96.0), // Southwest corner
-        new google.maps.LatLng(30.4, -94.7)  // Northeast corner
-    );
+    addressInput.value = suggestion.display_name;
+    hideAutocomplete();
+    addressInput.dataset.lat = suggestion.lat;
+    addressInput.dataset.lng = suggestion.lon;
+};
 
-    const autocomplete = new google.maps.places.Autocomplete(addressInput, {
-        bounds: houstonBounds,
-        strictBounds: false, // Allows searching slightly outside the bounds
-        componentRestrictions: { country: 'us' },
-        fields: ['formatted_address', 'geometry.location']
-    });
+const showAutocomplete = (suggestions) => {
+    const container = document.getElementById('autocomplete-container');
+    container.innerHTML = '';
+    if (suggestions.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.style.cssText = 'padding: 12px 16px; color: #666; font-style: italic;';
+        noResults.textContent = 'No addresses found';
+        container.appendChild(noResults);
+    } else {
+        suggestions.forEach((suggestion, index) => container.appendChild(createSuggestionItem(suggestion, index)));
+    }
+    container.style.display = 'block';
+};
 
-    autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (place.geometry && place.geometry.location) {
-            const lat = place.geometry.location.lat();
-            const lng = place.geometry.location.lng();
-            
-            // Store coordinates directly on the input element
-            addressInput.dataset.lat = lat;
-            addressInput.dataset.lng = lng;
-            
-            // Automatically trigger a search when a place is selected
-            searchAndShow('list'); 
+const hideAutocomplete = () => {
+    const container = document.getElementById('autocomplete-container');
+    if (container) container.style.display = 'none';
+};
+
+const searchAddresses = async (query) => {
+    if (query.length < 3) {
+        hideAutocomplete();
+        return;
+    }
+    try {
+        const bounds = '28.5,-96.5,30.5,-94.5';
+        const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query + ' Houston Texas')}&viewbox=${bounds}&bounded=1`;
+        const response = await fetch(url);
+        const results = await response.json();
+        const filteredResults = results.filter(result => 
+            result.display_name.toLowerCase().includes(query.toLowerCase()) &&
+            (result.display_name.toLowerCase().includes('texas') || result.display_name.toLowerCase().includes('tx'))
+        );
+        currentSuggestions = filteredResults;
+        showAutocomplete(filteredResults);
+    } catch (error) {
+        console.error('Address search failed:', error);
+        hideAutocomplete();
+    }
+};
+
+const initializeAddressAutocomplete = () => {
+    const addressInput = document.getElementById('address');
+    const formGroup = addressInput.parentElement;
+    formGroup.style.position = 'relative';
+    const autocompleteContainer = createAutocompleteContainer();
+    formGroup.appendChild(autocompleteContainer);
+
+    addressInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        delete addressInput.dataset.lat;
+        delete addressInput.dataset.lng;
+        clearTimeout(autocompleteTimeout);
+        if (query.length >= 3) {
+            autocompleteTimeout = setTimeout(() => searchAddresses(query), 300);
         } else {
-            // Handle case where user enters a place that is not suggested
-            delete addressInput.dataset.lat;
-            delete addressInput.dataset.lng;
+            hideAutocomplete();
         }
     });
 
-    // Prevent form submission when Enter is pressed on the address input
-    addressInput.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-        }
+    document.addEventListener('click', (e) => {
+        if (!formGroup.contains(e.target)) hideAutocomplete();
     });
-}
 
+    addressInput.addEventListener('blur', () => {
+        setTimeout(hideAutocomplete, 150);
+    });
+};
 
-// GPS location functionality - updated for clarity and reliability
+// GPS location functionality
 const requestUserLocation = () => {
     const btn = document.getElementById('useLocationBtn'), status = document.getElementById('locationStatus'), addressInput = document.getElementById('address');
     if (!navigator.geolocation) {
@@ -211,44 +289,36 @@ const requestUserLocation = () => {
     );
 };
 
-// Geocoding function - updated to use stored coordinates from autocomplete
+// Geocoding function
 const geocodeLocation = async input => {
     const cleanedInput = input?.trim().toLowerCase();
-
-    if (cleanedInput === 'current location') {
-        return currentUserGpsLocation || HOUSTON_DEFAULT;
-    }
-
+    if (cleanedInput === 'current location') return currentUserGpsLocation || HOUSTON_DEFAULT;
     if (!cleanedInput) return HOUSTON_DEFAULT;
-    
-    // Check if we have stored coordinates from Google Places autocomplete
+
     const addressInput = document.getElementById('address');
     if (addressInput.dataset.lat && addressInput.dataset.lng) {
-        return {
-            lat: parseFloat(addressInput.dataset.lat),
-            lng: parseFloat(addressInput.dataset.lng)
-        };
+        return { lat: parseFloat(addressInput.dataset.lat), lng: parseFloat(addressInput.dataset.lng) };
     }
-    
-    // Fallback for manual text entry using Google's Geocoder
-    return new Promise((resolve, reject) => {
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'address': input, 'componentRestrictions': {'country': 'US', 'administrativeArea': 'TX'} }, (results, status) => {
-            if (status === 'OK' && results[0]) {
-                const location = results[0].geometry.location;
-                resolve({ lat: location.lat(), lng: location.lng() });
-            } else {
-                console.warn("Geocoding failed for input:", input, "Status:", status);
-                resolve(HOUSTON_DEFAULT); // Default to Houston on failure
-            }
-        });
-    });
+
+    try {
+        const bounds = '28.5,-96.5,30.5,-94.5';
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(cleanedInput + ' Houston Texas')}&viewbox=${bounds}&bounded=1`;
+        const response = await fetch(url);
+        const results = await response.json();
+        if (results.length > 0) {
+            return { lat: parseFloat(results[0].lat), lng: parseFloat(results[0].lon) };
+        }
+    } catch (error) {
+        console.warn('Geocoding failed:', error);
+    }
+
+    console.warn("Could not geocode input, defaulting to Houston.");
+    return HOUSTON_DEFAULT;
 };
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
-    await fetchRestaurants(); // Load restaurants first
-    
+    await fetchRestaurants();
     ['showList', 'showMap', 'randomPick', 'pickAnother', 'useLocationBtn'].forEach((id, i) => 
         document.getElementById(id).onclick = [
             () => searchAndShow('list'), 
@@ -256,9 +326,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             () => searchAndShow('random'), 
             () => showRandomResult(),
             requestUserLocation
-        ][i]);
+        ][i]
+    );
     initializeDropdown();
-    // Google Maps init is handled by the callback in the script tag
+    initializeAddressAutocomplete();
     document.getElementById('totalRestaurants').textContent = mockRestaurants.length;
 });
 
