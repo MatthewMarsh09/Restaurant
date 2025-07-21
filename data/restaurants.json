@@ -62,5 +62,21 @@
     {"name": "Musaafer", "cuisine": "indian", "rating": 4.7, "address": "5115 Westheimer Rd Suite C-3500, Houston, TX 77056", "lat": 29.7371, "lng": -95.4651},
     {"name": "March", "cuisine": "mediterranean", "rating": 4.9, "address": "1624 Westheimer Rd, Houston, TX 77006", "lat": 29.7449, "lng": -95.4008},
     {"name": "Shun Japanese Kitchen", "cuisine": "japanese", "rating": 4.7, "address": "2802 S Shepherd Dr, Houston, TX 77098", "lat": 29.7418, "lng": -95.4116},
-    {"name": "1751 Sea and Bar", "cuisine": "seafood", "rating": 4.6, "address": "1917 W T C Jester Blvd, Houston, TX 77008", "lat": 29.8105, "lng": -95.4215}
+    {"name": "1751 Sea and Bar", "cuisine": "seafood", "rating": 4.6, "address": "1917 W T C Jester Blvd, Houston, TX 77008", "lat": 29.8105, "lng": -95.4215},
+    {"name": "Azzurro Italian Coastal Cuisine", "cuisine": "italian", "rating": 4.5, "address": "1950 Hughes Landing Blvd #1900, The Woodlands, TX 77380", "lat": 30.1601, "lng": -95.4682},
+    {"name": "Goode Company Fish Camp", "cuisine": "seafood", "rating": 4.4, "address": "8865 Six Pines Dr, The Woodlands, TX 77380", "lat": 30.1741, "lng": -95.4641},
+    {"name": "Sakekawa Japanese Steakhouse", "cuisine": "japanese", "rating": 4.3, "address": "6777 Woodlands Pkwy, The Woodlands, TX 77382", "lat": 30.1748, "lng": -95.5422},
+    {"name": "Hyderabad House", "cuisine": "indian", "rating": 4.2, "address": "407 Sawdust Rd, The Woodlands, TX 77380", "lat": 30.1465, "lng": -95.4599},
+    {"name": "Amerigo's Grille", "cuisine": "italian", "rating": 4.5, "address": "25250 Grogan's Park Dr, The Woodlands, TX 77380", "lat": 30.1424, "lng": -95.4573},
+    {"name": "Pappadeaux Seafood Kitchen (The Woodlands)", "cuisine": "creole", "rating": 4.5, "address": "18165 I-45 South, Conroe, TX 77385", "lat": 30.2011, "lng": -95.4583},
+    {"name": "Aki Steak & Sushi", "cuisine": "japanese", "rating": 4.4, "address": "510 TX-6, Sugar Land, TX 77479", "lat": 29.5886, "lng": -95.6375},
+    {"name": "Naseeb Indian Restaurant", "cuisine": "indian", "rating": 4.5, "address": "3559 Hwy 6, Sugar Land, TX 77478", "lat": 29.6264, "lng": -95.6379},
+    {"name": "The Nines Thai Cuisine", "cuisine": "thai", "rating": 4.6, "address": "203 Century Square Blvd, Sugar Land, TX 77478", "lat": 29.6208, "lng": -95.6269},
+    {"name": "Cafe Goo Goo Yen", "cuisine": "chinese", "rating": 4.3, "address": "1730 Williams Trace Blvd, Sugar Land, TX 77478", "lat": 29.6051, "lng": -95.6325},
+    {"name": "Tempura Grill", "cuisine": "pakistani", "rating": 4.2, "address": "16305 Kensington Dr, Sugar Land, TX 77479", "lat": 29.6105, "lng": -95.6395},
+    {"name": "Pearland & Baytown Seafood", "cuisine": "seafood", "rating": 4.4, "address": "129 W Parkwood Ave, Friendswood, TX 77546", "lat": 29.5805, "lng": -95.2016},
+    {"name": "All Season Seafood", "cuisine": "seafood", "rating": 4.3, "address": "8201 Broadway St, Pearland, TX 77581", "lat": 29.5691, "lng": -95.2754},
+    {"name": "Tang's Kitchen", "cuisine": "chinese", "rating": 4.5, "address": "2975 Kingsley Dr, Pearland, TX 77584", "lat": 29.5532, "lng": -95.3458},
+    {"name": "Pearl Dynasty", "cuisine": "chinese", "rating": 4.4, "address": "8321 Broadway St, Pearland, TX 77581", "lat": 29.5682, "lng": -95.2771},
+    {"name": "Steamboat Bill's", "cuisine": "cajun", "rating": 4.3, "address": "1134 N Main St, Pearland, TX 77581", "lat": 29.5746, "lng": -95.2891}
 ] 
