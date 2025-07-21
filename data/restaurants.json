@@ -389,5 +389,6 @@
     {"name": "Deli's Gourmet (Venezuelan)", "cuisine": "venezuelan", "rating": 4.4, "address": "5555 Gessner Rd #B, Houston, TX 77041", "lat": 29.7458, "lng": -95.5234},
     {"name": "El Punto Criollo (Food Truck)", "cuisine": "venezuelan", "rating": 4.2, "address": "Beechnut St & Highway 6, Houston, TX 77072", "lat": 29.7042, "lng": -95.5925},
     {"name": "La Casa de las Empanadas", "cuisine": "venezuelan", "rating": 4.3, "address": "2415 S Dairy Ashford Rd #D, Houston, TX 77077", "lat": 29.7234, "lng": -95.5678},
-    {"name": "Mi Ranchito Venezolano", "cuisine": "venezuelan", "rating": 4.2, "address": "10503 Grant Rd, Houston, TX 77070", "lat": 30.0123, "lng": -95.4987}
+    {"name": "Mi Ranchito Venezolano", "cuisine": "venezuelan", "rating": 4.2, "address": "10503 Grant Rd, Houston, TX 77070", "lat": 30.0123, "lng": -95.4987},
+    {"name": "Maxi Arepa", "cuisine": "venezuelan", "rating": 4.8, "address": "24811 Katy Fwy, Katy, TX 77494", "lat": 29.7891, "lng": -95.8115}
 ] 
