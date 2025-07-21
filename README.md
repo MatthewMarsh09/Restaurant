@@ -3,9 +3,10 @@
 A location-based web application to discover restaurants throughout the Greater Houston metropolitan area with real distance calculation, interactive maps, and smart recommendations.
 
 ## Features
-- **Smart Location Search**: Search by city, address, or zip code with real distance calculation
-- **Custom Range**: Enter any mile radius (1-100 miles) from your location
-- **Real Distance Calculation**: Uses Haversine formula to calculate actual distances
+- **Flexible Address Search**: Enter any address, city, or coordinates for precise location-based searching
+- **Custom Mile Radius**: Enter any distance from 1-100 miles from your exact location
+- **Real Distance Calculation**: Uses Haversine formula to calculate actual distances from your precise location
+- **GPS Location**: Automatically detect and use your current location
 - **Food Filters**: 10 cuisine types including Mexican, American, Japanese, etc.
 - **Three View Modes**:
   - List View: Grid of restaurant cards sorted by distance
@@ -15,7 +16,7 @@ A location-based web application to discover restaurants throughout the Greater 
 ## Restaurant Coverage
 - **25+ curated restaurants** across the Greater Houston metro area
 - **Premium establishments** - only the highest-rated and most iconic spots
-- **16+ cities covered**: Houston, Katy, Sugar Land, Pearland, The Woodlands, Spring, Conroe, Cypress, Humble, Pasadena, Texas City, Galveston, Richmond, Rosenberg, Alvin, La Porte
+- **No geographic restrictions** - search from any address within 100 miles
 - **Featured premium spots**:
   - **Houston**: The Original Ninfa's, Uchi (4.8⭐), Hugo's (4.7⭐)
   - **Katy**: Babin's Seafood (Diners' Choice 2025), Palinuro Italian Cuisine (4.7⭐)
@@ -28,11 +29,11 @@ A location-based web application to discover restaurants throughout the Greater 
 - **Quality over quantity**: Only establishments with 4.0+ ratings and authentic local heritage
 
 ## How It Works
-1. **Enter your location** (city dropdown, address, or zip code) or **use GPS location**
-2. **Set your search radius** (1-100 miles)
+1. **Enter your location** (any address, city, or use GPS) - no restrictions!
+2. **Set your search radius** (1-100 miles from your exact location)
 3. **Select cuisine types** (optional)
 4. **Choose your view**: List (sorted by distance), Map (with radius circle), or Random Pick
-5. **Discover restaurants** with real calculated distances from your location
+5. **Discover restaurants** with real calculated distances from your precise location
 
 ## Live Demo
 Visit the app: [Houston Metro Food Finder](https://matthewmarsh09.github.io/Restaurant/)

@@ -360,27 +360,19 @@ function requestUserLocation() {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             
-            status.textContent = 'Location found! Determining city...';
+            status.textContent = 'Location found! Determining address...';
             
             try {
-                // Reverse geocode to get city information
-                const cityInfo = await reverseGeocode(lat, lng);
+                // Reverse geocode to get address information
+                const addressInfo = await reverseGeocode(lat, lng);
                 
-                // Update form fields
-                if (cityInfo.city) {
-                    document.getElementById('city').value = cityInfo.city;
-                }
-                if (cityInfo.address) {
-                    document.getElementById('address').value = cityInfo.address;
-                }
-                if (cityInfo.zipcode) {
-                    document.getElementById('zipcode').value = cityInfo.zipcode;
-                }
+                // Update form field with approximate address
+                document.getElementById('address').value = addressInfo.address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
                 
                 // Update user location for searches
                 userLocation = { lat, lng };
                 
-                status.textContent = `✓ Using your location in ${cityInfo.city || 'Houston area'}`;
+                status.textContent = `✓ Using your current location`;
                 status.className = 'location-status success';
                 
                 // Auto-trigger a search after 2 seconds
@@ -393,7 +385,8 @@ function requestUserLocation() {
             } catch (error) {
                 console.error('Reverse geocoding failed:', error);
                 userLocation = { lat, lng };
-                status.textContent = '✓ Location set (city detection failed)';
+                document.getElementById('address').value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                status.textContent = '✓ Location set (address detection failed)';
                 status.className = 'location-status success';
             }
         },
@@ -433,7 +426,7 @@ function requestUserLocation() {
     }, 15000);
 }
 
-// Reverse geocode coordinates to get city information
+// Reverse geocode coordinates to get address information
 async function reverseGeocode(lat, lng) {
     // Simple reverse geocoding based on known city boundaries
     const cities = [
@@ -468,9 +461,7 @@ async function reverseGeocode(lat, lng) {
     }
     
     return {
-        city: closestCity ? closestCity.name : "Houston, TX", // Default to Houston
-        address: "", // We don't have precise address reverse geocoding
-        zipcode: "" // We don't have precise zipcode reverse geocoding
+        address: closestCity ? closestCity.name : `${lat.toFixed(4)}, ${lng.toFixed(4)}`
     };
 }
 
@@ -495,7 +486,24 @@ function deg2rad(deg) {
 
 // Geocode location input to get coordinates
 async function geocodeLocation(locationInput) {
-    // This is a simplified geocoder - in a real app you'd use a service like Google Maps API
+    if (!locationInput || locationInput.trim() === '') {
+        // Default to Houston if no input
+        return { lat: 29.7604, lng: -95.3698 };
+    }
+    
+    const location = locationInput.toLowerCase().trim();
+    
+    // Check for coordinate patterns (lat, lng)
+    const coordPattern = /^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/;
+    const coordMatch = location.match(coordPattern);
+    if (coordMatch) {
+        return {
+            lat: parseFloat(coordMatch[1]),
+            lng: parseFloat(coordMatch[2])
+        };
+    }
+    
+    // Simple city/area lookup for common Houston metro areas
     const cityCoordinates = {
         'houston': { lat: 29.7604, lng: -95.3698 },
         'katy': { lat: 29.7391, lng: -95.7521 },
@@ -512,11 +520,10 @@ async function geocodeLocation(locationInput) {
         'galveston': { lat: 29.3013, lng: -94.7977 },
         'richmond': { lat: 29.5820, lng: -95.7605 },
         'rosenberg': { lat: 29.5570, lng: -95.8066 },
-        'alvin': { lat: 29.4239, lng: -95.2441 }
+        'alvin': { lat: 29.4239, lng: -95.2441 },
+        'la porte': { lat: 29.6338, lng: -95.0827 }
     };
 
-    const location = locationInput.toLowerCase().trim();
-    
     // Check for zip code patterns
     if (/^\d{5}$/.test(location)) {
         // Simple zip code lookup (in real app, use proper geocoding service)
@@ -546,7 +553,7 @@ async function searchAndShow(viewType) {
     const selectedCuisines = getSelectedCuisines();
     const rangeInput = document.getElementById('range').value;
     const range = parseInt(rangeInput) || 10; // Default to 10 if invalid
-    const locationFilter = getLocationFilter();
+    const addressInput = document.getElementById('address').value.trim();
     
     // Validate range
     if (range < 1 || range > 100) {
@@ -555,18 +562,16 @@ async function searchAndShow(viewType) {
         return;
     }
     
-    // Get user's location coordinates
-    const locationInput = locationFilter.city || locationFilter.address || locationFilter.zipcode || 'Houston, TX';
-    userLocation = await geocodeLocation(locationInput);
+    // Get user's location coordinates from address input
+    userLocation = await geocodeLocation(addressInput);
     
-    // Calculate distances and filter restaurants
+    // Calculate distances and filter restaurants by distance and cuisine only
     currentResults = mockRestaurants.filter(restaurant => {
         const cuisineMatch = selectedCuisines.length === 0 || selectedCuisines.includes(restaurant.cuisine);
         const distance = calculateDistance(userLocation.lat, userLocation.lng, restaurant.lat, restaurant.lng);
         restaurant.calculatedDistance = distance; // Store calculated distance
         const rangeMatch = distance <= range;
-        const locationMatch = matchesLocation(restaurant, locationFilter);
-        return cuisineMatch && rangeMatch && locationMatch;
+        return cuisineMatch && rangeMatch;
     }).sort((a, b) => a.calculatedDistance - b.calculatedDistance); // Sort by distance
 
     // Show results section
@@ -595,42 +600,6 @@ async function searchAndShow(viewType) {
 function getSelectedCuisines() {
     const checkboxes = document.querySelectorAll('.food-types input[type="checkbox"]:checked');
     return Array.from(checkboxes).map(cb => cb.value);
-}
-
-function getLocationFilter() {
-    return {
-        city: document.getElementById('city').value.trim(),
-        address: document.getElementById('address').value.trim(),
-        zipcode: document.getElementById('zipcode').value.trim()
-    };
-}
-
-function matchesLocation(restaurant, locationFilter) {
-    // If no location filters are provided, show all restaurants
-    if (!locationFilter.city && !locationFilter.address && !locationFilter.zipcode) {
-        return true;
-    }
-    
-    // Check city match (case insensitive, partial match)
-    if (locationFilter.city) {
-        const cityMatch = restaurant.city.toLowerCase().includes(locationFilter.city.toLowerCase()) ||
-                         restaurant.address.toLowerCase().includes(locationFilter.city.toLowerCase());
-        if (!cityMatch) return false;
-    }
-    
-    // Check address match (case insensitive, partial match)
-    if (locationFilter.address) {
-        const addressMatch = restaurant.address.toLowerCase().includes(locationFilter.address.toLowerCase());
-        if (!addressMatch) return false;
-    }
-    
-    // Check zipcode match (exact match)
-    if (locationFilter.zipcode) {
-        const zipcodeMatch = restaurant.zipcode === locationFilter.zipcode;
-        if (!zipcodeMatch) return false;
-    }
-    
-    return true;
 }
 
 function showListView() {

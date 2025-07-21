@@ -59,36 +59,13 @@
                 <div class="search-form">
                     <div class="location-inputs">
                         <div class="form-group">
-                            <label for="city">City & State</label>
-                            <select id="city">
-                                <option value="">Select a city...</option>
-                                <option value="Houston, TX" selected>Houston, TX</option>
-                                <option value="Katy, TX">Katy, TX</option>
-                                <option value="Sugar Land, TX">Sugar Land, TX</option>
-                                <option value="Pearland, TX">Pearland, TX</option>
-                                <option value="The Woodlands, TX">The Woodlands, TX</option>
-                                <option value="Spring, TX">Spring, TX</option>
-                                <option value="Conroe, TX">Conroe, TX</option>
-                                <option value="Cypress, TX">Cypress, TX</option>
-                                <option value="Humble, TX">Humble, TX</option>
-                                <option value="Pasadena, TX">Pasadena, TX</option>
-                                <option value="Texas City, TX">Texas City, TX</option>
-                                <option value="Galveston, TX">Galveston, TX</option>
-                                <option value="Richmond, TX">Richmond, TX</option>
-                                <option value="Rosenberg, TX">Rosenberg, TX</option>
-                                <option value="Alvin, TX">Alvin, TX</option>
-                                <option value="La Porte, TX">La Porte, TX</option>
-                            </select>
+                            <label for="address">Enter Your Address</label>
+                            <input type="text" id="address" placeholder="e.g. 123 Main Street, Houston, TX 77001" style="font-size: 1.1rem;">
                         </div>
                         
                         <div class="form-group">
-                            <label for="address">Street Address (Optional)</label>
-                            <input type="text" id="address" placeholder="e.g. 123 Main Street">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="zipcode">Zip Code (Optional)</label>
-                            <input type="text" id="zipcode" placeholder="e.g. 94102" maxlength="5">
+                            <label for="range">Search Radius (Miles)</label>
+                            <input type="number" id="range" min="1" max="100" value="10" placeholder="10">
                         </div>
                     </div>
                     
@@ -97,11 +74,6 @@
                             📍 Use My Current Location
                         </button>
                         <div class="location-status" id="locationStatus"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="range">Search Range (miles)</label>
-                        <input type="number" id="range" placeholder="Enter miles" value="10" min="1" max="100">
                     </div>
 
                     <div class="form-group">
