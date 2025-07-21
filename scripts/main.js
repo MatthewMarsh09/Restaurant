@@ -1,87 +1,20 @@
 // Optimized restaurant data - top-rated establishments across Houston metro
-const mockRestaurants = [
-    // Houston Core (20 Top-Rated & Verified)
-    {name: "Uchi", cuisine: "japanese", rating: 4.8, address: "904 Westheimer Rd, Houston, TX 77006", lat: 29.7402, lng: -95.3902},
-    {name: "Hugo's", cuisine: "mexican", rating: 4.7, address: "1600 Westheimer Rd, Houston, TX 77006", lat: 29.7410, lng: -95.4014},
-    {name: "Nancy's Hustle", cuisine: "american", rating: 4.7, address: "2704 Polk St, Houston, TX 77003", lat: 29.7500, lng: -95.3518},
-    {name: "The Original Ninfa's", cuisine: "mexican", rating: 4.3, address: "2704 Navigation Blvd, Houston, TX 77003", lat: 29.7562, lng: -95.3428},
-    {name: "State of Grace", cuisine: "american", rating: 4.6, address: "3258 Westheimer Rd, Houston, TX 77027", lat: 29.7412, lng: -95.4329},
-    {name: "Brennan's of Houston", cuisine: "american", rating: 4.4, address: "3300 Smith St, Houston, TX 77006", lat: 29.7341, lng: -95.3894},
-    {name: "Xin Chào", cuisine: "vietnamese", rating: 4.7, address: "2310 Decatur St, Houston, TX 77007", lat: 29.7649, lng: -95.3783},
-    {name: "Theodore Rex", cuisine: "american", rating: 4.6, address: "1302 Nance St, Houston, TX 77002", lat: 29.7663, lng: -95.3533},
-    {name: "Coltivare", cuisine: "italian", rating: 4.5, address: "3320 White Oak Dr, Houston, TX 77007", lat: 29.7820, lng: -95.3972},
-    {name: "Himalaya Restaurant", cuisine: "pakistani", rating: 4.5, address: "6652 Southwest Fwy, Houston, TX 77074", lat: 29.7185, lng: -95.5034},
-    {name: "Mala Sichuan", cuisine: "chinese", rating: 4.6, address: "9348 Bellaire Blvd, Houston, TX 77036", lat: 29.7047, lng: -95.5492},
-    {name: "El Tiempo Cantina", cuisine: "mexican", rating: 4.4, address: "3130 Richmond Ave, Houston, TX 77098", lat: 29.7348, lng: -95.4225},
-    {name: "Pondicheri", cuisine: "indian", rating: 4.6, address: "2800 Kirby Dr, Houston, TX 77098", lat: 29.7358, lng: -95.4190},
-    {name: "Truth BBQ", cuisine: "american", rating: 4.7, address: "110 S Heights Blvd, Houston, TX 77007", lat: 29.7719, lng: -95.4072},
-    {name: "Bludorn", cuisine: "french", rating: 4.7, address: "807 Taft St, Houston, TX 77019", lat: 29.7583, lng: -95.3890},
-    {name: "Roka Akor", cuisine: "japanese", rating: 4.6, address: "2929 Weslayan St, Houston, TX 77027", lat: 29.7369, lng: -95.4418},
-    {name: "Georgia James", cuisine: "american", rating: 4.7, address: "3503 W Dallas St, Houston, TX 77019", lat: 29.7548, lng: -95.4116},
-    {name: "Tepuy", cuisine: "venezuelan", rating: 4.8, address: "755 Telephone Rd, Houston, TX 77023", lat: 29.7304, lng: -95.3283},
-    {name: "March", cuisine: "mediterranean", rating: 4.8, address: "1624 Westheimer Rd, Houston, TX 77006", lat: 29.7420, lng: -95.4025},
-    {name: "Killen's Barbecue", cuisine: "american", rating: 4.8, address: "3613 E Broadway St, Pearland, TX 77581", lat: 29.5662, lng: -95.2393},
+let mockRestaurants = []; // This will be populated from the JSON file
 
-    // Katy (8 restaurants)
-    {name: "Local Foods", cuisine: "american", rating: 4.4, address: "24231 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7366, lng: -95.7891},
-    {name: "Black Walnut Cafe", cuisine: "american", rating: 4.4, address: "23233 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7371, lng: -95.7766},
-    {name: "Cava", cuisine: "mediterranean", rating: 4.3, address: "23501 Cinco Ranch Blvd, Katy, TX 77494", lat: 29.7391, lng: -95.7521},
-    {name: "In-N-Out Burger", cuisine: "american", rating: 4.4, address: "1010 Katy Fort Bend Rd, Katy, TX 77493", lat: 29.7818, lng: -95.8080},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "24024 Westheimer Pkwy, Katy, TX 77494", lat: 29.7191, lng: -95.7621},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "1910 W Grand Pkwy S, Katy, TX 77494", lat: 29.7191, lng: -95.7621},
-    {name: "Saltgrass Steak House", cuisine: "american", rating: 4.3, address: "21855 Katy Fwy, Katy, TX 77450", lat: 29.7834, lng: -95.7661},
-    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "23119 Colonial Pkwy, Katy, TX 77449", lat: 29.7818, lng: -95.7088},
-
-    // Sugar Land (8 restaurants)
-    {name: "Perry's Steakhouse", cuisine: "american", rating: 4.5, address: "2115 Town Square Pl, Sugar Land, TX 77479", lat: 29.6015, lng: -95.6179},
-    {name: "Ristorante Cavour", cuisine: "italian", rating: 4.6, address: "1080 La Quinta Dr, Sugar Land, TX 77478", lat: 29.6190, lng: -95.6272},
-    {name: "Torchy's Tacos", cuisine: "mexican", rating: 4.3, address: "15903 City Walk, Sugar Land, TX 77479", lat: 29.6013, lng: -95.6181},
-    {name: "Japaneiro's Sushi Bistro", cuisine: "japanese", rating: 4.5, address: "2168 Texas Dr, Sugar Land, TX 77479", lat: 29.6001, lng: -95.6195},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "15959 City Walk, Sugar Land, TX 77479", lat: 29.6009, lng: -95.6185},
-    {name: "Jason's Deli", cuisine: "american", rating: 4.2, address: "2277 Plaza Dr, Sugar Land, TX 77479", lat: 29.5997, lng: -95.6222},
-    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "16535 Southwest Fwy, Sugar Land, TX 77479", lat: 29.6007, lng: -95.6026},
-    {name: "Alings Chinese Cuisine", cuisine: "chinese", rating: 4.5, address: "15425 Southwest Fwy, Sugar Land, TX 77478", lat: 29.6105, lng: -95.5921},
-
-    // The Woodlands (8 restaurants)
-    {name: "Amerigo's Grille", cuisine: "italian", rating: 4.5, address: "25250 Grogans Mill Rd, The Woodlands, TX 77380", lat: 30.1588, lng: -95.4913},
-    {name: "Fleming's Prime Steakhouse", cuisine: "american", rating: 4.6, address: "1201 Lake Woodlands Dr #400, The Woodlands, TX 77380", lat: 30.1654, lng: -95.4649},
-    {name: "Cava", cuisine: "mediterranean", rating: 4.3, address: "9595 Six Pines Dr, The Woodlands, TX 77380", lat: 30.1653, lng: -95.4641},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "1764 Research Forest Dr, Shenandoah, TX 77381", lat: 30.1812, lng: -95.4674},
-    {name: "Salata", cuisine: "american", rating: 4.2, address: "9595 Six Pines Dr, The Woodlands, TX 77380", lat: 30.1653, lng: -95.4641},
-    {name: "Jersey Mike's", cuisine: "american", rating: 4.3, address: "1201 Lake Woodlands Dr, The Woodlands, TX 77380", lat: 30.1654, lng: -95.4649},
-    {name: "Panera Bread", cuisine: "american", rating: 4.1, address: "9595 Six Pines Dr, The Woodlands, TX 77380", lat: 30.1653, lng: -95.4641},
-    {name: "Pho An Sushi Bar", cuisine: "vietnamese", rating: 4.4, address: "3091 College Park Dr #295, The Woodlands, TX 77384", lat: 30.1884, lng: -95.4789},
-
-    // Pearland (8 restaurants)
-    {name: "Killen's Steakhouse", cuisine: "american", rating: 4.7, address: "6425 Broadway St, Pearland, TX 77581", lat: 29.5662, lng: -95.2393},
-    {name: "Texas Roadhouse", cuisine: "american", rating: 4.3, address: "11200 Broadway St, Pearland, TX 77584", lat: 29.5391, lng: -95.3670},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "11200 Broadway St, Pearland, TX 77584", lat: 29.5391, lng: -95.3670},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "2405 Pearland Pkwy, Pearland, TX 77581", lat: 29.5539, lng: -95.2536},
-    {name: "Pei Wei Asian Kitchen", cuisine: "chinese", rating: 4.1, address: "11200 Broadway St, Pearland, TX 77584", lat: 29.5391, lng: -95.3670},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "2405 Pearland Pkwy, Pearland, TX 77581", lat: 29.5539, lng: -95.2536},
-    {name: "McDonald's", cuisine: "american", rating: 3.4, address: "10712 Broadway St, Pearland, TX 77584", lat: 29.5408, lng: -95.3610},
-    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "2405 Pearland Pkwy, Pearland, TX 77581", lat: 29.5539, lng: -95.2536},
-
-    // Cypress (8 restaurants)
-    {name: "Galiana's Tex Mex", cuisine: "mexican", rating: 4.6, address: "24110 US-290, Cypress, TX 77429", lat: 29.9633, lng: -95.6804},
-    {name: "Spring Creek Barbeque", cuisine: "american", rating: 4.3, address: "25701 Northwest Fwy, Cypress, TX 77429", lat: 29.9723, lng: -95.6983},
-    {name: "Chick-fil-A", cuisine: "american", rating: 4.4, address: "12920 Northwest Fwy, Cypress, TX 77429", lat: 29.9079, lng: -95.5901},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "11902 Northwest Fwy, Cypress, TX 77429", lat: 29.8973, lng: -95.5786},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "19401 US-290, Cypress, TX 77433", lat: 29.9329, lng: -95.6543},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "12848 Northwest Fwy, Cypress, TX 77429", lat: 29.9070, lng: -95.5891},
-    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "12935 Northwest Fwy, Cypress, TX 77429", lat: 29.9080, lng: -95.5905},
-    {name: "Pho Houston", cuisine: "vietnamese", rating: 4.1, address: "11434 Northwest Fwy, Cypress, TX 77429", lat: 29.8920, lng: -95.5721},
-
-    // Humble (8 restaurants)
-    {name: "Riva's Italian Restaurant", cuisine: "italian", rating: 4.5, address: "9415 N Sam Houston Pkwy E, Humble, TX 77396", lat: 29.9324, lng: -95.2750},
-    {name: "BJ's Restaurant", cuisine: "american", rating: 4.1, address: "7925 FM 1960 Rd E, Humble, TX 77346", lat: 29.9922, lng: -95.2227},
-    {name: "Chili's", cuisine: "american", rating: 3.9, address: "7979 FM 1960 Rd E, Humble, TX 77346", lat: 29.9918, lng: -95.2210},
-    {name: "Whataburger", cuisine: "american", rating: 4.0, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9868, lng: -95.2600},
-    {name: "Chipotle", cuisine: "mexican", rating: 4.1, address: "7925 FM 1960 Rd E, Humble, TX 77346", lat: 29.9922, lng: -95.2227},
-    {name: "Olive Garden", cuisine: "italian", rating: 4.0, address: "7979 FM 1960 Rd E, Humble, TX 77346", lat: 29.9918, lng: -95.2210},
-    {name: "Panda Express", cuisine: "chinese", rating: 3.8, address: "8202 Farm to Market 1960 Rd E, Humble, TX 77346", lat: 29.9888, lng: -95.2132},
-    {name: "Pho Saigon", cuisine: "vietnamese", rating: 4.2, address: "20131 Highway 59 N, Humble, TX 77338", lat: 29.9868, lng: -95.2600}
-];
+// Fetch restaurant data from the external JSON file
+const fetchRestaurants = async () => {
+    try {
+        const response = await fetch('data/restaurants.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        mockRestaurants = await response.json();
+    } catch (error) {
+        console.error('Failed to fetch restaurants:', error);
+        // Fallback to a minimal set of restaurants if the fetch fails
+        mockRestaurants = [
+            {"name": "Uchi", "cuisine": "japanese", "rating": 4.8, "address": "904 Westheimer Rd, Houston, TX 77006", "lat": 29.7402, "lng": -95.3902}
+        ];
+    }
+};
 
 let map, currentResults = [], userLocation = { lat: 29.7604, lng: -95.3698 };
 
@@ -112,16 +45,54 @@ const updateResultsCount = () => {
 
 // Initialize dropdown with event listeners
 const initializeDropdown = () => {
-    const selected = document.getElementById('dropdownSelected'), options = document.getElementById('dropdownOptions');
+    const dropdown = document.querySelector('.custom-dropdown');
+    const selected = document.getElementById('dropdownSelected');
+    const options = document.getElementById('dropdownOptions');
     const checkboxes = document.querySelectorAll('.dropdown-option input[type="checkbox"]');
-    
-    selected.onclick = () => options.classList.toggle('open') || selected.classList.toggle('open');
-    document.onclick = e => !e.target.closest('.custom-dropdown') && (options.classList.remove('open'), selected.classList.remove('open'));
-    
-    checkboxes.forEach(cb => cb.onchange = function() {
-        if (this.value === '' && this.checked) checkboxes.forEach(c => c !== this && (c.checked = false));
-        else if (this.value !== '' && this.checked) checkboxes.forEach(c => c.value === '' && (c.checked = false));
-        updateDropdownText(); updateResultsCount();
+    const allCuisinesCheckbox = document.querySelector('.dropdown-option input[value=""]');
+
+    // Toggle dropdown visibility
+    selected.addEventListener('click', (event) => {
+        event.stopPropagation();
+        options.classList.toggle('open');
+        selected.classList.toggle('open');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target)) {
+            options.classList.remove('open');
+            selected.classList.remove('open');
+        }
+    });
+
+    // Handle checkbox logic
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (checkbox === allCuisinesCheckbox && checkbox.checked) {
+                // If "All Cuisines" is checked, uncheck all other options
+                checkboxes.forEach(cb => {
+                    if (cb !== allCuisinesCheckbox) cb.checked = false;
+                });
+            } else if (checkbox !== allCuisinesCheckbox && checkbox.checked) {
+                // If a specific cuisine is checked, uncheck "All Cuisines"
+                allCuisinesCheckbox.checked = false;
+            }
+            
+            // If no checkboxes are checked, default to "All Cuisines"
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            if (!anyChecked) {
+                allCuisinesCheckbox.checked = true;
+            }
+
+            updateDropdownText();
+            updateResultsCount();
+        });
+    });
+
+    // Prevent clicks inside the options list from closing the dropdown
+    options.addEventListener('click', (event) => {
+        event.stopPropagation();
     });
 };
 
@@ -193,13 +164,15 @@ const geocodeLocation = async input => {
 };
 
 // Initialize app
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchRestaurants(); // Load restaurants first
+    
     ['showList', 'showMap', 'randomPick', 'pickAnother', 'useLocationBtn'].forEach((id, i) => 
         document.getElementById(id).onclick = [
             () => searchAndShow('list'), 
             () => searchAndShow('map'), 
             () => searchAndShow('random'), 
-            () => showRandomResult(), // <-- FIX: Wrapped in anonymous function
+            () => showRandomResult(),
             requestUserLocation
         ][i]);
     initializeDropdown();
