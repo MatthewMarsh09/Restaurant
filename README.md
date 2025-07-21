@@ -7,26 +7,61 @@ A location-based web application to discover restaurants throughout the Greater 
 - **Custom Mile Radius**: Enter any distance from 1-100 miles from your exact location
 - **Real Distance Calculation**: Uses Haversine formula to calculate actual distances from your precise location
 - **GPS Location**: Automatically detect and use your current location
-- **Food Filters**: 10 cuisine types including Mexican, American, Japanese, etc.
+- **Food Filters**: 20+ cuisine types including Mexican, American, Japanese, Italian, Chinese, French, Greek, Mediterranean, Vietnamese, Caribbean, African, Ethiopian, Venezuelan, and more
 - **Three View Modes**:
   - List View: Grid of restaurant cards sorted by distance
   - Map View: Interactive map with user location, radius circle, and restaurant markers
   - Random Pick: Surprise restaurant selector
 
 ## Restaurant Coverage
-- **40+ acclaimed restaurants** across the Greater Houston metro area
-- **Cross-referenced from Houston Chronicle, Yelp, Houstonia Magazine, and Eater Houston**
+- **384+ restaurants** across the Greater Houston metro area
+- **50+ Houston establishments** - The city's most acclaimed dining scene
+- **15+ restaurants per suburb** - Comprehensive coverage of every major area
+- **Major chain coverage** - Whataburger, In-N-Out, Cava, Chipotle, Saltgrass, and more
+- **International cuisine paradise** - 20+ cuisine types from around the world
 - **No geographic restrictions** - search from any address within 100 miles
-- **Featured award-winning establishments**:
-  - **Houston Legends**: Uchi (4.8⭐), Oxheart (4.8⭐), The Original Ninfa's, Hugo's (4.7⭐)
-  - **Fine Dining Icons**: State of Grace (4.6⭐), Caracol, Brennan's of Houston, Rainbow Lodge
-  - **Cultural Gems**: Himalaya Restaurant (4.6⭐), Indika, Al Aseel Grill & Cafe, Pho Binh
-  - **Sushi Masters**: Kata Robata (4.7⭐), Uchi
-  - **Italian Excellence**: Da Marco (4.6⭐), Palinuro Italian Cuisine (4.7⭐)
-  - **BBQ Royalty**: Killen's Barbecue (4.8⭐), Corkscrew BBQ (4.7⭐)
-  - **Historic Favorites**: Casa Olé (original 1973), Sudie's Catfish House (since 1983)
-- **Diverse cuisines**: American, Mexican, Japanese, Italian, Indian, Vietnamese, Middle Eastern
-- **Quality assurance**: Cross-referenced across multiple Houston food authority sources
+
+### 🏙️ **Houston (50+ Restaurants)**
+**Acclaimed establishments from Houston Chronicle, Yelp, Houstonia Magazine, and Eater Houston:**
+- **Fine Dining Icons**: Uchi (4.8⭐), Oxheart (4.8⭐), State of Grace (4.6⭐), Hugo's (4.7⭐)
+- **Legendary Institutions**: The Original Ninfa's, Brennan's of Houston, Rainbow Lodge
+- **Modern Culinary Stars**: Xochi, Nancy's Hustle, Turkey Leg Hut, The Pass & Provisions
+- **International Excellence**: Himalaya Restaurant (4.6⭐), Indika, Al Aseel Grill & Cafe
+- **Steakhouse Royalty**: Steak 48 (4.7⭐), B&B Butchers (4.7⭐), Taste of Texas
+- **Pizza & Casual**: Coltivare Pizza & Garden, Underbelly Hospitality
+- **Global Cuisine**: Mala Sichuan Bistro, BCN Taste & Tradition, Helen Greek Food & Wine
+
+### 🌆 **Metro Areas (230+ Restaurants)**
+
+**🏡 Katy (16 restaurants)** - Local Table, Peli Peli Kitchen, Palinuro Italian Cuisine (4.7⭐), Pane e Vino (4.7⭐)
+
+**🏖️ Sugar Land (16 restaurants)** - Perry's Steakhouse (4.6⭐), The Union Kitchen, Grazia Italian Kitchen, Ristorante Cavour (4.6⭐)
+
+**🔥 Pearland (16 restaurants)** - Killen's Barbecue (4.8⭐), Killen's Steakhouse (4.7⭐), Killen's Burgers, Killen's TMX
+
+**🌲 The Woodlands (15 restaurants)** - Del Frisco's Double Eagle (4.7⭐), North Italia (4.6⭐), Seasons 52, Fleming's Prime Steakhouse
+
+**🌿 Spring (15 restaurants)** - Corkscrew BBQ (4.7⭐), Puffabelly's Restaurant, Broken Barrel Tavern
+
+**🏞️ Conroe (15 restaurants)** - Republic Grille, Texas Roadhouse, Outback Steakhouse
+
+**🌾 Cypress (15 restaurants)** - Galiana's Tex Mex (4.6⭐), Villa Roma Italian Ristorante (4.7⭐), Fish Creek Grill
+
+**🏘️ Humble (15 restaurants)** - Humble City Cafe (4.4⭐), Texas Roadhouse, Olive Garden
+
+**🏭 Pasadena (15 restaurants)** - Sudie's Catfish House (4.6⭐), Casa Olé, Texas Roadhouse
+
+**⚓ Texas City (15 restaurants)** - Yaga's Burger Haus (4.3⭐), Fish Tales, Big Al's Seafood
+
+**🏖️ Galveston (15 restaurants)** - The Rooftop Bar (4.4⭐), Saltwater Grill (4.5⭐), Number 13 Prime Steak & Seafood (4.6⭐)
+
+**🌾 Richmond (15 restaurants)** - Pier 36 Seafood Restaurant & Oyster Bar (4.7⭐), Texas Roadhouse
+
+**🏡 Rosenberg (15 restaurants)** - Bull Creek Cafe & Grill (4.5⭐), Another Time Soda Fountain (4.6⭐)
+
+**🌾 Alvin (15 restaurants)** - Juanita's Taqueria (4.6⭐), Las Flores Tex Mex (4.5⭐)
+
+**⚓ La Porte (15 restaurants)** - Monument Inn (4.5⭐), Texas Roadhouse
 
 ## How It Works
 1. **Enter your location** (any address, city, or use GPS) - no restrictions!
@@ -49,7 +84,9 @@ Visit the app: [Houston Metro Food Finder](https://matthewmarsh09.github.io/Rest
 - Vanilla JavaScript with Haversine distance calculation
 - Leaflet.js for interactive maps with user location
 - Geolocation API for GPS positioning
-- 40+ acclaimed Houston restaurants cross-referenced from authoritative sources
+- 384+ restaurants across 15+ cities in the Greater Houston metro area
 
 ---
+🚀 **MASSIVE UPDATE**: Expanded from 38 to **384+ restaurants** - now featuring major chains (Whataburger, In-N-Out, Cava, Chipotle, Saltgrass), international cuisine (20+ types), and comprehensive coverage!
+
 Built with ❤️ for Houston metro food lovers 
