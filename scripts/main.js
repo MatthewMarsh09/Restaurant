@@ -16,7 +16,8 @@ const fetchRestaurants = async () => {
     }
 };
 
-let map, currentResults = [], userLocation = { lat: 29.7604, lng: -95.3698 };
+let map, currentResults = [], currentUserGpsLocation = null; // Stored GPS location
+const HOUSTON_DEFAULT = { lat: 29.7604, lng: -95.3698 }; // Default location constant
 
 // Optimized utility functions
 const toRad = deg => deg * (Math.PI / 180);
@@ -96,7 +97,7 @@ const initializeDropdown = () => {
     });
 };
 
-// GPS location functionality - updated to use exact coordinates and display "Current Location"
+// GPS location functionality - updated for clarity and reliability
 const requestUserLocation = () => {
     const btn = document.getElementById('useLocationBtn'), status = document.getElementById('locationStatus'), addressInput = document.getElementById('address');
     if (!navigator.geolocation) {
@@ -113,7 +114,7 @@ const requestUserLocation = () => {
     navigator.geolocation.getCurrentPosition(
         pos => {
             // Store the precise coordinates globally
-            userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            currentUserGpsLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
             
             // Update the UI to reflect the new location status
             addressInput.value = "Current Location";
@@ -140,21 +141,20 @@ const requestUserLocation = () => {
     );
 };
 
-// Optimized geocoding - updated to handle "Current Location"
+// Geocoding function - refactored for clarity
 const geocodeLocation = async input => {
-    // If "Current Location" is used, return the precise GPS coordinates stored in the global variable
-    if (input?.trim().toLowerCase() === 'current location') {
-        return userLocation;
+    const cleanedInput = input?.trim().toLowerCase();
+
+    if (cleanedInput === 'current location') {
+        return currentUserGpsLocation || HOUSTON_DEFAULT;
     }
 
-    if (!input?.trim()) return { lat: 29.7604, lng: -95.3698 }; // Default to Houston if empty
-    const loc = input.toLowerCase().trim();
+    if (!cleanedInput) return HOUSTON_DEFAULT;
     
-    // GPS coordinates
-    const coordMatch = loc.match(/^gps:\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/) || loc.match(/^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/);
-    if (coordMatch) return { lat: parseFloat(coordMatch[coordMatch.length-2]), lng: parseFloat(coordMatch[coordMatch.length-1]) };
+    const coordMatch = cleanedInput.match(/^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/);
+    if (coordMatch) return { lat: parseFloat(coordMatch[1]), lng: parseFloat(coordMatch[2]) };
     
-    // City lookup
+    // City lookup (basic)
     const cities = {
         houston: [29.7604, -95.3698], katy: [29.7391, -95.7521], 'sugar land': [29.5844, -95.6349],
         pearland: [29.5583, -95.2861], woodlands: [30.1588, -95.4913], spring: [30.0799, -95.4171],
@@ -163,12 +163,10 @@ const geocodeLocation = async input => {
     };
     
     for (const [city, coords] of Object.entries(cities)) 
-        if (loc.includes(city)) return { lat: coords[0], lng: coords[1] };
+        if (cleanedInput.includes(city)) return { lat: coords[0], lng: coords[1] };
     
-    // A proper implementation would use a geocoding API here for addresses.
-    // For now, if no city matches, default to Houston.
-    console.warn("Manual address entry did not match a known city, defaulting to Houston. Consider implementing a full geocoding API for better address resolution.");
-    return { lat: 29.7604, lng: -95.3698 };
+    console.warn("Could not geocode input, defaulting to Houston.");
+    return HOUSTON_DEFAULT;
 };
 
 // Initialize app
@@ -187,25 +185,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('totalRestaurants').textContent = mockRestaurants.length;
 });
 
-// Main search function - optimized
+// Main search function - refactored to use a local searchCenter variable
 const searchAndShow = async viewType => {
-    const address = document.getElementById('address').value, range = parseInt(document.getElementById('range').value) || 10;
-    const selected = getSelectedCuisines();
+    const address = document.getElementById('address').value;
+    const range = parseInt(document.getElementById('range').value) || 10;
+    const selectedCuisines = getSelectedCuisines();
     
     try {
-        userLocation = await geocodeLocation(address);
-        currentResults = mockRestaurants.map(r => ({ ...r, calculatedDistance: calculateDistance(userLocation.lat, userLocation.lng, r.lat, r.lng) }))
-            .filter(r => r.calculatedDistance <= range && (selected.length === 0 || selected.includes(r.cuisine)))
-            .sort((a, b) => a.calculatedDistance - b.calculatedDistance);
+        const searchCenter = await geocodeLocation(address); // Use a local variable for the search point
+        
+        currentResults = mockRestaurants.map(r => ({ 
+            ...r, 
+            calculatedDistance: calculateDistance(searchCenter.lat, searchCenter.lng, r.lat, r.lng) 
+        }))
+        .filter(r => r.calculatedDistance <= range && (selectedCuisines.length === 0 || selectedCuisines.includes(r.cuisine)))
+        .sort((a, b) => a.calculatedDistance - b.calculatedDistance);
         
         const section = document.getElementById('resultsSection'), title = document.getElementById('resultsTitle');
-        section.style.display = 'block'; section.scrollIntoView({ behavior: 'smooth' });
-        title.textContent = currentResults.length === 0 ? `No restaurants within ${range} miles` : 
+        section.style.display = 'block'; 
+        section.scrollIntoView({ behavior: 'smooth' });
+        title.textContent = currentResults.length === 0 ? `No restaurants found within ${range} miles` : 
             `Found ${currentResults.length} restaurant${currentResults.length !== 1 ? 's' : ''} within ${range} miles`;
         
         ['listView', 'mapView', 'randomView'].forEach(v => document.getElementById(v).style.display = 'none');
-        ({ list: showListView, map: showMapView, random: showRandomView }[viewType])(currentResults);
-    } catch (err) { console.error('Search failed:', err); alert('Search failed. Try again.'); }
+        
+        const viewFunction = { list: showListView, map: showMapView, random: showRandomView }[viewType];
+        // Pass the explicit searchCenter to the map view function
+        if (viewType === 'map') {
+            viewFunction(currentResults, searchCenter);
+        } else {
+            viewFunction(currentResults);
+        }
+    } catch (err) { 
+        console.error('Search failed:', err); 
+        alert('Search failed. Please try again.'); 
+    }
 };
 
 // Optimized view functions
@@ -214,24 +228,36 @@ const showListView = restaurants => {
     document.getElementById('resultsGrid').innerHTML = restaurants.length === 0 ? '<p>No restaurants found.</p>' :
         restaurants.map(r => `<div class="card"><h3>${r.name}</h3><div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
         <div class="rating">⭐ ${r.rating}/5.0</div><div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
-        <div class="address">${r.address}</div></div>`).join('');
+        <div class="address"><a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener">${r.address}</a></div></div>`).join('');
 };
 
-const showMapView = restaurants => {
+const showMapView = (restaurants, searchCenter) => {
     document.getElementById('mapView').style.display = 'block';
     const range = parseInt(document.getElementById('range').value) || 10;
-    
+    const center = searchCenter || HOUSTON_DEFAULT;
+
     if (!map) {
-        map = L.map('map').setView([userLocation.lat, userLocation.lng], 11);
+        map = L.map('map').setView([center.lat, center.lng], 11);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
     } else {
         map.eachLayer(layer => (layer instanceof L.Marker || layer instanceof L.Circle) && map.removeLayer(layer));
-        map.setView([userLocation.lat, userLocation.lng], 11);
+        map.setView([center.lat, center.lng], 11);
     }
     
-    L.marker([userLocation.lat, userLocation.lng]).addTo(map).bindPopup('Your Location').openPopup();
-    L.circle([userLocation.lat, userLocation.lng], { color: '#002D62', fillColor: '#EB6E1F', fillOpacity: 0.1, radius: range * 1609.34 }).addTo(map);
-    restaurants.forEach(r => L.marker([r.lat, r.lng]).addTo(map).bindPopup(`<strong>${r.name}</strong><br>${r.cuisine}<br>⭐ ${r.rating}<br>📍 ${r.calculatedDistance.toFixed(1)} miles<br>${r.address}`));
+    const popupText = (document.getElementById('address').value?.toLowerCase() === 'current location') ? 'Your Current Location' : 'Search Center';
+    L.marker([center.lat, center.lng]).addTo(map).bindPopup(popupText).openPopup();
+    L.circle([center.lat, center.lng], { color: '#002D62', fillColor: '#EB6E1F', fillOpacity: 0.1, radius: range * 1609.34 }).addTo(map);
+    restaurants.forEach(r => {
+        const marker = L.marker([r.lat, r.lng]).addTo(map);
+        const popupContent = `<div style="text-align: center; min-width: 200px;">
+            <strong style="font-size: 14px;">${r.name}</strong><br>
+            <span style="color: #666;">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</span><br>
+            <span style="color: #ff6600;">⭐ ${r.rating}/5.0</span><br>
+            <span style="color: #002D62;">📍 ${r.calculatedDistance.toFixed(1)} miles</span><br>
+            <a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener" style="color: #0066cc; text-decoration: underline; font-size: 12px;">${r.address}</a>
+        </div>`;
+        marker.bindPopup(popupContent);
+    });
 };
 
 const showRandomView = restaurants => {
@@ -245,5 +271,12 @@ const showRandomResult = (restaurants = currentResults) => {
     const r = restaurants[Math.floor(Math.random() * restaurants.length)];
     card.innerHTML = `<h4>${r.name}</h4><div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
         <div class="rating">⭐ ${r.rating}/5.0</div><div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
-        <div class="address">${r.address}</div>`;
+        <div class="address"><a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener">${r.address}</a></div>`;
+};
+
+// Generate maps link that works for both iOS (Apple Maps) and other devices (Google Maps)
+const generateMapsLink = address => {
+    const encodedAddress = encodeURIComponent(address);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    return isIOS ? `maps://?q=${encodedAddress}` : `https://maps.google.com/maps?q=${encodedAddress}`;
 };

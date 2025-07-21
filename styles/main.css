@@ -170,6 +170,34 @@ body {
 .leaflet-container { border-radius: 12px; box-shadow: 0 8px 32px rgba(0,45,98,0.1); }
 .footer { background: #002D62; color: white; text-align: center; padding: 2rem 0; }
 
+/* Address link styling */
+.address a {
+    color: #002D62;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.address a:hover {
+    color: #EB6E1F;
+    text-decoration: underline;
+}
+
+.address a:focus {
+    outline: 2px solid #EB6E1F;
+    outline-offset: 2px;
+}
+
+/* Random card address link styling */
+.random-card .address a {
+    color: #002D62;
+    font-size: 1rem;
+}
+
+.random-card .address a:hover {
+    color: #EB6E1F;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     body {
