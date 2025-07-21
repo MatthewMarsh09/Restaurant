@@ -14,19 +14,19 @@ A location-based web application to discover restaurants throughout the Greater 
   - Random Pick: Surprise restaurant selector
 
 ## Restaurant Coverage
-- **25+ curated restaurants** across the Greater Houston metro area
-- **Premium establishments** - only the highest-rated and most iconic spots
+- **40+ acclaimed restaurants** across the Greater Houston metro area
+- **Cross-referenced from Houston Chronicle, Yelp, Houstonia Magazine, and Eater Houston**
 - **No geographic restrictions** - search from any address within 100 miles
-- **Featured premium spots**:
-  - **Houston**: The Original Ninfa's, Uchi (4.8⭐), Hugo's (4.7⭐)
-  - **Katy**: Babin's Seafood (Diners' Choice 2025), Palinuro Italian Cuisine (4.7⭐)
-  - **Pearland**: Killen's Barbecue (4.8⭐), Killen's Steakhouse (4.7⭐)
-  - **Spring**: Corkscrew BBQ (4.7⭐), Puffabelly's Restaurant (historic Old Town)
-  - **Cypress**: Galiana's Tex Mex (4.6⭐), Villa Roma Italian (4.7⭐)
-  - **Richmond**: Pier 36 Seafood (4.7⭐ award-winning)
-  - **Pasadena**: Sudie's Catfish House (since 1983), Casa Olé (original 1973 location)
-  - **Alvin**: Juanita's Taqueria (since 1999), Las Flores Tex Mex (25+ years)
-- **Quality over quantity**: Only establishments with 4.0+ ratings and authentic local heritage
+- **Featured award-winning establishments**:
+  - **Houston Legends**: Uchi (4.8⭐), Oxheart (4.8⭐), The Original Ninfa's, Hugo's (4.7⭐)
+  - **Fine Dining Icons**: State of Grace (4.6⭐), Caracol, Brennan's of Houston, Rainbow Lodge
+  - **Cultural Gems**: Himalaya Restaurant (4.6⭐), Indika, Al Aseel Grill & Cafe, Pho Binh
+  - **Sushi Masters**: Kata Robata (4.7⭐), Uchi
+  - **Italian Excellence**: Da Marco (4.6⭐), Palinuro Italian Cuisine (4.7⭐)
+  - **BBQ Royalty**: Killen's Barbecue (4.8⭐), Corkscrew BBQ (4.7⭐)
+  - **Historic Favorites**: Casa Olé (original 1973), Sudie's Catfish House (since 1983)
+- **Diverse cuisines**: American, Mexican, Japanese, Italian, Indian, Vietnamese, Middle Eastern
+- **Quality assurance**: Cross-referenced across multiple Houston food authority sources
 
 ## How It Works
 1. **Enter your location** (any address, city, or use GPS) - no restrictions!
@@ -49,7 +49,7 @@ Visit the app: [Houston Metro Food Finder](https://matthewmarsh09.github.io/Rest
 - Vanilla JavaScript with Haversine distance calculation
 - Leaflet.js for interactive maps with user location
 - Geolocation API for GPS positioning
-- 25+ premium Houston metro restaurants with coordinates
+- 40+ acclaimed Houston restaurants cross-referenced from authoritative sources
 
 ---
 Built with ❤️ for Houston metro food lovers 

@@ -1,6 +1,6 @@
 // Mock restaurant data with real coordinates for distance calculation
 const mockRestaurants = [
-    // Houston (Top 3 Iconic)
+    // Houston (Acclaimed by Multiple Sources)
     {
         name: "The Original Ninfa's",
         cuisine: "mexican",
@@ -33,6 +33,138 @@ const mockRestaurants = [
         city: "Houston",
         state: "TX",
         zipcode: "77006"
+    },
+    {
+        name: "State of Grace",
+        cuisine: "american",
+        rating: 4.6,
+        address: "3258 Westheimer Rd, Houston, TX 77027",
+        lat: 29.7399,
+        lng: -95.4194,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77027"
+    },
+    {
+        name: "Oxheart",
+        cuisine: "american",
+        rating: 4.8,
+        address: "1302 Nance St, Houston, TX 77002",
+        lat: 29.7520,
+        lng: -95.3598,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77002"
+    },
+    {
+        name: "Caracol",
+        cuisine: "mexican",
+        rating: 4.5,
+        address: "2200 Post Oak Blvd, Houston, TX 77056",
+        lat: 29.7399,
+        lng: -95.4613,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77056"
+    },
+    {
+        name: "Brennan's of Houston",
+        cuisine: "american",
+        rating: 4.4,
+        address: "3300 Smith St, Houston, TX 77006",
+        lat: 29.7341,
+        lng: -95.3894,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77006"
+    },
+    {
+        name: "Himalaya Restaurant",
+        cuisine: "indian",
+        rating: 4.6,
+        address: "5938 Hillcroft St, Houston, TX 77036",
+        lat: 29.7265,
+        lng: -95.4894,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77036"
+    },
+    {
+        name: "Rainbow Lodge",
+        cuisine: "american",
+        rating: 4.5,
+        address: "2011 Ella Blvd, Houston, TX 77008",
+        lat: 29.8165,
+        lng: -95.4115,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77008"
+    },
+    {
+        name: "Indika",
+        cuisine: "indian",
+        rating: 4.4,
+        address: "516 Westheimer Rd, Houston, TX 77006",
+        lat: 29.7407,
+        lng: -95.3894,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77006"
+    },
+    {
+        name: "Kata Robata",
+        cuisine: "japanese",
+        rating: 4.7,
+        address: "3600 Kirby Dr, Houston, TX 77098",
+        lat: 29.7341,
+        lng: -95.4113,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77098"
+    },
+    {
+        name: "Da Marco",
+        cuisine: "italian",
+        rating: 4.6,
+        address: "1520 Westheimer Rd, Houston, TX 77006",
+        lat: 29.7407,
+        lng: -95.4013,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77006"
+    },
+    {
+        name: "Pho Binh",
+        cuisine: "vietnamese",
+        rating: 4.5,
+        address: "10928 Bellaire Blvd, Houston, TX 77072",
+        lat: 29.7058,
+        lng: -95.5694,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77072"
+    },
+    {
+        name: "Crawfish & Noodles",
+        cuisine: "vietnamese",
+        rating: 4.3,
+        address: "11360 Bellaire Blvd, Houston, TX 77072",
+        lat: 29.7058,
+        lng: -95.5794,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77072"
+    },
+    {
+        name: "Al Aseel Grill & Cafe",
+        cuisine: "middle eastern",
+        rating: 4.5,
+        address: "12610 Hillcroft St, Houston, TX 77035",
+        lat: 29.6965,
+        lng: -95.4894,
+        city: "Houston",
+        state: "TX",
+        zipcode: "77035"
     },
 
     // Katy (Top 2)
@@ -72,7 +204,7 @@ const mockRestaurants = [
         zipcode: "77479"
     },
 
-    // Pearland (Top 2 - Killen's Empire)
+    // Pearland (Killen's Empire - Cross-Referenced Favorites)
     {
         name: "Killen's Barbecue",
         cuisine: "american",
