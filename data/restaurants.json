@@ -161,5 +161,22 @@
     {"name": "Biryani Pot", "cuisine": "indian", "rating": 4.5, "address": "6509 Westheimer Rd, Houston, TX 77057", "lat": 29.7378, "lng": -95.4981},
     {"name": "King of India", "cuisine": "indian", "rating": 4.4, "address": "25250 Northwest Fwy, Cypress, TX 77429", "lat": 29.9621, "lng": -95.6914},
     {"name": "Thai Cottage", "cuisine": "thai", "rating": 4.2, "address": "14092 Southwest Fwy, Sugar Land, TX 77478", "lat": 29.6385, "lng": -95.6021},
-    {"name": "Pho-jita", "cuisine": "thai", "rating": 4.6, "address": "11910 S Texas 6, Sugar Land, TX 77498", "lat": 29.6455, "lng": -95.6499}
+    {"name": "Pho-jita", "cuisine": "thai", "rating": 4.6, "address": "11910 S Texas 6, Sugar Land, TX 77498", "lat": 29.6455, "lng": -95.6499},
+    {"name": "Green Bawarchi", "cuisine": "indian", "rating": 4.8, "address": "4020 FM 1463 Rd, Fulshear, TX 77494", "lat": 29.7133, "lng": -95.7891},
+    {"name": "Tikka Temple", "cuisine": "indian", "rating": 4.7, "address": "1315 Grand Pkwy #116A, Katy, TX 77494", "lat": 29.7261, "lng": -95.7458},
+    {"name": "Tandoori Grill", "cuisine": "indian", "rating": 4.6, "address": "2002 N Fry Rd #103, Houston, TX 77084", "lat": 29.8164, "lng": -95.7092},
+    {"name": "Toyama Sushi & Ramen", "cuisine": "japanese", "rating": 4.6, "address": "1433 FM 1463 Rd #600, Katy, TX 77494", "lat": 29.7147, "lng": -95.7883},
+    {"name": "Thaicoon Restaurant & Pub", "cuisine": "thai", "rating": 4.5, "address": "1223 Grand West Blvd B101, Katy, TX 77449", "lat": 29.7391, "lng": -95.7251},
+    {"name": "Local Table", "cuisine": "american", "rating": 4.6, "address": "23501 Cinco Ranch Blvd #Q120, Katy, TX 77494", "lat": 29.7384, "lng": -95.7589},
+    {"name": "Perry's Steakhouse & Grille (Katy)", "cuisine": "american", "rating": 4.5, "address": "23501 Cinco Ranch Blvd #P100, Katy, TX 77494", "lat": 29.7387, "lng": -95.7591},
+    {"name": "The Rouxpour", "cuisine": "cajun", "rating": 4.4, "address": "23501 Cinco Ranch Blvd #P160, Katy, TX 77494", "lat": 29.7389, "lng": -95.7593},
+    {"name": "Black Walnut Cafe", "cuisine": "american", "rating": 4.3, "address": "23501 Cinco Ranch Blvd #P130, Katy, TX 77494", "lat": 29.7385, "lng": -95.7592},
+    {"name": "Newk's Eatery", "cuisine": "american", "rating": 4.2, "address": "23501 Cinco Ranch Blvd #P140, Katy, TX 77494", "lat": 29.7388, "lng": -95.7594},
+    {"name": "Escalante's Fine Tex-Mex", "cuisine": "mexican", "rating": 4.5, "address": "23501 Cinco Ranch Blvd #R110, Katy, TX 77494", "lat": 29.7382, "lng": -95.7587},
+    {"name": "Mo's Irish Pub", "cuisine": "irish", "rating": 4.4, "address": "23001 Cinco Ranch Blvd #130, Katy, TX 77494", "lat": 29.7358, "lng": -95.7566},
+    {"name": "Sake Japanese Steakhouse", "cuisine": "japanese", "rating": 4.3, "address": "3720 FM 1463 Rd, Katy, TX 77494", "lat": 29.7228, "lng": -95.7512},
+    {"name": "Kirby Ice House Katy", "cuisine": "american", "rating": 4.4, "address": "25405 Kingsland Blvd, Katy, TX 77494", "lat": 29.7695, "lng": -95.7845},
+    {"name": "Brenner's Steakhouse", "cuisine": "american", "rating": 4.5, "address": "10911 Katy Fwy, Houston, TX 77079", "lat": 29.7828, "lng": -95.6589},
+    {"name": "Whiskey Cake Kitchen & Bar (Katy)", "cuisine": "american", "rating": 4.4, "address": "23501 Cinco Ranch Blvd #R120, Katy, TX 77494", "lat": 29.7381, "lng": -95.7588},
+    {"name": "District 7 Grill", "cuisine": "american", "rating": 4.3, "address": "777 S Fry Rd #400, Katy, TX 77450", "lat": 29.7659, "lng": -95.7089}
 ] 
