@@ -532,6 +532,249 @@ const mockRestaurants = [
         city: "Alvin",
         state: "TX",
         zipcode: "77511"
+    },
+
+    // Richmond Restaurants
+    {
+        name: "Pier 36 Seafood Restaurant & Oyster Bar",
+        cuisine: "american",
+        rating: 4.7,
+        address: "1410 E Hwy 90A #200, Richmond, TX 77406",
+        lat: 29.5820,
+        lng: -95.7605,
+        city: "Richmond",
+        state: "TX",
+        zipcode: "77406"
+    },
+    {
+        name: "Texas Borders Bar & Grill 1093",
+        cuisine: "american",
+        rating: 4.3,
+        address: "26440 FM 1093 Rd, Richmond, TX 77406",
+        lat: 29.5720,
+        lng: -95.7505,
+        city: "Richmond",
+        state: "TX",
+        zipcode: "77406"
+    },
+    {
+        name: "La Cocina Mexican Restaurant",
+        cuisine: "mexican",
+        rating: 4.4,
+        address: "515 FM359, Richmond, TX 77406",
+        lat: 29.5920,
+        lng: -95.7705,
+        city: "Richmond",
+        state: "TX",
+        zipcode: "77406"
+    },
+
+    // Cypress Restaurants (Additional)
+    {
+        name: "Cypress Station Grill",
+        cuisine: "american",
+        rating: 4.4,
+        address: "26010 Hempstead Rd, Cypress, TX 77429",
+        lat: 29.9733,
+        lng: -95.6904,
+        city: "Cypress",
+        state: "TX",
+        zipcode: "77429"
+    },
+    {
+        name: "Galiana's Tex Mex",
+        cuisine: "mexican",
+        rating: 4.6,
+        address: "24110 US-290 #500, Cypress, TX 77429",
+        lat: 29.9633,
+        lng: -95.6804,
+        city: "Cypress",
+        state: "TX",
+        zipcode: "77429"
+    },
+    {
+        name: "King of India",
+        cuisine: "indian",
+        rating: 4.5,
+        address: "25250 Northwest Fwy #190, Cypress, TX 77429",
+        lat: 29.9833,
+        lng: -95.7004,
+        city: "Cypress",
+        state: "TX",
+        zipcode: "77429"
+    },
+    {
+        name: "Villa Roma Italian Ristorante",
+        cuisine: "italian",
+        rating: 4.7,
+        address: "12640 Telge Road Suite E, Cypress, TX 77429",
+        lat: 29.9933,
+        lng: -95.7104,
+        city: "Cypress",
+        state: "TX",
+        zipcode: "77429"
+    },
+
+    // Katy Restaurants (Additional)
+    {
+        name: "Babin's Seafood",
+        cuisine: "american",
+        rating: 4.5,
+        address: "21851 Katy Freeway, Katy, TX 77450",
+        lat: 29.7391,
+        lng: -95.7521,
+        city: "Katy",
+        state: "TX",
+        zipcode: "77450"
+    },
+    {
+        name: "Hong Kong Food Street",
+        cuisine: "chinese",
+        rating: 4.0,
+        address: "22939 Colonial Pkwy, Ste A101, Katy, TX 77449",
+        lat: 29.7291,
+        lng: -95.7421,
+        city: "Katy",
+        state: "TX",
+        zipcode: "77449"
+    },
+    {
+        name: "Postino Cinco Ranch",
+        cuisine: "italian",
+        rating: 4.4,
+        address: "23501 Cinco Ranch Blvd Ste D100, Katy, TX 77494",
+        lat: 29.7391,
+        lng: -95.7521,
+        city: "Katy",
+        state: "TX",
+        zipcode: "77494"
+    },
+    {
+        name: "Palinuro Italian Cuisine",
+        cuisine: "italian",
+        rating: 4.7,
+        address: "1450 S Mason Rd, Katy, TX 77450",
+        lat: 29.7191,
+        lng: -95.7321,
+        city: "Katy",
+        state: "TX",
+        zipcode: "77450"
+    },
+
+    // Spring Restaurants (Additional)
+    {
+        name: "Puffabelly's Restaurant",
+        cuisine: "american",
+        rating: 4.3,
+        address: "100 Main St, Spring, TX 77373",
+        lat: 30.0799,
+        lng: -95.4171,
+        city: "Spring",
+        state: "TX",
+        zipcode: "77373"
+    },
+    {
+        name: "Sitar Cuisine of India",
+        cuisine: "indian",
+        rating: 4.6,
+        address: "25701 Interstate Hwy 45 #12, Spring, TX 77380",
+        lat: 30.0899,
+        lng: -95.4271,
+        city: "Spring",
+        state: "TX",
+        zipcode: "77380"
+    },
+    {
+        name: "Italian Cafe",
+        cuisine: "italian",
+        rating: 4.5,
+        address: "19620 Kuykendahl Road, Spring, TX 77379",
+        lat: 30.0999,
+        lng: -95.4371,
+        city: "Spring",
+        state: "TX",
+        zipcode: "77379"
+    },
+    {
+        name: "Beto's Mexican Grill",
+        cuisine: "mexican",
+        rating: 4.3,
+        address: "2711 Riley Fuzzel Rd, Spring, TX 77386",
+        lat: 30.0599,
+        lng: -95.3971,
+        city: "Spring",
+        state: "TX",
+        zipcode: "77386"
+    },
+
+    // Humble Restaurants (Additional)
+    {
+        name: "Humble City Cafe",
+        cuisine: "american",
+        rating: 4.4,
+        address: "200 E Main St, Humble, TX 77338",
+        lat: 30.0133,
+        lng: -95.2604,
+        city: "Humble",
+        state: "TX",
+        zipcode: "77338"
+    },
+    {
+        name: "Fish Tales Humble",
+        cuisine: "american",
+        rating: 4.3,
+        address: "8009 FM 1960 E, Humble, TX 77346",
+        lat: 30.0033,
+        lng: -95.2504,
+        city: "Humble",
+        state: "TX",
+        zipcode: "77346"
+    },
+    {
+        name: "HB Japanese Steak House",
+        cuisine: "japanese",
+        rating: 4.4,
+        address: "9556 FM 1960 Byp, Humble, TX 77338",
+        lat: 30.0033,
+        lng: -95.2504,
+        city: "Humble",
+        state: "TX",
+        zipcode: "77338"
+    },
+
+    // Pasadena Restaurants (Additional)
+    {
+        name: "Sudie's Catfish House",
+        cuisine: "american",
+        rating: 4.6,
+        address: "4910 Spencer Hwy, Pasadena, TX 77505",
+        lat: 29.6711,
+        lng: -95.1891,
+        city: "Pasadena",
+        state: "TX",
+        zipcode: "77505"
+    },
+    {
+        name: "Peppers Steak & Seafood",
+        cuisine: "american",
+        rating: 4.5,
+        address: "3604 Fairmont Pkwy, Pasadena, TX 77504",
+        lat: 29.6811,
+        lng: -95.1991,
+        city: "Pasadena",
+        state: "TX",
+        zipcode: "77504"
+    },
+    {
+        name: "Casa Olé",
+        cuisine: "mexican",
+        rating: 4.1,
+        address: "7750 Spencer Highway, Pasadena, TX 77505",
+        lat: 29.6611,
+        lng: -95.1791,
+        city: "Pasadena",
+        state: "TX",
+        zipcode: "77505"
     }
 ];
 
