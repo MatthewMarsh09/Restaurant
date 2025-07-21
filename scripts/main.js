@@ -92,30 +92,27 @@ const initializeDropdown = () => {
         }
     });
 
-    // Handle checkbox logic with optimized performance
+    // Handle checkbox logic with simple performance optimization
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            // Batch DOM updates to prevent layout thrashing
-            requestAnimationFrame(() => {
-                if (checkbox === allCuisinesCheckbox && checkbox.checked) {
-                    // If "All Cuisines" is checked, uncheck all other options
-                    checkboxes.forEach(cb => {
-                        if (cb !== allCuisinesCheckbox) cb.checked = false;
-                    });
-                } else if (checkbox !== allCuisinesCheckbox && checkbox.checked) {
-                    // If a specific cuisine is checked, uncheck "All Cuisines"
-                    allCuisinesCheckbox.checked = false;
-                }
-                
-                // If no checkboxes are checked, default to "All Cuisines"
-                const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-                if (!anyChecked) {
-                    allCuisinesCheckbox.checked = true;
-                }
+            if (checkbox === allCuisinesCheckbox && checkbox.checked) {
+                // If "All Cuisines" is checked, uncheck all other options
+                checkboxes.forEach(cb => {
+                    if (cb !== allCuisinesCheckbox) cb.checked = false;
+                });
+            } else if (checkbox !== allCuisinesCheckbox && checkbox.checked) {
+                // If a specific cuisine is checked, uncheck "All Cuisines"
+                allCuisinesCheckbox.checked = false;
+            }
+            
+            // If no checkboxes are checked, default to "All Cuisines"
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            if (!anyChecked) {
+                allCuisinesCheckbox.checked = true;
+            }
 
-                updateDropdownText();
-                debouncedUpdateResultsCount();
-            });
+            updateDropdownText();
+            debouncedUpdateResultsCount();
         });
     });
 
