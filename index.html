@@ -77,78 +77,39 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Food Types</label>
-                        <div class="food-types">
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="pizza"> Pizza
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="chinese"> Chinese
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="mexican"> Mexican
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="italian"> Italian
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="american"> American
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="japanese"> Japanese
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="indian"> Indian
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="vietnamese"> Vietnamese
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="middle eastern"> Middle Eastern
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="spanish"> Spanish
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="french"> French
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="greek"> Greek
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="thai"> Thai
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="latin"> Latin
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="mediterranean"> Mediterranean
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="venezuelan"> Venezuelan
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="salvadoran"> Salvadoran
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="honduran"> Honduran
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="guatemalan"> Guatemalan
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="caribbean"> Caribbean
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="african"> African
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="ethiopian"> Ethiopian
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" value="pakistani"> Pakistani
-                            </label>
-                        </div>
+                        <label for="cuisineSelect">Select Cuisine Type (Optional)</label>
+                        <select id="cuisineSelect" multiple size="8">
+                            <option value="">All Cuisines</option>
+                            <option value="american">American</option>
+                            <option value="mexican">Mexican</option>
+                            <option value="italian">Italian</option>
+                            <option value="chinese">Chinese</option>
+                            <option value="japanese">Japanese</option>
+                            <option value="indian">Indian</option>
+                            <option value="vietnamese">Vietnamese</option>
+                            <option value="french">French</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="greek">Greek</option>
+                            <option value="thai">Thai</option>
+                            <option value="middle eastern">Middle Eastern</option>
+                            <option value="mediterranean">Mediterranean</option>
+                            <option value="venezuelan">Venezuelan</option>
+                            <option value="caribbean">Caribbean</option>
+                            <option value="african">African</option>
+                            <option value="ethiopian">Ethiopian</option>
+                            <option value="pakistani">Pakistani</option>
+                            <option value="salvadoran">Salvadoran</option>
+                            <option value="honduran">Honduran</option>
+                            <option value="guatemalan">Guatemalan</option>
+                            <option value="latin">Latin</option>
+                            <option value="pizza">Pizza</option>
+                        </select>
+                        <small class="cuisine-help">Hold Ctrl/Cmd to select multiple cuisines</small>
+                    </div>
+
+                    <div class="restaurant-counter">
+                        <span class="counter-label">Total Restaurants Available:</span>
+                        <span class="counter-number" id="totalRestaurants">384+</span>
                     </div>
 
                     <div class="search-actions">

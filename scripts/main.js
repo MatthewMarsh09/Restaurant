@@ -4311,9 +4311,25 @@ let map = null;
 let currentResults = [];
 let userLocation = { lat: 29.7604, lng: -95.3698 }; // Default to Houston center
 
+function getSelectedCuisines() {
+    const select = document.getElementById('cuisineSelect');
+    const selectedOptions = Array.from(select.selectedOptions);
+    const selectedValues = selectedOptions.map(option => option.value).filter(value => value !== '');
+    return selectedValues;
+}
+
+// Update restaurant counter dynamically
+function updateRestaurantCounter() {
+    const counter = document.getElementById('totalRestaurants');
+    if (counter) {
+        counter.textContent = `${mockRestaurants.length}`;
+    }
+}
+
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
+    updateRestaurantCounter(); // Set the actual count on page load
 });
 
 function initializeEventListeners() {
@@ -4322,4 +4338,21 @@ function initializeEventListeners() {
     document.getElementById('randomPick').addEventListener('click', () => searchAndShow('random'));
     document.getElementById('pickAnother').addEventListener('click', showRandomResult);
     document.getElementById('useLocationBtn').addEventListener('click', requestUserLocation);
+    
+    // Add event listener for cuisine selection changes
+    document.getElementById('cuisineSelect').addEventListener('change', updateResultsCount);
+}
+
+// Update results count when filters change
+function updateResultsCount() {
+    // This could be expanded to show filtered count vs total count
+    const selectedCuisines = getSelectedCuisines();
+    if (selectedCuisines.length === 0) {
+        document.getElementById('totalRestaurants').textContent = `${mockRestaurants.length}`;
+    } else {
+        const filteredCount = mockRestaurants.filter(restaurant => 
+            selectedCuisines.includes(restaurant.cuisine)
+        ).length;
+        document.getElementById('totalRestaurants').textContent = `${filteredCount} of ${mockRestaurants.length}`;
+    }
 }
