@@ -131,5 +131,21 @@
     {"name": "Baytown Seafood Restaurant", "cuisine": "seafood", "rating": 4.2, "address": "2409 FM 1092 Rd, Missouri City, TX 77459", "lat": 29.5968, "lng": -95.5781},
     {"name": "Happy Crab", "cuisine": "cajun", "rating": 4.3, "address": "5418 Hwy 6, Missouri City, TX 77459", "lat": 29.5946, "lng": -95.5521},
     {"name": "Micheaux's Southern Cuisine", "cuisine": "southern", "rating": 4.5, "address": "6850 Hwy 6, Missouri City, TX 77459", "lat": 29.5782, "lng": -95.5651},
-    {"name": "Orient Cafe", "cuisine": "asian", "rating": 4.1, "address": "3340 FM 1092 Rd, Missouri City, TX 77459", "lat": 29.5889, "lng": -95.5893}
+    {"name": "Orient Cafe", "cuisine": "asian", "rating": 4.1, "address": "3340 FM 1092 Rd, Missouri City, TX 77459", "lat": 29.5889, "lng": -95.5893},
+    {"name": "Bull Creek Cafe & Grill", "cuisine": "american", "rating": 4.5, "address": "918 San Jacinto St, Rosenberg, TX 77471", "lat": 29.5574, "lng": -95.8078},
+    {"name": "T. Jin China Diner", "cuisine": "chinese", "rating": 4.3, "address": "24301 Brazos Town Crossing #700, Rosenberg, TX 77471", "lat": 29.5311, "lng": -95.7752},
+    {"name": "Schulze's Bar-B-Q", "cuisine": "bbq", "rating": 4.4, "address": "1214 1st St, Rosenberg, TX 77471", "lat": 29.5539, "lng": -95.8091},
+    {"name": "The Burger Barn", "cuisine": "american", "rating": 4.6, "address": "1101 Damon St, Rosenberg, TX 77471", "lat": 29.5447, "lng": -95.8066},
+    {"name": "Back Street Barbeque", "cuisine": "bbq", "rating": 4.2, "address": "1909 Avenue G, Rosenberg, TX 77471", "lat": 29.5593, "lng": -95.8005},
+    {"name": "The Crab Trap", "cuisine": "seafood", "rating": 4.5, "address": "1652 County Rd 201, Bay City, TX 77414", "lat": 28.9811, "lng": -95.9689},
+    {"name": "Fish Spot", "cuisine": "seafood", "rating": 4.3, "address": "4009 20th St N, Texas City, TX 77590", "lat": 29.4078, "lng": -94.9312},
+    {"name": "Johnny's Seafood Cafe", "cuisine": "seafood", "rating": 4.4, "address": "2906 FM 1765, Texas City, TX 77590", "lat": 29.3951, "lng": -94.9453},
+    {"name": "Fish City Grill", "cuisine": "seafood", "rating": 4.2, "address": "3101 Palmer Hwy, Texas City, TX 77590", "lat": 29.3855, "lng": -94.9328},
+    {"name": "Taqueria Vallarta", "cuisine": "mexican", "rating": 4.3, "address": "2130 Palmer Hwy, Texas City, TX 77590", "lat": 29.3917, "lng": -94.9221},
+    {"name": "Sitar Cuisine of India", "cuisine": "indian", "rating": 4.5, "address": "25701 Interstate Hwy 45 #12, Spring, TX 77380", "lat": 30.1478, "lng": -95.4411},
+    {"name": "Main Moon Asian Bistro", "cuisine": "asian", "rating": 4.3, "address": "2129 FM 2920 Rd, Spring, TX 77388", "lat": 30.0811, "lng": -95.4832},
+    {"name": "Spring Asian Cuisine", "cuisine": "asian", "rating": 4.4, "address": "2907 Rayford Rd #106, Spring, TX 77386", "lat": 30.1287, "lng": -95.4021},
+    {"name": "The Olive Oil Restaurant", "cuisine": "greek", "rating": 4.6, "address": "373 Sawdust Rd, Spring, TX 77380", "lat": 30.1456, "lng": -95.4579},
+    {"name": "Shogun Japanese Grill & Sushi Bar", "cuisine": "japanese", "rating": 4.3, "address": "3532 Harmony Commons Dr, Spring, TX 77386", "lat": 30.1345, "lng": -95.3812},
+    {"name": "Las Cascadas Mexican Restaurant", "cuisine": "mexican", "rating": 4.2, "address": "250 Cypresswood Dr, Spring, TX 77388", "lat": 30.0543, "lng": -95.4412}
 ] 
