@@ -4568,3 +4568,173 @@ function updateRestaurantCounter() {
         counter.textContent = `${mockRestaurants.length}`;
     }
 }
+
+// Calculate distance between two points using Haversine formula
+function calculateDistance(lat1, lng1, lat2, lng2) {
+    const R = 3959; // Earth's radius in miles
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function toRad(degrees) {
+    return degrees * (Math.PI / 180);
+}
+
+// Main search function
+async function searchAndShow(viewType) {
+    const address = document.getElementById('address').value;
+    const range = parseInt(document.getElementById('range').value) || 10;
+    const selectedCuisines = getSelectedCuisines();
+
+    try {
+        // Get location coordinates
+        userLocation = await geocodeLocation(address);
+        
+        // Filter restaurants by distance and cuisine
+        let filteredRestaurants = mockRestaurants.map(restaurant => {
+            const distance = calculateDistance(
+                userLocation.lat, userLocation.lng,
+                restaurant.lat, restaurant.lng
+            );
+            return { ...restaurant, calculatedDistance: distance };
+        }).filter(restaurant => {
+            const withinRange = restaurant.calculatedDistance <= range;
+            const matchesCuisine = selectedCuisines.length === 0 || 
+                                  selectedCuisines.includes(restaurant.cuisine);
+            return withinRange && matchesCuisine;
+        }).sort((a, b) => a.calculatedDistance - b.calculatedDistance);
+
+        currentResults = filteredRestaurants;
+
+        // Show results section
+        document.getElementById('resultsSection').style.display = 'block';
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+
+        // Hide all views first
+        document.getElementById('listView').style.display = 'none';
+        document.getElementById('mapView').style.display = 'none';
+        document.getElementById('randomView').style.display = 'none';
+
+        // Show selected view
+        switch(viewType) {
+            case 'list':
+                showListView(filteredRestaurants);
+                break;
+            case 'map':
+                showMapView(filteredRestaurants);
+                break;
+            case 'random':
+                showRandomView(filteredRestaurants);
+                break;
+        }
+
+        // Update results title
+        const resultsTitle = document.getElementById('resultsTitle');
+        if (filteredRestaurants.length === 0) {
+            resultsTitle.textContent = `No restaurants found within ${range} miles`;
+        } else {
+            resultsTitle.textContent = `Found ${filteredRestaurants.length} restaurant${filteredRestaurants.length !== 1 ? 's' : ''} within ${range} miles`;
+        }
+
+    } catch (error) {
+        console.error('Search failed:', error);
+        alert('Search failed. Please try again.');
+    }
+}
+
+// Show list view
+function showListView(restaurants) {
+    document.getElementById('listView').style.display = 'block';
+    const resultsGrid = document.getElementById('resultsGrid');
+    
+    if (restaurants.length === 0) {
+        resultsGrid.innerHTML = '<p>No restaurants found matching your criteria.</p>';
+        return;
+    }
+
+    resultsGrid.innerHTML = restaurants.map(restaurant => `
+        <div class="card">
+            <h3>${restaurant.name}</h3>
+            <div class="cuisine">${restaurant.cuisine.charAt(0).toUpperCase() + restaurant.cuisine.slice(1)}</div>
+            <div class="rating">⭐ ${restaurant.rating}/5.0</div>
+            <div class="distance">📍 ${restaurant.calculatedDistance.toFixed(1)} miles away</div>
+            <div class="address">${restaurant.address}</div>
+        </div>
+    `).join('');
+}
+
+// Show map view
+function showMapView(restaurants) {
+    document.getElementById('mapView').style.display = 'block';
+    
+    // Initialize map if not already done
+    if (!map) {
+        map = L.map('map').setView([userLocation.lat, userLocation.lng], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+    } else {
+        // Clear existing markers
+        map.eachLayer(layer => {
+            if (layer instanceof L.Marker || layer instanceof L.Circle) {
+                map.removeLayer(layer);
+            }
+        });
+        map.setView([userLocation.lat, userLocation.lng], 11);
+    }
+
+    // Add user location marker
+    L.marker([userLocation.lat, userLocation.lng])
+        .addTo(map)
+        .bindPopup('Your Location')
+        .openPopup();
+
+    // Add search radius circle
+    const range = parseInt(document.getElementById('range').value) || 10;
+    L.circle([userLocation.lat, userLocation.lng], {
+        color: '#002D62',
+        fillColor: '#EB6E1F',
+        fillOpacity: 0.1,
+        radius: range * 1609.34 // Convert miles to meters
+    }).addTo(map);
+
+    // Add restaurant markers
+    restaurants.forEach(restaurant => {
+        L.marker([restaurant.lat, restaurant.lng])
+            .addTo(map)
+            .bindPopup(`
+                <strong>${restaurant.name}</strong><br>
+                ${restaurant.cuisine.charAt(0).toUpperCase() + restaurant.cuisine.slice(1)}<br>
+                ⭐ ${restaurant.rating}/5.0<br>
+                📍 ${restaurant.calculatedDistance.toFixed(1)} miles away<br>
+                ${restaurant.address}
+            `);
+    });
+}
+
+// Show random view
+function showRandomView(restaurants) {
+    document.getElementById('randomView').style.display = 'block';
+    showRandomResult(restaurants);
+}
+
+function showRandomResult(restaurants = currentResults) {
+    if (!restaurants || restaurants.length === 0) {
+        document.getElementById('randomCard').innerHTML = '<p>No restaurants available for random selection.</p>';
+        return;
+    }
+
+    const randomRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+    document.getElementById('randomCard').innerHTML = `
+        <h4>${randomRestaurant.name}</h4>
+        <div class="cuisine">${randomRestaurant.cuisine.charAt(0).toUpperCase() + randomRestaurant.cuisine.slice(1)}</div>
+        <div class="rating">⭐ ${randomRestaurant.rating}/5.0</div>
+        <div class="distance">📍 ${randomRestaurant.calculatedDistance.toFixed(1)} miles away</div>
+        <div class="address">${randomRestaurant.address}</div>
+    `;
+}
