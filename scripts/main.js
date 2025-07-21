@@ -4312,22 +4312,231 @@ let currentResults = [];
 let userLocation = { lat: 29.7604, lng: -95.3698 }; // Default to Houston center
 
 function getSelectedCuisines() {
-    const select = document.getElementById('cuisineSelect');
-    const selectedValue = select.value;
-    return selectedValue ? [selectedValue] : [];
+    const checkboxes = document.querySelectorAll('.dropdown-option input[type="checkbox"]:checked');
+    const selectedValues = Array.from(checkboxes)
+        .map(cb => cb.value)
+        .filter(value => value !== ''); // Filter out empty "All Cuisines" value
+    return selectedValues;
 }
 
-// Update restaurant counter dynamically
-function updateRestaurantCounter() {
-    const counter = document.getElementById('totalRestaurants');
-    if (counter) {
-        counter.textContent = `${mockRestaurants.length}`;
+// Custom dropdown functionality
+function initializeDropdown() {
+    const dropdownSelected = document.getElementById('dropdownSelected');
+    const dropdownOptions = document.getElementById('dropdownOptions');
+    const checkboxes = document.querySelectorAll('.dropdown-option input[type="checkbox"]');
+    
+    // Toggle dropdown
+    dropdownSelected.addEventListener('click', function() {
+        const isOpen = dropdownOptions.classList.contains('open');
+        if (isOpen) {
+            dropdownOptions.classList.remove('open');
+            dropdownSelected.classList.remove('open');
+        } else {
+            dropdownOptions.classList.add('open');
+            dropdownSelected.classList.add('open');
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.custom-dropdown')) {
+            dropdownOptions.classList.remove('open');
+            dropdownSelected.classList.remove('open');
+        }
+    });
+    
+    // Handle checkbox changes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // If "All Cuisines" is checked, uncheck all others
+            if (this.value === '' && this.checked) {
+                checkboxes.forEach(cb => {
+                    if (cb !== this) cb.checked = false;
+                });
+            } 
+            // If any specific cuisine is checked, uncheck "All Cuisines"
+            else if (this.value !== '' && this.checked) {
+                checkboxes.forEach(cb => {
+                    if (cb.value === '') cb.checked = false;
+                });
+            }
+            
+            updateDropdownText();
+            updateResultsCount();
+        });
+    });
+}
+
+function updateDropdownText() {
+    const selectedText = document.querySelector('.selected-text');
+    const selectedCuisines = getSelectedCuisines();
+    
+    if (selectedCuisines.length === 0) {
+        selectedText.textContent = 'All Cuisines';
+    } else if (selectedCuisines.length === 1) {
+        selectedText.textContent = selectedCuisines[0].charAt(0).toUpperCase() + selectedCuisines[0].slice(1);
+    } else {
+        selectedText.textContent = `${selectedCuisines.length} Cuisines Selected`;
     }
+}
+
+// Request user's current location with high accuracy
+function requestUserLocation() {
+    const btn = document.getElementById('useLocationBtn');
+    const status = document.getElementById('locationStatus');
+    
+    // Check if geolocation is supported
+    if (!navigator.geolocation) {
+        status.textContent = 'Geolocation is not supported by this browser';
+        status.className = 'location-status error';
+        return;
+    }
+    
+    // Disable button and show loading
+    btn.disabled = true;
+    btn.textContent = '📍 Getting Your Location...';
+    status.textContent = 'Requesting high-accuracy GPS location...';
+    status.className = 'location-status loading';
+    
+    navigator.geolocation.getCurrentPosition(
+        // Success callback
+        async (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            
+            status.textContent = `Location found! Accuracy: ${Math.round(accuracy)} meters`;
+            status.className = 'location-status loading';
+            
+            try {
+                // Use the exact coordinates without city restrictions
+                userLocation = { lat, lng };
+                
+                // Display coordinates with high precision
+                const coordsDisplay = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                document.getElementById('address').value = `GPS: ${coordsDisplay}`;
+                
+                status.textContent = `✓ Using your exact GPS location (±${Math.round(accuracy)}m accuracy)`;
+                status.className = 'location-status success';
+                
+                // Auto-trigger a search after 2 seconds if no results
+                setTimeout(() => {
+                    if (currentResults.length === 0) {
+                        searchAndShow('list');
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Location processing failed:', error);
+                userLocation = { lat, lng };
+                document.getElementById('address').value = `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                status.textContent = `✓ Using exact GPS coordinates (±${Math.round(accuracy)}m)`;
+                status.className = 'location-status success';
+            }
+        },
+        // Error callback
+        (error) => {
+            let errorMessage = '';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'Location access denied. Please allow location access and try again.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Your location is currently unavailable. Please enter an address manually.';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = 'Location request timed out. Please try again or enter an address.';
+                    break;
+                default:
+                    errorMessage = 'Unable to get your location. Please enter an address manually.';
+                    break;
+            }
+            
+            status.textContent = errorMessage;
+            status.className = 'location-status error';
+            btn.disabled = false;
+            btn.textContent = '📍 Use My Exact Location';
+        },
+        // Options for high accuracy
+        {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 60000 // 1 minute
+        }
+    );
+    
+    // Reset button after 20 seconds regardless
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '📍 Use My Exact Location';
+    }, 20000);
+}
+
+// Improved geocoding that accepts exact coordinates
+async function geocodeLocation(locationInput) {
+    if (!locationInput || locationInput.trim() === '') {
+        // Default to Houston if no input
+        return { lat: 29.7604, lng: -95.3698 };
+    }
+    
+    const location = locationInput.toLowerCase().trim();
+    
+    // Check for GPS coordinate patterns (lat, lng) with high precision
+    const coordPattern = /^gps:\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/;
+    const coordMatch = location.match(coordPattern);
+    if (coordMatch) {
+        return {
+            lat: parseFloat(coordMatch[1]),
+            lng: parseFloat(coordMatch[2])
+        };
+    }
+    
+    // Check for regular coordinate patterns (lat, lng)
+    const regularCoordPattern = /^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/;
+    const regularCoordMatch = location.match(regularCoordPattern);
+    if (regularCoordMatch) {
+        return {
+            lat: parseFloat(regularCoordMatch[1]),
+            lng: parseFloat(regularCoordMatch[2])
+        };
+    }
+    
+    // Simple city/area lookup for common Houston metro areas (fallback)
+    const cityCoordinates = {
+        'houston': { lat: 29.7604, lng: -95.3698 },
+        'katy': { lat: 29.7391, lng: -95.7521 },
+        'sugar land': { lat: 29.5844, lng: -95.6349 },
+        'pearland': { lat: 29.5583, lng: -95.2861 },
+        'the woodlands': { lat: 30.1588, lng: -95.4913 },
+        'woodlands': { lat: 30.1588, lng: -95.4913 },
+        'spring': { lat: 30.0799, lng: -95.4171 },
+        'conroe': { lat: 30.3133, lng: -95.4904 },
+        'cypress': { lat: 29.9733, lng: -95.6904 },
+        'humble': { lat: 30.0133, lng: -95.2604 },
+        'pasadena': { lat: 29.6911, lng: -95.2091 },
+        'texas city': { lat: 29.3838, lng: -94.9027 },
+        'galveston': { lat: 29.3013, lng: -94.7977 },
+        'richmond': { lat: 29.5820, lng: -95.7605 },
+        'rosenberg': { lat: 29.5570, lng: -95.8066 },
+        'alvin': { lat: 29.4239, lng: -95.2441 },
+        'la porte': { lat: 29.6338, lng: -95.0827 }
+    };
+
+    // Check city names
+    for (const [city, coords] of Object.entries(cityCoordinates)) {
+        if (location.includes(city)) {
+            return coords;
+        }
+    }
+
+    // Default to Houston if not found
+    return { lat: 29.7604, lng: -95.3698 };
 }
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
+    initializeDropdown();
     updateRestaurantCounter(); // Set the actual count on page load
 });
 
@@ -4337,9 +4546,6 @@ function initializeEventListeners() {
     document.getElementById('randomPick').addEventListener('click', () => searchAndShow('random'));
     document.getElementById('pickAnother').addEventListener('click', showRandomResult);
     document.getElementById('useLocationBtn').addEventListener('click', requestUserLocation);
-    
-    // Add event listener for cuisine selection changes
-    document.getElementById('cuisineSelect').addEventListener('change', updateResultsCount);
 }
 
 // Update results count when filters change
@@ -4352,5 +4558,13 @@ function updateResultsCount() {
             selectedCuisines.includes(restaurant.cuisine)
         ).length;
         document.getElementById('totalRestaurants').textContent = `${filteredCount} of ${mockRestaurants.length}`;
+    }
+}
+
+// Update restaurant counter dynamically
+function updateRestaurantCounter() {
+    const counter = document.getElementById('totalRestaurants');
+    if (counter) {
+        counter.textContent = `${mockRestaurants.length}`;
     }
 }
