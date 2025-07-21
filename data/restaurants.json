@@ -104,5 +104,18 @@
     {"name": "Fish Place", "cuisine": "seafood", "rating": 4.4, "address": "4609 Garth Rd, Baytown, TX 77521", "lat": 29.7745, "lng": -95.0189},
     {"name": "Floyd's Seafood", "cuisine": "cajun", "rating": 4.5, "address": "1101 W Main St, Mont Belvieu, TX 77523", "lat": 29.8553, "lng": -94.8692},
     {"name": "Shogun Japanese Grill & Sushi Bar", "cuisine": "japanese", "rating": 4.3, "address": "5075 Garth Rd, Baytown, TX 77521", "lat": 29.7821, "lng": -95.0194},
-    {"name": "Pipeline Grill", "cuisine": "american", "rating": 4.4, "address": "4501 N Main St, Baytown, TX 77521", "lat": 29.7731, "lng": -94.9961}
+    {"name": "Pipeline Grill", "cuisine": "american", "rating": 4.4, "address": "4501 N Main St, Baytown, TX 77521", "lat": 29.7731, "lng": -94.9961},
+    {"name": "Bibi's House of Kabob", "cuisine": "persian", "rating": 4.5, "address": "3121 Center St, Deer Park, TX 77536", "lat": 29.6917, "lng": -95.1199},
+    {"name": "The Brisket House", "cuisine": "bbq", "rating": 4.1, "address": "3217 Center St, Deer Park, TX 77536", "lat": 29.6914, "lng": -95.1209},
+    {"name": "The Republic Grill", "cuisine": "american", "rating": 4.3, "address": "1600 Georgia Ave, Deer Park, TX 77536", "lat": 29.6991, "lng": -95.1325},
+    {"name": "Antonio's Italian Grill", "cuisine": "italian", "rating": 4.4, "address": "2727 Center St, Deer Park, TX 77536", "lat": 29.6946, "lng": -95.1165},
+    {"name": "China Han", "cuisine": "chinese", "rating": 4.3, "address": "307 W Parkwood Ave, Friendswood, TX 77546", "lat": 29.5802, "lng": -95.2045},
+    {"name": "Pho Yen", "cuisine": "vietnamese", "rating": 4.5, "address": "1612 S Friendswood Dr, Friendswood, TX 77546", "lat": 29.5085, "lng": -95.1981},
+    {"name": "Stefano's Italian Kitchen", "cuisine": "italian", "rating": 4.4, "address": "106 S Friendswood Dr, Friendswood, TX 77546", "lat": 29.5186, "lng": -95.1973},
+    {"name": "Gaido's Seafood Restaurant", "cuisine": "seafood", "rating": 4.5, "address": "3802 Seawall Blvd, Galveston, TX 77550", "lat": 29.2842, "lng": -94.8092},
+    {"name": "Saltwater Grill", "cuisine": "seafood", "rating": 4.6, "address": "2017 Postoffice St, Galveston, TX 77550", "lat": 29.303, "lng": -94.7919},
+    {"name": "Fisherman's Wharf", "cuisine": "seafood", "rating": 4.3, "address": "2200 Harborside Dr, Galveston, TX 77550", "lat": 29.3175, "lng": -94.7865},
+    {"name": "Willie G's Seafood", "cuisine": "seafood", "rating": 4.4, "address": "2100 Harborside Dr, Galveston, TX 77550", "lat": 29.3168, "lng": -94.7879},
+    {"name": "Fish Tales", "cuisine": "seafood", "rating": 4.2, "address": "2502 Seawall Blvd, Galveston, TX 77550", "lat": 29.2908, "lng": -94.7997},
+    {"name": "Salsa's Mexican Restaurant", "cuisine": "mexican", "rating": 4.3, "address": "4604 Seawall Blvd, Galveston, TX 77551", "lat": 29.2731, "lng": -94.8273}
 ] 
