@@ -109,6 +109,59 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.location-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.btn--location {
+    background: #28a745;
+    color: white;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn--location:hover {
+    background: #218838;
+}
+
+.btn--location:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.location-status {
+    font-size: 0.8rem;
+    text-align: center;
+    min-height: 20px;
+}
+
+.location-status.success {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.location-status.error {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.location-status.loading {
+    color: #002D62;
+    font-style: italic;
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -347,6 +400,15 @@ body {
     
     .location-inputs {
         grid-template-columns: 1fr;
+    }
+    
+    .location-actions {
+        padding: 0.75rem;
+    }
+    
+    .btn--location {
+        font-size: 0.8rem;
+        padding: 8px 16px;
     }
     
     .search-actions {

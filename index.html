@@ -60,7 +60,25 @@
                     <div class="location-inputs">
                         <div class="form-group">
                             <label for="city">City & State</label>
-                            <input type="text" id="city" placeholder="e.g. Houston, TX" value="Houston, TX">
+                            <select id="city">
+                                <option value="">Select a city...</option>
+                                <option value="Houston, TX" selected>Houston, TX</option>
+                                <option value="Katy, TX">Katy, TX</option>
+                                <option value="Sugar Land, TX">Sugar Land, TX</option>
+                                <option value="Pearland, TX">Pearland, TX</option>
+                                <option value="The Woodlands, TX">The Woodlands, TX</option>
+                                <option value="Spring, TX">Spring, TX</option>
+                                <option value="Conroe, TX">Conroe, TX</option>
+                                <option value="Cypress, TX">Cypress, TX</option>
+                                <option value="Humble, TX">Humble, TX</option>
+                                <option value="Pasadena, TX">Pasadena, TX</option>
+                                <option value="Texas City, TX">Texas City, TX</option>
+                                <option value="Galveston, TX">Galveston, TX</option>
+                                <option value="Richmond, TX">Richmond, TX</option>
+                                <option value="Rosenberg, TX">Rosenberg, TX</option>
+                                <option value="Alvin, TX">Alvin, TX</option>
+                                <option value="La Porte, TX">La Porte, TX</option>
+                            </select>
                         </div>
                         
                         <div class="form-group">
@@ -74,6 +92,13 @@
                         </div>
                     </div>
                     
+                    <div class="location-actions">
+                        <button type="button" class="btn btn--location" id="useLocationBtn">
+                            📍 Use My Current Location
+                        </button>
+                        <div class="location-status" id="locationStatus"></div>
+                    </div>
+
                     <div class="form-group">
                         <label for="range">Search Range (miles)</label>
                         <input type="number" id="range" placeholder="Enter miles" value="10" min="1" max="100">

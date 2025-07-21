@@ -494,6 +494,145 @@ function initializeEventListeners() {
     document.getElementById('showMap').addEventListener('click', () => searchAndShow('map'));
     document.getElementById('randomPick').addEventListener('click', () => searchAndShow('random'));
     document.getElementById('pickAnother').addEventListener('click', showRandomResult);
+    document.getElementById('useLocationBtn').addEventListener('click', requestUserLocation);
+}
+
+// Request user's current location
+function requestUserLocation() {
+    const btn = document.getElementById('useLocationBtn');
+    const status = document.getElementById('locationStatus');
+    
+    // Check if geolocation is supported
+    if (!navigator.geolocation) {
+        status.textContent = 'Geolocation is not supported by this browser';
+        status.className = 'location-status error';
+        return;
+    }
+    
+    // Disable button and show loading
+    btn.disabled = true;
+    btn.textContent = '📍 Getting Location...';
+    status.textContent = 'Requesting location permission...';
+    status.className = 'location-status loading';
+    
+    navigator.geolocation.getCurrentPosition(
+        // Success callback
+        async (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            
+            status.textContent = 'Location found! Determining city...';
+            
+            try {
+                // Reverse geocode to get city information
+                const cityInfo = await reverseGeocode(lat, lng);
+                
+                // Update form fields
+                if (cityInfo.city) {
+                    document.getElementById('city').value = cityInfo.city;
+                }
+                if (cityInfo.address) {
+                    document.getElementById('address').value = cityInfo.address;
+                }
+                if (cityInfo.zipcode) {
+                    document.getElementById('zipcode').value = cityInfo.zipcode;
+                }
+                
+                // Update user location for searches
+                userLocation = { lat, lng };
+                
+                status.textContent = `✓ Using your location in ${cityInfo.city || 'Houston area'}`;
+                status.className = 'location-status success';
+                
+                // Auto-trigger a search after 2 seconds
+                setTimeout(() => {
+                    if (currentResults.length === 0) {
+                        searchAndShow('list');
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Reverse geocoding failed:', error);
+                userLocation = { lat, lng };
+                status.textContent = '✓ Location set (city detection failed)';
+                status.className = 'location-status success';
+            }
+        },
+        // Error callback
+        (error) => {
+            let errorMessage = '';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'Location access denied by user';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Location information unavailable';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = 'Location request timed out';
+                    break;
+                default:
+                    errorMessage = 'An unknown error occurred';
+                    break;
+            }
+            
+            status.textContent = errorMessage;
+            status.className = 'location-status error';
+        },
+        // Options
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutes
+        }
+    );
+    
+    // Reset button after 15 seconds regardless
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '📍 Use My Current Location';
+    }, 15000);
+}
+
+// Reverse geocode coordinates to get city information
+async function reverseGeocode(lat, lng) {
+    // Simple reverse geocoding based on known city boundaries
+    const cities = [
+        { name: "Houston, TX", lat: 29.7604, lng: -95.3698, radius: 25 },
+        { name: "Katy, TX", lat: 29.7391, lng: -95.7521, radius: 10 },
+        { name: "Sugar Land, TX", lat: 29.5844, lng: -95.6349, radius: 8 },
+        { name: "Pearland, TX", lat: 29.5583, lng: -95.2861, radius: 8 },
+        { name: "The Woodlands, TX", lat: 30.1588, lng: -95.4913, radius: 12 },
+        { name: "Spring, TX", lat: 30.0799, lng: -95.4171, radius: 10 },
+        { name: "Conroe, TX", lat: 30.3133, lng: -95.4904, radius: 15 },
+        { name: "Cypress, TX", lat: 29.9733, lng: -95.6904, radius: 10 },
+        { name: "Humble, TX", lat: 30.0133, lng: -95.2604, radius: 8 },
+        { name: "Pasadena, TX", lat: 29.6911, lng: -95.2091, radius: 8 },
+        { name: "Texas City, TX", lat: 29.3838, lng: -94.9027, radius: 8 },
+        { name: "Galveston, TX", lat: 29.3013, lng: -94.7977, radius: 10 },
+        { name: "Richmond, TX", lat: 29.5820, lng: -95.7605, radius: 6 },
+        { name: "Rosenberg, TX", lat: 29.5570, lng: -95.8066, radius: 6 },
+        { name: "Alvin, TX", lat: 29.4239, lng: -95.2441, radius: 6 },
+        { name: "La Porte, TX", lat: 29.6338, lng: -95.0827, radius: 6 }
+    ];
+    
+    // Find the closest city within radius
+    let closestCity = null;
+    let minDistance = Infinity;
+    
+    for (const city of cities) {
+        const distance = calculateDistance(lat, lng, city.lat, city.lng);
+        if (distance <= city.radius && distance < minDistance) {
+            closestCity = city;
+            minDistance = distance;
+        }
+    }
+    
+    return {
+        city: closestCity ? closestCity.name : "Houston, TX", // Default to Houston
+        address: "", // We don't have precise address reverse geocoding
+        zipcode: "" // We don't have precise zipcode reverse geocoding
+    };
 }
 
 // Haversine formula to calculate distance between two points
