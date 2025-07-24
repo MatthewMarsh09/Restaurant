@@ -67,6 +67,17 @@
     margin-bottom: 0;
 }
 
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn--small {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+}
+
 /* Responsive results styles */
 @media (max-width: 768px) {
     .results-grid { grid-template-columns: 1fr; gap: 1.5rem; }

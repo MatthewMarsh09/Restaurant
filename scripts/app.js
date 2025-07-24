@@ -4,7 +4,8 @@ import { calculateDistance, geocodeLocation, requestUserLocation } from './locat
 import { initializeDropdown } from './dropdown.js';
 import { initializeAddressAutocomplete } from './autocomplete.js';
 import { initializeChatbot } from './chatbot.js';
-import { showListView, showMapView, showRandomView, showRandomResult, updateCurrentResults, changePage } from './ui.js';
+import { showListView, showMapView, showRandomView, showRandomResult, updateCurrentResults, changePage, initializeReviewModal } from './ui.js';
+import { initializeReviews } from './reviews.js';
 
 export const HOUSTON_DEFAULT = { lat: 29.7604, lng: -95.3698 };
 
@@ -73,4 +74,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeDropdown();
     initializeAddressAutocomplete();
     initializeChatbot();
+    
+    // Initialize reviews system
+    initializeReviews();
+    initializeReviewModal();
 }); 
