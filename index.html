@@ -4,38 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Houston Food Finder - Discover Local Restaurants</title>
-    <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <!-- Internal styles - alternative to external CSS -->
-    <style>
-        /* Custom styles without external CSS file */
-        .custom-button {
-            background: #002D62 !important;
-            color: white !important;
-            border: none !important;
-            padding: 15px 30px !important;
-            border-radius: 25px !important;
-            font-size: 1.1rem !important;
-            cursor: pointer !important;
-            transition: all 0.3s !important;
-            box-shadow: 0 4px 15px rgba(0, 45, 98, 0.3) !important;
-        }
-        
-        .custom-button:hover {
-            background: #EB6E1F !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(235, 110, 31, 0.4) !important;
-        }
-        
-        .custom-card {
-            background: linear-gradient(145deg, #ffffff, #f0f0f0) !important;
-            border: none !important;
-            border-radius: 20px !important;
-            box-shadow: 0 10px 30px rgba(0,45,98,0.1) !important;
-            transform: perspective(1000px) rotateX(2deg) !important;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/results.css">
+    <link rel="stylesheet" href="styles/chatbot.css">
 </head>
 <body>
     <header class="header">
@@ -47,10 +21,10 @@
     </header>
 
     <main class="main">
-        <section class="hero" style="background: linear-gradient(135deg, #002D62 0%, #EB6E1F 100%); color: white; padding: 80px 0; text-align: center;">
-            <div class="hero__content" style="max-width: 800px; margin: 0 auto;">
-                <h2 style="font-size: 3rem; margin-bottom: 1rem; font-weight: bold;">Find Your Perfect Meal</h2>
-                <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">Discover restaurants near you with range, filters, and smart recommendations</p>
+        <section class="hero">
+            <div class="hero__content">
+                <h2>Find Your Perfect Meal</h2>
+                <p>Discover restaurants near you with range, filters, and smart recommendations</p>
             </div>
         </section>
 
@@ -236,6 +210,11 @@
                     <div class="results-grid" id="resultsGrid">
                         <!-- Results will be populated by JavaScript -->
                     </div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <button class="btn btn--secondary" id="prevPageBtn" disabled>Previous</button>
+                        <span id="pageIndicator">Page 1 of 1</span>
+                        <button class="btn btn--secondary" id="nextPageBtn" disabled>Next</button>
+                    </div>
                 </div>
 
                 <!-- Map View -->
@@ -287,6 +266,6 @@
     </button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="scripts/main.js"></script>
+    <script src="scripts/app.js" type="module"></script>
 </body>
 </html>

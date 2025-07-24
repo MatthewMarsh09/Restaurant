@@ -1,0 +1,84 @@
+/* styles/search.css */
+.search-section {
+    padding: 60px 0;
+    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+                url('https://s29980.pcdn.co/wp-content/uploads/sites/7/2023/02/Houston-skyline.jpg') center/cover;
+    background-attachment: fixed;
+}
+
+.search-form {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    padding: 2rem; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,45,98,0.2);
+    max-width: 800px; margin: 0 auto; border: 2px solid rgba(255,255,255,0.8);
+}
+
+.location-inputs { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+
+.location-actions {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    margin-bottom: 1.5rem; padding: 1rem; background: rgba(248,249,250,0.8);
+    border-radius: 12px; border: 1px solid rgba(229,231,235,0.8); backdrop-filter: blur(5px);
+}
+
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #002D62; }
+.form-group input {
+    width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 10px;
+    font-size: 1rem; transition: all 0.3s; background: rgba(255,255,255,0.9); backdrop-filter: blur(5px);
+}
+.form-group input:focus {
+    outline: none; border-color: #002D62; background: rgba(255,255,255,1);
+    box-shadow: 0 0 0 3px rgba(0,45,98,0.1);
+}
+
+.btn--location {
+    background: #28a745; font-size: 1rem; padding: 12px 24px; border-radius: 25px;
+    display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+}
+.btn--location:hover { background: #218838; box-shadow: 0 6px 20px rgba(40,167,69,0.4); }
+.btn--location:disabled { background: #6c757d; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.location-status {
+    font-size: 0.9rem; text-align: center; min-height: 20px; color: #6b7280;
+    font-style: italic; margin-top: 0.5rem;
+}
+.location-status.success { color: #28a745; font-weight: 600; font-style: normal; }
+.location-status.error { color: #dc3545; font-weight: 600; font-style: normal; }
+.location-status.loading { color: #002D62; font-weight: 500; }
+
+.restaurant-counter {
+    display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 1rem;
+    background: linear-gradient(135deg, #002D62, #EB6E1F); border-radius: 12px; margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,45,98,0.3);
+}
+.counter-label { color: white; font-size: 1rem; font-weight: 500; }
+.counter-number { color: #FFD700; font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+.search-actions { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+
+/* Responsive search styles */
+@media (max-width: 768px) {
+    .search-section { background-attachment: scroll; }
+    .search-form { margin: 0 1rem; padding: 1.5rem; background: rgba(255,255,255,0.98); }
+    .location-inputs { grid-template-columns: 1fr; gap: 1rem; }
+    .form-group input {
+        padding: 14px 16px;
+        font-size: 1rem;
+    }
+    .search-actions { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+    .search-actions .btn { 
+        width: 100%; 
+        max-width: none;
+        padding: 14px;
+        font-size: 1.1rem;
+    }
+    .restaurant-counter { flex-direction: column; gap: 0.25rem; padding: 1rem; }
+    .counter-label { font-size: 1rem; }
+    .counter-number { font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+    .search-form { padding: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .location-inputs { gap: 0.75rem; }
+} 
