@@ -1,23 +1,32 @@
 // Optimized restaurant data - top-rated establishments across Houston metro
 let mockRestaurants = []; // This will be populated from the JSON file
 
-// Fetch restaurant data from the external JSON file
+// Fetch and process restaurant data
 const fetchRestaurants = async () => {
     try {
         const response = await fetch('data/restaurants.json');
         if (!response.ok) throw new Error('Network response was not ok');
         mockRestaurants = await response.json();
+        
+        // Pre-process data for fast filtering
+        restaurantsByCuisine = {};
+        mockRestaurants.forEach(r => {
+            const cuisine = r.cuisine.toLowerCase();
+            if (!restaurantsByCuisine[cuisine]) {
+                restaurantsByCuisine[cuisine] = [];
+            }
+            restaurantsByCuisine[cuisine].push(r);
+        });
+
     } catch (error) {
         console.error('Failed to fetch restaurants:', error);
-        // Fallback to a minimal set of restaurants if the fetch fails
-        mockRestaurants = [
-            {"name": "Uchi", "cuisine": "japanese", "rating": 4.8, "address": "904 Westheimer Rd, Houston, TX 77006", "lat": 29.7402, "lng": -95.3902}
-        ];
+        mockRestaurants = [{"name": "Uchi", "cuisine": "japanese", "rating": 4.8, "address": "904 Westheimer Rd, Houston, TX 77006", "lat": 29.7402, "lng": -95.3902}];
     }
 };
 
 let map, currentResults = [], currentUserGpsLocation = null; // Stored GPS location
 const HOUSTON_DEFAULT = { lat: 29.7604, lng: -95.3698 }; // Default location constant
+let restaurantsByCuisine = {}; // Pre-processed data for performance
 
 // Optimized utility functions
 const toRad = deg => deg * (Math.PI / 180);
@@ -334,20 +343,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('totalRestaurants').textContent = mockRestaurants.length;
 });
 
-// Main search function - refactored to use a local searchCenter variable
+// Main search function - updated for major performance gains
 const searchAndShow = async viewType => {
     const address = document.getElementById('address').value;
     const range = parseInt(document.getElementById('range').value) || 10;
     const selectedCuisines = getSelectedCuisines();
     
     try {
-        const searchCenter = await geocodeLocation(address); // Use a local variable for the search point
+        const searchCenter = await geocodeLocation(address);
         
-        currentResults = mockRestaurants.map(r => ({ 
+        // Use pre-filtered lists for speed if cuisines are selected
+        const restaurantsToSearch = selectedCuisines.length > 0
+            ? selectedCuisines.flatMap(c => restaurantsByCuisine[c] || [])
+            : mockRestaurants;
+
+        currentResults = restaurantsToSearch.map(r => ({ 
             ...r, 
             calculatedDistance: calculateDistance(searchCenter.lat, searchCenter.lng, r.lat, r.lng) 
         }))
-        .filter(r => r.calculatedDistance <= range && (selectedCuisines.length === 0 || selectedCuisines.includes(r.cuisine)))
+        .filter(r => r.calculatedDistance <= range)
         .sort((a, b) => a.calculatedDistance - b.calculatedDistance);
         
         const section = document.getElementById('resultsSection'), title = document.getElementById('resultsTitle');
@@ -359,7 +373,6 @@ const searchAndShow = async viewType => {
         ['listView', 'mapView', 'randomView'].forEach(v => document.getElementById(v).style.display = 'none');
         
         const viewFunction = { list: showListView, map: showMapView, random: showRandomView }[viewType];
-        // Pass the explicit searchCenter to the map view function
         if (viewType === 'map') {
             viewFunction(currentResults, searchCenter);
         } else {
@@ -371,15 +384,39 @@ const searchAndShow = async viewType => {
     }
 };
 
-// Optimized view functions
+// Highly optimized view function for rendering the list
 const showListView = restaurants => {
-    document.getElementById('listView').style.display = 'block';
-    document.getElementById('resultsGrid').innerHTML = restaurants.length === 0 ? '<p>No restaurants found.</p>' :
-        restaurants.map(r => `<div class="card"><h3>${r.name}</h3><div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
-        <div class="rating">⭐ ${r.rating}/5.0</div><div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
-        <div class="address"><a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener">${r.address}</a></div></div>`).join('');
+    const grid = document.getElementById('resultsGrid');
+    const container = document.getElementById('listView');
+    container.style.display = 'block';
+    
+    // Use a document fragment to minimize DOM manipulation
+    const fragment = document.createDocumentFragment();
+
+    if (restaurants.length === 0) {
+        const p = document.createElement('p');
+        p.textContent = 'No restaurants found.';
+        fragment.appendChild(p);
+    } else {
+        restaurants.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<h3>${r.name}</h3>
+                <div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
+                <div class="rating">⭐ ${r.rating}/5.0</div>
+                <div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
+                <div class="address"><a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener">${r.address}</a></div>`;
+            fragment.appendChild(card);
+        });
+    }
+
+    // Clear the grid and append the fragment in one go
+    grid.innerHTML = '';
+    grid.appendChild(fragment);
 };
 
+
+// Map view function
 const showMapView = (restaurants, searchCenter) => {
     document.getElementById('mapView').style.display = 'block';
     const range = parseInt(document.getElementById('range').value) || 10;

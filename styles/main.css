@@ -343,15 +343,25 @@ body {
     right: 20px;
     background-color: #002D62;
     color: white;
-    width: 60px;
+    width: auto; /* Auto-width for text */
     height: 60px;
-    border-radius: 50%;
+    padding: 0 20px; /* Add padding for text */
+    border-radius: 30px; /* Pill shape */
     border: none;
-    font-size: 2rem;
+    font-size: 1.1rem; /* Adjust font size */
+    font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 45, 98, 0.4);
     z-index: 1000;
+    display: flex; /* Flexbox for alignment */
+    align-items: center;
+    gap: 10px; /* Space between emoji and text */
     transition: transform 0.2s ease, background-color 0.2s ease;
+    will-change: transform, background-color; /* Performance hint */
+}
+
+.chatbot-toggle-btn span {
+    font-size: 1.8rem; /* Keep emoji size larger */
 }
 
 .chatbot-toggle-btn:hover {
@@ -378,6 +388,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    will-change: opacity, transform; /* Performance hint */
 }
 
 .chatbot-container.open {
