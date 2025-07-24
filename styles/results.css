@@ -56,6 +56,17 @@
     color: #EB6E1F;
 }
 
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.card .cuisine {
+    margin-bottom: 0;
+}
+
 /* Responsive results styles */
 @media (max-width: 768px) {
     .results-grid { grid-template-columns: 1fr; gap: 1.5rem; }

@@ -1,5 +1,5 @@
 // scripts/app.js
-import { fetchRestaurants, getSelectedCuisines, mockRestaurants, restaurantsByCuisine } from './restaurants.js';
+import { fetchRestaurants, getSelectedCuisines, getSelectedPrices, mockRestaurants, restaurantsByCuisine, restaurantsByPrice } from './restaurants.js';
 import { calculateDistance, geocodeLocation, requestUserLocation } from './location.js';
 import { initializeDropdown } from './dropdown.js';
 import { initializeAddressAutocomplete } from './autocomplete.js';
@@ -12,13 +12,22 @@ const searchAndShow = async (viewType) => {
     const address = document.getElementById('address').value;
     const range = parseInt(document.getElementById('range').value) || 10;
     const selectedCuisines = getSelectedCuisines();
+    const selectedPrices = getSelectedPrices();
     
     try {
         const searchCenter = await geocodeLocation(address);
         
-        const restaurantsToSearch = selectedCuisines.length > 0
+        // First filter by cuisine if selected
+        let restaurantsToSearch = selectedCuisines.length > 0
             ? selectedCuisines.flatMap(c => restaurantsByCuisine[c] || [])
             : mockRestaurants;
+            
+        // Then filter by price if selected
+        if (selectedPrices.length > 0) {
+            restaurantsToSearch = restaurantsToSearch.filter(r => 
+                selectedPrices.includes(r.price)
+            );
+        }
 
         const results = restaurantsToSearch.map(r => ({ 
             ...r, 

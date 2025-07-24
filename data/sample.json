@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Must Be Heaven",
+        "cuisine": "american",
+        "rating": 4.7,
+        "address": "107 West Alamo Street, Brenham, TX 77833",
+        "lat": 30.1745,
+        "lng": -96.3977,
+        "price": "$$"
+    },
+    {
+        "name": "Brenham Grill",
+        "cuisine": "american",
+        "rating": 4.4,
+        "address": "107 W Commerce St, Brenham, TX 77833",
+        "lat": 30.1743,
+        "lng": -96.3972,
+        "price": "$$"
+    }
+] 

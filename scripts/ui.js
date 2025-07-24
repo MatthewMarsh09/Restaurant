@@ -34,8 +34,15 @@ export const showListView = () => {
         paginatedResults.forEach(r => {
             const card = document.createElement('div');
             card.className = 'card';
+            
+            // Get the appropriate CSS class for the price
+            const priceClass = `price-${r.price.replace(/\$/g, '\\$')}`;
+            
             card.innerHTML = `<h3>${r.name}</h3>
-                <div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
+                <div class="card-header">
+                    <div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
+                    <div class="price-indicator ${priceClass}">${r.price}</div>
+                </div>
                 <div class="rating">⭐ ${r.rating}/5.0</div>
                 <div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
                 <div class="address"><a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener">${r.address}</a></div>`;
@@ -88,7 +95,10 @@ export const showMapView = (restaurants, searchCenter) => {
         const marker = L.marker([r.lat, r.lng]).addTo(map);
         const popupContent = `<div style="text-align: center; min-width: 200px;">
             <strong style="font-size: 14px;">${r.name}</strong><br>
-            <span style="color: #666;">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</span><br>
+            <div style="display: flex; justify-content: center; gap: 10px; margin: 5px 0;">
+                <span style="color: #666;">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</span>
+                <span style="font-weight: 600;">${r.price}</span>
+            </div>
             <span style="color: #ff6600;">⭐ ${r.rating}/5.0</span><br>
             <span style="color: #002D62;">📍 ${r.calculatedDistance.toFixed(1)} miles</span><br>
             <a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener" style="color: #0066cc; text-decoration: underline; font-size: 12px;">${r.address}</a>
@@ -109,7 +119,16 @@ export const showRandomResult = (restaurants = currentResults) => {
         return;
     }
     const r = restaurants[Math.floor(Math.random() * restaurants.length)];
-    card.innerHTML = `<h4>${r.name}</h4><div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
-        <div class="rating">⭐ ${r.rating}/5.0</div><div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
+    
+    // Get the appropriate CSS class for the price
+    const priceClass = `price-${r.price.replace(/\$/g, '\\$')}`;
+    
+    card.innerHTML = `<h4>${r.name}</h4>
+        <div class="card-header">
+            <div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
+            <div class="price-indicator ${priceClass}">${r.price}</div>
+        </div>
+        <div class="rating">⭐ ${r.rating}/5.0</div>
+        <div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
         <div class="address"><a href="${generateMapsLink(r.address)}" target="_blank" rel="noopener">${r.address}</a></div>`;
 }; 
