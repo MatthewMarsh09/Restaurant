@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('useLocationBtn').onclick = () => requestUserLocation(searchAndShow);
     document.getElementById('prevPageBtn').onclick = () => changePage(-1);
     document.getElementById('nextPageBtn').onclick = () => changePage(1);
+    document.getElementById('searchBtn').onclick = () => searchAndShow('list');
 
     initializeDropdown();
     initializeAddressAutocomplete();
