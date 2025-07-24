@@ -54,10 +54,13 @@ export const showListView = () => {
             const userRating = getAverageRating(restaurantId);
             const ratingDisplay = userRating ? `⭐ ${userRating.toFixed(1)}/5.0 (${reviewCount})` : `⭐ ${r.rating}/5.0`;
             
+            // Display price with range if available
+            const priceDisplay = r.priceRange ? `${r.price} (${r.priceRange})` : r.price;
+            
             card.innerHTML = `<h3>${r.name}</h3>
                 <div class="card-header">
                     <div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
-                    <div class="price-indicator ${priceClass}">${r.price}</div>
+                    <div class="price-indicator ${priceClass}">${priceDisplay}</div>
                 </div>
                 <div class="rating">${ratingDisplay}</div>
                 <div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>
@@ -130,11 +133,15 @@ export const showMapView = (restaurants, searchCenter) => {
     L.circle([center.lat, center.lng], { color: '#002D62', fillColor: '#EB6E1F', fillOpacity: 0.1, radius: range * 1609.34 }).addTo(map);
     restaurants.forEach(r => {
         const marker = L.marker([r.lat, r.lng]).addTo(map);
+        
+        // Display price with range if available
+        const priceDisplay = r.priceRange ? `${r.price} (${r.priceRange})` : r.price;
+        
         const popupContent = `<div style="text-align: center; min-width: 200px;">
             <strong style="font-size: 14px;">${r.name}</strong><br>
             <div style="display: flex; justify-content: center; gap: 10px; margin: 5px 0;">
                 <span style="color: #666;">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</span>
-                <span style="font-weight: 600;">${r.price}</span>
+                <span style="font-weight: 600;">${priceDisplay}</span>
             </div>
             <span style="color: #ff6600;">⭐ ${r.rating}/5.0</span><br>
             <span style="color: #002D62;">📍 ${r.calculatedDistance.toFixed(1)} miles</span><br>
@@ -160,10 +167,13 @@ export const showRandomResult = (restaurants = currentResults) => {
     // Get the appropriate CSS class for the price
     const priceClass = `price-${r.price.replace(/\$/g, '\\$')}`;
     
+    // Display price with range if available
+    const priceDisplay = r.priceRange ? `${r.price} (${r.priceRange})` : r.price;
+    
     card.innerHTML = `<h4>${r.name}</h4>
         <div class="card-header">
             <div class="cuisine">${r.cuisine.charAt(0).toUpperCase() + r.cuisine.slice(1)}</div>
-            <div class="price-indicator ${priceClass}">${r.price}</div>
+            <div class="price-indicator ${priceClass}">${priceDisplay}</div>
         </div>
         <div class="rating">⭐ ${r.rating}/5.0</div>
         <div class="distance">📍 ${r.calculatedDistance.toFixed(1)} miles</div>

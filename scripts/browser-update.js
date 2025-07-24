@@ -3,47 +3,47 @@
 
 // Define price ranges for different types of restaurants
 const PRICE_RANGES = {
-  fastFood: '$',
-  casualDining: '$$',
-  upscale: '$$$',
-  fineDining: '$$$$'
+  fastFood: { symbol: '$', range: '$5-15' },
+  casualDining: { symbol: '$$', range: '$15-30' },
+  upscale: { symbol: '$$$', range: '$30-60' },
+  fineDining: { symbol: '$$$$', range: '$60+' }
 };
 
 // Define chains with their cuisine type and price range
 const RESTAURANT_CHAINS = [
-  { name: "McDonald's", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood },
-  { name: "Burger King", cuisine: "fast food", rating: 3.7, price: PRICE_RANGES.fastFood },
-  { name: "Wendy's", cuisine: "fast food", rating: 3.9, price: PRICE_RANGES.fastFood },
-  { name: "Taco Bell", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood },
-  { name: "KFC", cuisine: "fast food", rating: 3.7, price: PRICE_RANGES.fastFood },
-  { name: "Popeyes", cuisine: "fast food", rating: 4.0, price: PRICE_RANGES.fastFood },
-  { name: "Chipotle", cuisine: "mexican", rating: 4.2, price: PRICE_RANGES.fastFood },
-  { name: "Subway", cuisine: "fast food", rating: 3.9, price: PRICE_RANGES.fastFood },
-  { name: "Chick-fil-A", cuisine: "fast food", rating: 4.5, price: PRICE_RANGES.fastFood },
-  { name: "Raising Cane's", cuisine: "fast food", rating: 4.4, price: PRICE_RANGES.fastFood },
-  { name: "Whataburger", cuisine: "fast food", rating: 4.2, price: PRICE_RANGES.fastFood },
-  { name: "In-N-Out Burger", cuisine: "fast food", rating: 4.4, price: PRICE_RANGES.fastFood },
-  { name: "Panda Express", cuisine: "chinese", rating: 3.9, price: PRICE_RANGES.fastFood },
-  { name: "Sonic Drive-In", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood },
-  { name: "Jack in the Box", cuisine: "fast food", rating: 3.7, price: PRICE_RANGES.fastFood },
-  { name: "Arby's", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood },
-  { name: "Five Guys", cuisine: "fast food", rating: 4.2, price: PRICE_RANGES.fastFood },
-  { name: "Jersey Mike's", cuisine: "fast food", rating: 4.3, price: PRICE_RANGES.fastFood },
-  { name: "Jimmy John's", cuisine: "fast food", rating: 4.1, price: PRICE_RANGES.fastFood },
-  { name: "Firehouse Subs", cuisine: "fast food", rating: 4.2, price: PRICE_RANGES.fastFood },
-  { name: "Jason's Deli", cuisine: "american", rating: 4.3, price: PRICE_RANGES.casualDining },
-  { name: "Panera Bread", cuisine: "american", rating: 4.1, price: PRICE_RANGES.casualDining },
-  { name: "CAVA", cuisine: "mediterranean", rating: 4.5, price: PRICE_RANGES.casualDining },
-  { name: "Salata", cuisine: "salads", rating: 4.3, price: PRICE_RANGES.casualDining },
-  { name: "Piada Italian Street Food", cuisine: "italian", rating: 4.3, price: PRICE_RANGES.casualDining },
-  { name: "Cabo Bob's", cuisine: "mexican", rating: 4.5, price: PRICE_RANGES.casualDining },
-  { name: "Jinya Ramen Bar", cuisine: "japanese", rating: 4.4, price: PRICE_RANGES.casualDining },
-  { name: "Culver's", cuisine: "american", rating: 4.4, price: PRICE_RANGES.fastFood },
-  { name: "Layne's Chicken Fingers", cuisine: "fast food", rating: 4.3, price: PRICE_RANGES.fastFood },
-  { name: "Cracker Barrel", cuisine: "american", rating: 4.2, price: PRICE_RANGES.casualDining },
-  { name: "Saltgrass Steakhouse", cuisine: "american", rating: 4.4, price: PRICE_RANGES.upscale },
-  { name: "Longhorn Steakhouse", cuisine: "american", rating: 4.3, price: PRICE_RANGES.upscale },
-  { name: "Whiskey Cake", cuisine: "american", rating: 4.5, price: PRICE_RANGES.upscale }
+  { name: "McDonald's", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Burger King", cuisine: "fast food", rating: 3.7, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Wendy's", cuisine: "fast food", rating: 3.9, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Taco Bell", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "KFC", cuisine: "fast food", rating: 3.7, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Popeyes", cuisine: "fast food", rating: 4.0, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Chipotle", cuisine: "mexican", rating: 4.2, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Subway", cuisine: "fast food", rating: 3.9, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Chick-fil-A", cuisine: "fast food", rating: 4.5, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Raising Cane's", cuisine: "fast food", rating: 4.4, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Whataburger", cuisine: "fast food", rating: 4.2, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "In-N-Out Burger", cuisine: "fast food", rating: 4.4, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Panda Express", cuisine: "chinese", rating: 3.9, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Sonic Drive-In", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Jack in the Box", cuisine: "fast food", rating: 3.7, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Arby's", cuisine: "fast food", rating: 3.8, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Five Guys", cuisine: "fast food", rating: 4.2, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Jersey Mike's", cuisine: "fast food", rating: 4.3, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Jimmy John's", cuisine: "fast food", rating: 4.1, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Firehouse Subs", cuisine: "fast food", rating: 4.2, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Jason's Deli", cuisine: "american", rating: 4.3, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Panera Bread", cuisine: "american", rating: 4.1, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "CAVA", cuisine: "mediterranean", rating: 4.5, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Salata", cuisine: "salads", rating: 4.3, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Piada Italian Street Food", cuisine: "italian", rating: 4.3, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Cabo Bob's", cuisine: "mexican", rating: 4.5, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Jinya Ramen Bar", cuisine: "japanese", rating: 4.4, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Culver's", cuisine: "american", rating: 4.4, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Layne's Chicken Fingers", cuisine: "fast food", rating: 4.3, price: PRICE_RANGES.fastFood.symbol, priceRange: PRICE_RANGES.fastFood.range },
+  { name: "Cracker Barrel", cuisine: "american", rating: 4.2, price: PRICE_RANGES.casualDining.symbol, priceRange: PRICE_RANGES.casualDining.range },
+  { name: "Saltgrass Steakhouse", cuisine: "american", rating: 4.4, price: PRICE_RANGES.upscale.symbol, priceRange: PRICE_RANGES.upscale.range },
+  { name: "Longhorn Steakhouse", cuisine: "american", rating: 4.3, price: PRICE_RANGES.upscale.symbol, priceRange: PRICE_RANGES.upscale.range },
+  { name: "Whiskey Cake", cuisine: "american", rating: 4.5, price: PRICE_RANGES.upscale.symbol, priceRange: PRICE_RANGES.upscale.range }
 ];
 
 // Define major areas around Houston within 50 miles
@@ -91,6 +91,7 @@ function generateChainRestaurants() {
         cuisine: chain.cuisine,
         rating: chain.rating,
         price: chain.price,
+        priceRange: chain.priceRange,
         address: `${streetNumber} ${streetName}, ${area.name}, TX`,
         lat: area.lat + latOffset,
         lng: area.lng + lngOffset
@@ -101,6 +102,34 @@ function generateChainRestaurants() {
   });
   
   return chainRestaurants;
+}
+
+// Function to update existing restaurants with price ranges
+function addPriceRangesToExisting(restaurants) {
+  return restaurants.map(restaurant => {
+    // Skip if restaurant already has a priceRange
+    if (restaurant.priceRange) {
+      return restaurant;
+    }
+    
+    // Add price range based on existing price symbol
+    let priceRange = '$5-15'; // Default
+    
+    if (restaurant.price === '$') {
+      priceRange = '$5-15';
+    } else if (restaurant.price === '$$') {
+      priceRange = '$15-30';
+    } else if (restaurant.price === '$$$') {
+      priceRange = '$30-60';
+    } else if (restaurant.price === '$$$$') {
+      priceRange = '$60+';
+    }
+    
+    return {
+      ...restaurant,
+      priceRange
+    };
+  });
 }
 
 // Function to update restaurants.json with chain restaurants
@@ -119,6 +148,10 @@ async function updateRestaurantsWithChains() {
     
     statusContainer.innerHTML += `<br>Current restaurant count: ${currentRestaurants.length}`;
     
+    // Update existing restaurants with price ranges
+    statusContainer.innerHTML += '<br>Adding price ranges to existing restaurants...';
+    const updatedExistingRestaurants = addPriceRangesToExisting(currentRestaurants);
+    
     // Generate chain restaurants
     statusContainer.innerHTML += '<br>Generating chain restaurants...';
     const chainRestaurants = generateChainRestaurants();
@@ -126,7 +159,7 @@ async function updateRestaurantsWithChains() {
     
     // Combine current restaurants with chain restaurants
     statusContainer.innerHTML += '<br>Merging restaurant data...';
-    const allRestaurants = [...currentRestaurants];
+    const allRestaurants = [...updatedExistingRestaurants];
     
     // Add chain restaurants, avoiding duplicates by checking name and address
     let addedCount = 0;
