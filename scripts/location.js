@@ -51,26 +51,50 @@ export const requestUserLocation = (searchCallback) => {
 
 export const geocodeLocation = async input => {
     const cleanedInput = input?.trim().toLowerCase();
-    if (cleanedInput === 'current location') return currentUserGpsLocation || HOUSTON_DEFAULT;
+    
+    // Handle empty input or "current location"
     if (!cleanedInput) return HOUSTON_DEFAULT;
+    if (cleanedInput === 'current location') return currentUserGpsLocation || HOUSTON_DEFAULT;
 
+    // Check if we already have coordinates from autocomplete
     const addressInput = document.getElementById('address');
     if (addressInput.dataset.lat && addressInput.dataset.lng) {
-        return { lat: parseFloat(addressInput.dataset.lat), lng: parseFloat(addressInput.dataset.lng) };
+        return { 
+            lat: parseFloat(addressInput.dataset.lat), 
+            lng: parseFloat(addressInput.dataset.lng) 
+        };
     }
 
+    // If not, try to geocode the address
     try {
         const bounds = '28.5,-96.5,30.5,-94.5';
-        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(cleanedInput + ' Houston Texas')}&viewbox=${bounds}&bounded=1`;
+        // Don't automatically append Houston Texas if the input already contains location info
+        const searchQuery = cleanedInput.includes('houston') || cleanedInput.includes('tx') || 
+                           cleanedInput.includes('texas') ? 
+                           cleanedInput : 
+                           `${cleanedInput} Houston Texas`;
+        
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(searchQuery)}&viewbox=${bounds}&bounded=1`;
+        
         const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        
         const results = await response.json();
-        if (results.length > 0) {
-            return { lat: parseFloat(results[0].lat), lng: parseFloat(results[0].lon) };
+        if (results && results.length > 0) {
+            const result = results[0];
+            console.log('Geocoded address:', result);
+            return { 
+                lat: parseFloat(result.lat), 
+                lng: parseFloat(result.lon) 
+            };
+        } else {
+            console.warn('No geocoding results found for:', cleanedInput);
         }
     } catch (error) {
-        console.warn('Geocoding failed:', error);
+        console.error('Geocoding failed:', error);
     }
 
+    // If we get here, geocoding failed
     console.warn("Could not geocode input, defaulting to Houston.");
     return HOUSTON_DEFAULT;
 };
