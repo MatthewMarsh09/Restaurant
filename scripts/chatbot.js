@@ -1,11 +1,52 @@
 // scripts/chatbot.js
 import { mockRestaurants } from './restaurants.js';
 
-// --- Conversational Phrases ---
+// --- Conversational Engine ---
+
+const foodItemToCuisineMap = {
+    'burger': ['american', 'fast food'],
+    'taco': ['mexican'],
+    'fajita': ['mexican'],
+    'quesadilla': ['mexican'],
+    'arepa': ['venezuelan'],
+    'sushi': ['japanese'],
+    'sashimi': ['japanese'],
+    'ramen': ['japanese'],
+    'pho': ['vietnamese'],
+    'pizza': ['pizza', 'italian', 'fast food'],
+    'bbq': ['bbq'],
+    'brisket': ['bbq'],
+    'ribs': ['bbq'],
+    'gumbo': ['cajun', 'creole'],
+    'pasta': ['italian'],
+    'salad': ['salads'],
+    'steak': ['american'],
+    'seafood': ['seafood'],
+    'kabob': ['persian', 'mediterranean'],
+    'curry': ['indian', 'thai'],
+    'tandoori': ['indian'],
+    'samosa': ['indian'],
+    'pad thai': ['thai'],
+    'sushi roll': ['japanese'],
+    'oyster': ['seafood'],
+    'crawfish': ['cajun', 'seafood']
+};
+
+// Conversation memory
+let conversationContext = {
+    lastMentionedItem: null,
+    lastRecommendedRestaurants: [],
+    userPreferences: {
+        likedCuisines: [],
+        dislikedCuisines: []
+    },
+    conversationStage: 'greeting' // greeting, recommending, follow_up
+};
+
 const greetings = [
-    "Hello! What kind of food are you craving today?",
-    "Hi there! I'm your Houston Food Finder assistant. What can I help you find?",
-    "Hey! Looking for a great place to eat? Tell me what's on your mind."
+    "Hey there! What kind of food are you in the mood for today?",
+    "Hi! I'm your friendly food finder. What sounds good right now?",
+    "Hello! Let's find you something delicious. What are you craving?"
 ];
 
 const confirmations = {
@@ -14,30 +55,41 @@ const confirmations = {
         "You want the best? I can certainly help with that. Looking for top-rated places now...",
         "Excellent choice! I'll find a highly-rated restaurant for you."
     ],
-    cuisine: [
-        "Great, you're looking for {cuisine}! I can definitely find some options for you.",
-        "I know some fantastic {cuisine} places. Let me see...",
-        "Craving {cuisine}? You've come to the right place. Let's find the perfect restaurant."
+    item: [
+        "Aha, craving {item}! You've come to the right place. Let me see what I can find.",
+        "A good {item} sounds perfect. I'll look for some spots that should have what you're looking for.",
+        "One {item}, coming right up! Well, a suggestion for one, at least. Searching now..."
     ]
 };
 
 const recommendations = [
-    "I'd recommend checking out {name}. It's a {quality}{cuisine} restaurant with a {rating}-star rating, located at {address}.",
-    "How about {name}? People say it's a great {quality}{cuisine} spot. You can find it at {address} and it's rated {rating}/5.",
-    "You might really like {name}. It's a fantastic {quality}{cuisine} place with a rating of {rating}, located at {address}."
+    "I found a few great options for you:",
+    "Here are some spots that I think you'll really like:",
+    "How do these look?"
 ];
 
-const apologies = [
-    "I'm sorry, I couldn't find any restaurants that match your request. Could you try asking in a different way?",
-    "Hmm, I'm not finding anything for that. Maybe we could try a different type of food or a broader search?",
-    "My apologies, I'm coming up empty on that one. Is there anything else I can look for?"
+const followUpQuestions = [
+    "Would you like me to find something else instead?",
+    "Is there a specific area of Houston you're looking in?",
+    "Do you prefer casual dining or something more upscale?",
+    "Are you looking for something with outdoor seating?"
 ];
 
-// --- Helper Functions ---
-const getRandomResponse = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const formatResponse = (template, data) => template.replace(/{(\w+)}/g, (match, key) => data[key] || '');
+const positiveResponses = [
+    "Great choice! {restaurant} is really popular.",
+    "Excellent! I've heard {restaurant} has amazing food.",
+    "Nice pick! {restaurant} is definitely worth checking out."
+];
 
-// --- Core Chatbot Logic ---
+const fallbacks = [
+    "I'm sorry, I'm not familiar with that. Could you try asking for a type of food, like 'pizza', 'tacos', or 'sushi'?",
+    "Hmm, I'm not sure about that one. Try asking for a specific cuisine or a popular dish, and I'll do my best to help!",
+    "I'm still learning about all the delicious food in Houston! Can you try another search term for me?"
+];
+
+const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// --- Main Chatbot Logic ---
 
 const addMessage = (message, sender) => {
     const chatbotMessages = document.getElementById('chatbotMessages');
@@ -50,88 +102,225 @@ const addMessage = (message, sender) => {
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 };
 
+const detectIntent = (input) => {
+    const lowerInput = input.toLowerCase().trim();
+    
+    // Check for specific food items
+    for (const item in foodItemToCuisineMap) {
+        if (lowerInput.includes(item)) {
+            return { type: 'food_item', value: item };
+        }
+    }
+    
+    // Check for quality keywords
+    if (['best', 'top', 'great', 'good'].some(kw => lowerInput.includes(kw))) {
+        return { type: 'quality' };
+    }
+    
+    // Check for location mentions
+    if (lowerInput.includes('downtown') || lowerInput.includes('midtown') || 
+        lowerInput.includes('uptown') || lowerInput.includes('heights') || 
+        lowerInput.includes('montrose') || lowerInput.includes('katy')) {
+        const locations = ['downtown', 'midtown', 'uptown', 'heights', 'montrose', 'katy'];
+        const found = locations.find(loc => lowerInput.includes(loc));
+        return { type: 'location', value: found };
+    }
+    
+    // Check for yes/no responses
+    if (['yes', 'yeah', 'yep', 'sure', 'okay', 'ok'].some(kw => lowerInput === kw || lowerInput.startsWith(kw + ' '))) {
+        return { type: 'affirmative' };
+    }
+    
+    if (['no', 'nope', 'nah', 'not'].some(kw => lowerInput === kw || lowerInput.startsWith(kw + ' '))) {
+        return { type: 'negative' };
+    }
+    
+    // Check for thanks
+    if (['thanks', 'thank you', 'thx'].some(kw => lowerInput.includes(kw))) {
+        return { type: 'gratitude' };
+    }
+    
+    return { type: 'unknown' };
+};
+
 const getBotResponse = (userInput) => {
-    const lowerInput = userInput.toLowerCase();
-    const keywords = {
-        cuisine: ['mexican', 'italian', 'chinese', 'japanese', 'indian', 'bbq', 'seafood', 'fast food', 'sushi', 'pizza', 'burger', 'venezuelan'],
-        quality: ['best', 'top', 'great', 'good', 'highest rated'],
-        price: ['cheap', 'affordable', 'inexpensive'],
-        random: ['random', 'anything', 'surprise me']
-    };
-
-    const findKeyword = (arr) => arr.find(kw => lowerInput.includes(kw));
-    const foundCuisine = findKeyword(keywords.cuisine);
-    const wantsBest = findKeyword(keywords.quality);
-    const wantsCheap = findKeyword(keywords.price);
+    const intent = detectIntent(userInput);
     
-    let initialResponse = "";
+    // Handle based on intent and conversation stage
+    switch (intent.type) {
+        case 'food_item':
+            handleFoodItemIntent(intent.value);
+            break;
+            
+        case 'quality':
+            handleQualityIntent();
+            break;
+            
+        case 'location':
+            handleLocationIntent(intent.value);
+            break;
+            
+        case 'affirmative':
+            if (conversationContext.conversationStage === 'follow_up') {
+                addMessage("Great! What kind of food are you interested in?", 'bot');
+                conversationContext.conversationStage = 'greeting';
+            } else {
+                addMessage(getRandomItem(followUpQuestions), 'bot');
+                conversationContext.conversationStage = 'follow_up';
+            }
+            break;
+            
+        case 'negative':
+            addMessage("No problem! Let me know if you need any other food suggestions.", 'bot');
+            conversationContext.conversationStage = 'greeting';
+            break;
+            
+        case 'gratitude':
+            addMessage("You're welcome! Enjoy your meal. Let me know if you need anything else!", 'bot');
+            conversationContext.conversationStage = 'greeting';
+            break;
+            
+        default:
+            // If we're in a follow-up stage, try to be helpful
+            if (conversationContext.conversationStage === 'follow_up') {
+                addMessage("I'm not quite sure what you're looking for. Would you like me to suggest some of our top-rated restaurants?", 'bot');
+            } else {
+                addMessage(getRandomItem(fallbacks), 'bot');
+            }
+    }
+};
 
-    if (findKeyword(keywords.random) && !foundCuisine) {
-        const randomRest = mockRestaurants[Math.floor(Math.random() * mockRestaurants.length)];
-        return `How about trying something random? I suggest ${randomRest.name}. It's a ${randomRest.cuisine} place at ${randomRest.address}. Enjoy!`;
-    }
+const handleFoodItemIntent = (item) => {
+    const potentialCuisines = foodItemToCuisineMap[item];
+    const confirmation = getRandomItem(confirmations.item).replace('{item}', item);
+    addMessage(confirmation, 'bot');
+    
+    // Update conversation context
+    conversationContext.lastMentionedItem = item;
+    conversationContext.conversationStage = 'recommending';
+    
+    setTimeout(() => {
+        const results = mockRestaurants
+            .filter(r => potentialCuisines.includes(r.cuisine.toLowerCase()))
+            .sort((a, b) => b.rating - a.rating)
+            .slice(0, 3);
+        
+        conversationContext.lastRecommendedRestaurants = results;
+        
+        if (results.length > 0) {
+            let response = `${getRandomItem(recommendations)}\n\n`;
+            results.forEach(r => {
+                response += `• ${r.name} (${r.cuisine}) - ⭐${r.rating}\n`;
+            });
+            addMessage(response, 'bot');
+            
+            // Add a follow-up question after recommendations
+            setTimeout(() => {
+                addMessage("Do any of these sound good to you?", 'bot');
+                conversationContext.conversationStage = 'follow_up';
+            }, 1000);
+        } else {
+            addMessage(`I'm sorry, I couldn't find any spots known for ${item}. Maybe try another dish?`, 'bot');
+            conversationContext.conversationStage = 'greeting';
+        }
+    }, 800);
+};
 
-    let results = [...mockRestaurants];
+const handleQualityIntent = () => {
+    addMessage(getRandomItem(confirmations.best), 'bot');
+    conversationContext.conversationStage = 'recommending';
     
-    if (foundCuisine) {
-        initialResponse = getRandomResponse(confirmations.cuisine).replace('{cuisine}', foundCuisine);
-        results = results.filter(r => r.cuisine.toLowerCase() === foundCuisine);
-    }
-    
-    if (wantsBest) {
-        if (!initialResponse) initialResponse = getRandomResponse(confirmations.best);
-        results.sort((a, b) => b.rating - a.rating);
-    } else if (wantsCheap) {
-        results = results.slice().sort((a, b) => a.rating - b.rating).slice(0, Math.ceil(results.length / 2));
-    }
+    setTimeout(() => {
+        const results = [...mockRestaurants].sort((a, b) => b.rating - a.rating).slice(0, 3);
+        conversationContext.lastRecommendedRestaurants = results;
+        
+        let response = `Here are some of the highest-rated restaurants overall:\n\n`;
+        results.forEach(r => {
+            response += `• ${r.name} (${r.cuisine}) - ⭐${r.rating}\n`;
+        });
+        addMessage(response, 'bot');
+        
+        // Add a follow-up question after recommendations
+        setTimeout(() => {
+            addMessage("Do any of these catch your eye?", 'bot');
+            conversationContext.conversationStage = 'follow_up';
+        }, 1000);
+    }, 800);
+};
 
-    if (results.length === 0 || !mockRestaurants.some(r => results.includes(r))) {
-        return getRandomResponse(apologies);
-    }
-
-    const restaurant = wantsBest ? results[0] : results[Math.floor(Math.random() * results.length)];
-    if (!restaurant) {
-        return getRandomResponse(apologies);
-    }
+const handleLocationIntent = (location) => {
+    addMessage(`Looking for places in ${location}! Let me find some great options in that area.`, 'bot');
+    conversationContext.conversationStage = 'recommending';
     
-    const recommendationTemplate = getRandomResponse(recommendations);
-    const recommendationText = formatResponse(recommendationTemplate, {
-        name: restaurant.name,
-        quality: wantsBest ? 'highly-rated ' : '',
-        cuisine: restaurant.cuisine,
-        rating: restaurant.rating,
-        address: restaurant.address
-    });
-    
-    return initialResponse ? `${initialResponse}\n\n${recommendationText}` : recommendationText;
+    // This is a simplified version - in reality you'd filter by location
+    // For now we'll just return some random restaurants
+    setTimeout(() => {
+        const results = [...mockRestaurants]
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 3);
+        
+        conversationContext.lastRecommendedRestaurants = results;
+        
+        let response = `Here are some great spots in the ${location} area:\n\n`;
+        results.forEach(r => {
+            response += `• ${r.name} (${r.cuisine}) - ⭐${r.rating}\n`;
+        });
+        addMessage(response, 'bot');
+        
+        // Add a follow-up question
+        setTimeout(() => {
+            addMessage("Would you like more specific cuisine recommendations for this area?", 'bot');
+            conversationContext.conversationStage = 'follow_up';
+        }, 1000);
+    }, 800);
 };
 
 export const initializeChatbot = () => {
+    const toggleBtn = document.getElementById('chatbotToggleBtn');
     const chatbotContainer = document.getElementById('chatbotContainer');
-    const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
-    const closeChatbotBtn = document.getElementById('closeChatbotBtn');
-    const chatbotForm = document.getElementById('chatbotForm');
-    const chatbotInput = document.getElementById('chatbotInput');
+    const closeBtn = document.getElementById('chatbotCloseBtn');
+    const form = document.getElementById('chatbotInputForm');
+    const input = document.getElementById('chatbotInput');
 
-    chatbotToggleBtn.addEventListener('click', () => {
-        chatbotContainer.classList.toggle('open');
-        const messages = document.getElementById('chatbotMessages');
-        if (chatbotContainer.classList.contains('open') && messages.children.length === 0) {
-            addMessage(getRandomResponse(greetings), 'bot');
+    toggleBtn.addEventListener('click', () => {
+        const isOpening = chatbotContainer.style.transform === 'scale(0)';
+        chatbotContainer.style.transform = isOpening ? 'scale(1)' : 'scale(0)';
+        toggleBtn.style.transform = isOpening ? 'scale(0.9)' : 'scale(1)';
+        if (isOpening) {
+            // Reset conversation context when opening
+            conversationContext = {
+                lastMentionedItem: null,
+                lastRecommendedRestaurants: [],
+                userPreferences: {
+                    likedCuisines: [],
+                    dislikedCuisines: []
+                },
+                conversationStage: 'greeting'
+            };
+            setTimeout(() => addMessage(getRandomItem(greetings), 'bot'), 400);
         }
     });
 
-    closeChatbotBtn.addEventListener('click', () => chatbotContainer.classList.remove('open'));
-
-    chatbotForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const userInput = chatbotInput.value.trim();
-        if (!userInput) return;
-        addMessage(userInput, 'user');
-        chatbotInput.value = '';
-        setTimeout(() => {
-            const botResponse = getBotResponse(userInput);
-            addMessage(botResponse, 'bot');
-        }, 500); // Slightly longer delay for a more natural feel
+    closeBtn.addEventListener('click', () => {
+        chatbotContainer.style.transform = 'scale(0)';
+        toggleBtn.style.transform = 'scale(1)';
     });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const userInput = input.value.trim();
+        if (!userInput) return;
+
+        addMessage(userInput, 'user');
+        input.value = '';
+
+        setTimeout(() => getBotResponse(userInput), 500);
+    });
+    
+    // Initial state
+    if (chatbotContainer) {
+        chatbotContainer.style.transformOrigin = 'bottom right';
+        chatbotContainer.style.transform = 'scale(0)';
+        chatbotContainer.style.transition = 'transform 0.3s ease-in-out';
+    }
 }; 
