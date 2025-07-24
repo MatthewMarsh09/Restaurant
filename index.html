@@ -263,6 +263,29 @@
         </div>
     </footer>
 
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <h3>AI Food Finder</h3>
+            <button class="chatbot-close-btn" id="closeChatbotBtn">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <!-- Messages will be appended here -->
+            <div class="bot-message">
+                <p>Hello! I'm your AI Food Finder. Ask me for restaurant suggestions like "best sushi in The Woodlands" or "cheap tacos near me".</p>
+            </div>
+        </div>
+        <form class="chatbot-input-form" id="chatbotForm">
+            <input type="text" id="chatbotInput" placeholder="Ask me for a restaurant..." autocomplete="off">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle-btn" id="chatbotToggleBtn">
+        🤖
+    </button>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="scripts/main.js"></script>
 </body>

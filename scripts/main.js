@@ -330,6 +330,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
     initializeDropdown();
     initializeAddressAutocomplete();
+    initializeChatbot(); // Initialize the chatbot
     document.getElementById('totalRestaurants').textContent = mockRestaurants.length;
 });
 
@@ -427,4 +428,115 @@ const generateMapsLink = address => {
     const encodedAddress = encodeURIComponent(address);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     return isIOS ? `maps://?q=${encodedAddress}` : `https://maps.google.com/maps?q=${encodedAddress}`;
+};
+
+// Chatbot functionality
+const initializeChatbot = () => {
+    const chatbotContainer = document.getElementById('chatbotContainer');
+    const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
+    const closeChatbotBtn = document.getElementById('closeChatbotBtn');
+    const chatbotForm = document.getElementById('chatbotForm');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+
+    // Toggle chatbot visibility
+    chatbotToggleBtn.addEventListener('click', () => {
+        chatbotContainer.classList.toggle('open');
+    });
+
+    closeChatbotBtn.addEventListener('click', () => {
+        chatbotContainer.classList.remove('open');
+    });
+
+    // Handle form submission
+    chatbotForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const userInput = chatbotInput.value.trim();
+        if (userInput === '') return;
+
+        addMessage(userInput, 'user');
+        chatbotInput.value = '';
+        
+        // Process user input and get a bot response
+        setTimeout(() => {
+            const botResponse = getBotResponse(userInput);
+            addMessage(botResponse, 'bot');
+        }, 500); // Simulate bot thinking
+    });
+
+    // Function to add a message to the chat window
+    const addMessage = (message, sender) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+        
+        // Sanitize the message to prevent HTML injection
+        const p = document.createElement('p');
+        p.textContent = message;
+        messageElement.appendChild(p);
+
+        chatbotMessages.appendChild(messageElement);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // Auto-scroll to bottom
+    };
+
+    // Simple AI to process user input
+    const getBotResponse = (userInput) => {
+        const lowerInput = userInput.toLowerCase();
+        
+        // Rule-based keyword matching
+        const keywords = {
+            cuisine: ['mexican', 'italian', 'chinese', 'japanese', 'indian', 'bbq', 'seafood', 'fast food', 'sushi', 'pizza', 'burger', 'venezuelan'],
+            quality: ['best', 'top', 'great', 'good', 'highest rated'],
+            price: ['cheap', 'affordable', 'inexpensive'],
+            random: ['random', 'anything', 'surprise me']
+        };
+
+        let foundCuisine = null;
+        for (const cuisine of keywords.cuisine) {
+            if (lowerInput.includes(cuisine)) {
+                foundCuisine = cuisine;
+                break;
+            }
+        }
+
+        let wantsBest = keywords.quality.some(q => lowerInput.includes(q));
+        let wantsCheap = keywords.price.some(p => lowerInput.includes(p));
+        let wantsRandom = keywords.random.some(r => lowerInput.includes(r));
+        
+        // Filter restaurants based on keywords
+        let potentialRestaurants = [...mockRestaurants];
+        
+        if (foundCuisine) {
+            potentialRestaurants = potentialRestaurants.filter(r => r.cuisine.toLowerCase() === foundCuisine);
+        }
+        
+        if (wantsBest) {
+            potentialRestaurants.sort((a, b) => b.rating - a.rating);
+        } else if (wantsCheap) {
+            // No price data, so we'll just pick a random one from the lower-rated half as a proxy
+            potentialRestaurants.sort((a, b) => a.rating - b.rating);
+            potentialRestaurants = potentialRestaurants.slice(0, Math.ceil(potentialRestaurants.length / 2));
+        }
+
+        if (potentialRestaurants.length === 0) {
+            return "I'm sorry, I couldn't find any restaurants that match your request. Try asking something else!";
+        }
+        
+        // Pick a random restaurant from the filtered list (or the top one if 'best' was requested)
+        const chosenRestaurant = wantsBest ? potentialRestaurants[0] : potentialRestaurants[Math.floor(Math.random() * potentialRestaurants.length)];
+        
+        if (wantsRandom && !foundCuisine) {
+            const randomRestaurant = mockRestaurants[Math.floor(Math.random() * mockRestaurants.length)];
+             return `How about trying ${randomRestaurant.name}? It's a ${randomRestaurant.cuisine} place located at ${randomRestaurant.address}.`;
+        }
+        
+        if (!chosenRestaurant) {
+            return "I'm having trouble finding a suggestion. Could you try rephrasing your question?";
+        }
+
+        let response = `I recommend ${chosenRestaurant.name}. `;
+        response += `It's a ${wantsBest ? 'highly-rated' : ''} ${chosenRestaurant.cuisine} restaurant with a rating of ${chosenRestaurant.rating} stars. `;
+        response += `You can find it at ${chosenRestaurant.address}.`;
+
+        return response;
+    };
 };
