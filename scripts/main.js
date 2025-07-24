@@ -440,19 +440,14 @@ const initializeChatbot = () => {
     const chatbotMessages = document.getElementById('chatbotMessages');
 
     // Toggle chatbot visibility
-    chatbotToggleBtn.addEventListener('click', () => {
-        chatbotContainer.classList.toggle('open');
-    });
-
-    closeChatbotBtn.addEventListener('click', () => {
-        chatbotContainer.classList.remove('open');
-    });
+    chatbotToggleBtn.addEventListener('click', () => chatbotContainer.classList.toggle('open'));
+    closeChatbotBtn.addEventListener('click', () => chatbotContainer.classList.remove('open'));
 
     // Handle form submission
     chatbotForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const userInput = chatbotInput.value.trim();
-        if (userInput === '') return;
+        if (!userInput) return;
 
         addMessage(userInput, 'user');
         chatbotInput.value = '';
@@ -461,28 +456,24 @@ const initializeChatbot = () => {
         setTimeout(() => {
             const botResponse = getBotResponse(userInput);
             addMessage(botResponse, 'bot');
-        }, 500); // Simulate bot thinking
+        }, 250); // Reduced delay for faster response
     });
 
     // Function to add a message to the chat window
     const addMessage = (message, sender) => {
         const messageElement = document.createElement('div');
-        messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-        
-        // Sanitize the message to prevent HTML injection
+        messageElement.className = `${sender}-message`;
         const p = document.createElement('p');
-        p.textContent = message;
+        p.textContent = message; // Automatically sanitizes content
         messageElement.appendChild(p);
-
         chatbotMessages.appendChild(messageElement);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // Auto-scroll to bottom
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // Auto-scroll
     };
 
-    // Simple AI to process user input
+    // Refactored and optimized AI to process user input
     const getBotResponse = (userInput) => {
         const lowerInput = userInput.toLowerCase();
-        
-        // Rule-based keyword matching
+
         const keywords = {
             cuisine: ['mexican', 'italian', 'chinese', 'japanese', 'indian', 'bbq', 'seafood', 'fast food', 'sushi', 'pizza', 'burger', 'venezuelan'],
             quality: ['best', 'top', 'great', 'good', 'highest rated'],
@@ -490,53 +481,41 @@ const initializeChatbot = () => {
             random: ['random', 'anything', 'surprise me']
         };
 
-        let foundCuisine = null;
-        for (const cuisine of keywords.cuisine) {
-            if (lowerInput.includes(cuisine)) {
-                foundCuisine = cuisine;
-                break;
-            }
+        const findKeyword = (arr) => arr.find(kw => lowerInput.includes(kw));
+
+        const foundCuisine = findKeyword(keywords.cuisine);
+        const wantsBest = findKeyword(keywords.quality);
+        const wantsCheap = findKeyword(keywords.price);
+
+        if (findKeyword(keywords.random) && !foundCuisine) {
+            const randomRest = mockRestaurants[Math.floor(Math.random() * mockRestaurants.length)];
+            return `How about trying ${randomRest.name}? It's a ${randomRest.cuisine} place at ${randomRest.address}.`;
         }
 
-        let wantsBest = keywords.quality.some(q => lowerInput.includes(q));
-        let wantsCheap = keywords.price.some(p => lowerInput.includes(p));
-        let wantsRandom = keywords.random.some(r => lowerInput.includes(r));
-        
-        // Filter restaurants based on keywords
-        let potentialRestaurants = [...mockRestaurants];
-        
+        let results = [...mockRestaurants];
+
         if (foundCuisine) {
-            potentialRestaurants = potentialRestaurants.filter(r => r.cuisine.toLowerCase() === foundCuisine);
+            results = results.filter(r => r.cuisine.toLowerCase() === foundCuisine);
         }
-        
+
         if (wantsBest) {
-            potentialRestaurants.sort((a, b) => b.rating - a.rating);
+            results.sort((a, b) => b.rating - a.rating);
         } else if (wantsCheap) {
-            // No price data, so we'll just pick a random one from the lower-rated half as a proxy
-            potentialRestaurants.sort((a, b) => a.rating - b.rating);
-            potentialRestaurants = potentialRestaurants.slice(0, Math.ceil(potentialRestaurants.length / 2));
+            results.sort((a, b) => a.rating - b.rating);
+            results = results.slice(0, Math.ceil(results.length / 2));
         }
 
-        if (potentialRestaurants.length === 0) {
-            return "I'm sorry, I couldn't find any restaurants that match your request. Try asking something else!";
-        }
-        
-        // Pick a random restaurant from the filtered list (or the top one if 'best' was requested)
-        const chosenRestaurant = wantsBest ? potentialRestaurants[0] : potentialRestaurants[Math.floor(Math.random() * potentialRestaurants.length)];
-        
-        if (wantsRandom && !foundCuisine) {
-            const randomRestaurant = mockRestaurants[Math.floor(Math.random() * mockRestaurants.length)];
-             return `How about trying ${randomRestaurant.name}? It's a ${randomRestaurant.cuisine} place located at ${randomRestaurant.address}.`;
-        }
-        
-        if (!chosenRestaurant) {
-            return "I'm having trouble finding a suggestion. Could you try rephrasing your question?";
+        if (results.length === 0) {
+            return "Sorry, I couldn't find any restaurants matching your request. Please try asking differently!";
         }
 
-        let response = `I recommend ${chosenRestaurant.name}. `;
-        response += `It's a ${wantsBest ? 'highly-rated' : ''} ${chosenRestaurant.cuisine} restaurant with a rating of ${chosenRestaurant.rating} stars. `;
-        response += `You can find it at ${chosenRestaurant.address}.`;
+        const restaurant = wantsBest ? results[0] : results[Math.floor(Math.random() * results.length)];
 
-        return response;
+        if (!restaurant) {
+            return "I'm having trouble finding a suggestion. Could you rephrase your question?";
+        }
+
+        const qualityDesc = wantsBest ? 'highly-rated ' : '';
+        return `I'd recommend ${restaurant.name}. It's a ${qualityDesc}${restaurant.cuisine} restaurant with a ${restaurant.rating}-star rating, located at ${restaurant.address}.`;
     };
 };
