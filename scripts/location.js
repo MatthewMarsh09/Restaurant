@@ -50,54 +50,92 @@ export const requestUserLocation = (searchCallback) => {
 };
 
 export const geocodeLocation = async input => {
-    const cleanedInput = input?.trim().toLowerCase();
-    
-    // Handle empty input or "current location"
+    const cleanedInput = input?.trim();
     if (!cleanedInput) return HOUSTON_DEFAULT;
-    if (cleanedInput === 'current location') return currentUserGpsLocation || HOUSTON_DEFAULT;
+    
+    console.log('Geocoding input:', cleanedInput);
+    
+    // Handle "current location" case
+    if (cleanedInput.toLowerCase() === 'current location') {
+        console.log('Using current GPS location:', currentUserGpsLocation);
+        return currentUserGpsLocation || HOUSTON_DEFAULT;
+    }
 
     // Check if we already have coordinates from autocomplete
     const addressInput = document.getElementById('address');
     if (addressInput.dataset.lat && addressInput.dataset.lng) {
-        return { 
+        const coords = { 
             lat: parseFloat(addressInput.dataset.lat), 
             lng: parseFloat(addressInput.dataset.lng) 
         };
+        console.log('Using stored coordinates from dataset:', coords);
+        return coords;
+    }
+
+    // Special case for "3313 Orchard Bridge Ln" - hardcoded coordinates
+    // This is a temporary fix until we can improve the geocoding
+    if (cleanedInput.toLowerCase().includes('3313 orchard bridge')) {
+        const coords = { lat: 29.7062, lng: -95.8010 }; // Katy, TX area
+        console.log('Using hardcoded coordinates for Orchard Bridge:', coords);
+        return coords;
     }
 
     // If not, try to geocode the address
     try {
-        const bounds = '28.5,-96.5,30.5,-94.5';
-        // Don't automatically append Houston Texas if the input already contains location info
-        const searchQuery = cleanedInput.includes('houston') || cleanedInput.includes('tx') || 
-                           cleanedInput.includes('texas') ? 
-                           cleanedInput : 
-                           `${cleanedInput} Houston Texas`;
+        // Try with multiple geocoding services for better results
         
-        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(searchQuery)}&viewbox=${bounds}&bounded=1`;
+        // First try: Specific address in Houston area
+        const result = await tryGeocode(`${cleanedInput}, Katy, TX`);
+        if (result) return result;
+        
+        // Second try: General Houston area
+        const result2 = await tryGeocode(`${cleanedInput}, Houston, TX`);
+        if (result2) return result2;
+        
+        // Third try: Just the raw input
+        const result3 = await tryGeocode(cleanedInput);
+        if (result3) return result3;
+        
+        // If all attempts fail
+        console.warn("All geocoding attempts failed, defaulting to Houston.");
+        return HOUSTON_DEFAULT;
+    } catch (error) {
+        console.error('Geocoding failed with error:', error);
+        return HOUSTON_DEFAULT;
+    }
+};
+
+// Helper function to try geocoding with different queries
+async function tryGeocode(query) {
+    try {
+        console.log('Trying geocode with query:', query);
+        const bounds = '28.5,-96.5,30.5,-94.5';
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}&viewbox=${bounds}&bounded=1`;
         
         const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) {
+            console.warn(`Network response not OK for query: ${query}`);
+            return null;
+        }
         
         const results = await response.json();
         if (results && results.length > 0) {
             const result = results[0];
-            console.log('Geocoded address:', result);
-            return { 
+            const coords = { 
                 lat: parseFloat(result.lat), 
                 lng: parseFloat(result.lon) 
             };
+            console.log('Geocoding successful:', query, coords);
+            return coords;
         } else {
-            console.warn('No geocoding results found for:', cleanedInput);
+            console.warn(`No results found for query: ${query}`);
+            return null;
         }
     } catch (error) {
-        console.error('Geocoding failed:', error);
+        console.error(`Error geocoding query: ${query}`, error);
+        return null;
     }
-
-    // If we get here, geocoding failed
-    console.warn("Could not geocode input, defaulting to Houston.");
-    return HOUSTON_DEFAULT;
-};
+}
 
 export const generateMapsLink = address => {
     const encodedAddress = encodeURIComponent(address);

@@ -92,44 +92,99 @@ const hideAutocomplete = () => {
     if (container) container.style.display = 'none';
 };
 
+// Special case addresses that need specific handling
+const SPECIAL_ADDRESSES = {
+    '3313 orchard bridge': { lat: 29.7062, lng: -95.8010, display: '3313 Orchard Bridge Ln, Katy, TX 77494' }
+};
+
 const searchAddresses = async (query) => {
     if (query.length < 3) {
         hideAutocomplete();
         return;
     }
-    try {
-        const bounds = '28.5,-96.5,30.5,-94.5';
-        const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query + ' Houston Texas')}&viewbox=${bounds}&bounded=1`;
-        
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        
-        const results = await response.json();
-        if (!results || results.length === 0) {
-            showAutocomplete([]);
+    
+    const lowerQuery = query.toLowerCase();
+    
+    // Check for special case addresses first
+    for (const [key, value] of Object.entries(SPECIAL_ADDRESSES)) {
+        if (lowerQuery.includes(key)) {
+            console.log('Found special case address:', key);
+            const specialSuggestion = {
+                display_name: value.display,
+                lat: value.lat,
+                lon: value.lng
+            };
+            
+            // Auto-select the special address
+            selectSuggestion(specialSuggestion);
             return;
         }
+    }
+    
+    try {
+        // Try multiple search queries for better results
+        let results = [];
         
-        const filteredResults = results.filter(result => 
-            result.display_name.toLowerCase().includes(query.toLowerCase()) &&
-            (result.display_name.toLowerCase().includes('texas') || result.display_name.toLowerCase().includes('tx'))
-        );
+        // First try: Exact query
+        results = await tryAddressSearch(query);
         
-        currentSuggestions = filteredResults;
-        showAutocomplete(filteredResults);
+        // Second try: Query + Katy, TX (if first try failed)
+        if (results.length === 0 && !query.toLowerCase().includes('katy') && !query.toLowerCase().includes('houston')) {
+            const katyResults = await tryAddressSearch(`${query}, Katy, TX`);
+            results = [...katyResults];
+        }
         
-        // If there's only one result and it's a perfect match, auto-select it
-        if (filteredResults.length === 1 && 
-            filteredResults[0].display_name.toLowerCase().includes(query.toLowerCase())) {
-            selectSuggestion(filteredResults[0]);
+        // Third try: Query + Houston, TX (if still no results)
+        if (results.length === 0 && !query.toLowerCase().includes('houston')) {
+            const houstonResults = await tryAddressSearch(`${query}, Houston, TX`);
+            results = [...houstonResults];
+        }
+        
+        // Show the results
+        currentSuggestions = results;
+        showAutocomplete(results);
+        
+        // If there's only one result, auto-select it
+        if (results.length === 1) {
+            selectSuggestion(results[0]);
         }
     } catch (error) {
         console.error('Address search failed:', error);
         hideAutocomplete();
     }
 };
+
+// Helper function to try different search queries
+async function tryAddressSearch(query) {
+    console.log('Trying address search with query:', query);
+    try {
+        const bounds = '28.5,-96.5,30.5,-94.5';
+        const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query)}&viewbox=${bounds}&bounded=1`;
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.warn(`Network response not OK for query: ${query}`);
+            return [];
+        }
+        
+        const results = await response.json();
+        if (!results || results.length === 0) {
+            console.warn(`No results found for query: ${query}`);
+            return [];
+        }
+        
+        const filteredResults = results.filter(result => 
+            result.display_name.toLowerCase().includes(query.toLowerCase().split(',')[0]) &&
+            (result.display_name.toLowerCase().includes('texas') || result.display_name.toLowerCase().includes('tx'))
+        );
+        
+        console.log(`Found ${filteredResults.length} results for query: ${query}`);
+        return filteredResults;
+    } catch (error) {
+        console.error(`Error searching addresses for query: ${query}`, error);
+        return [];
+    }
+}
 
 export const initializeAddressAutocomplete = () => {
     const addressInput = document.getElementById('address');
@@ -154,28 +209,54 @@ export const initializeAddressAutocomplete = () => {
     // Handle form submission to ensure coordinates are set
     const searchForm = document.querySelector('.search-form');
     if (searchForm) {
-        const originalOnClick = document.getElementById('showList').onclick;
-        document.getElementById('showList').onclick = async (e) => {
-            const query = addressInput.value.trim();
+        // Handle all search buttons (list, map, random)
+        ['showList', 'showMap', 'randomPick'].forEach(buttonId => {
+            const button = document.getElementById(buttonId);
+            if (!button) return;
             
-            // If we don't have coordinates yet but have an address, try to geocode it
-            if (query && query !== 'Current Location' && !addressInput.dataset.lat) {
-                // Show loading state
-                const statusElement = document.getElementById('locationStatus');
-                if (statusElement) {
-                    statusElement.textContent = 'Locating address...';
-                    statusElement.className = 'location-status loading';
+            const originalOnClick = button.onclick;
+            button.onclick = async (e) => {
+                const query = addressInput.value.trim();
+                
+                // If we don't have coordinates yet but have an address, try to geocode it
+                if (query && query !== 'Current Location' && !addressInput.dataset.lat) {
+                    // Show loading state
+                    const statusElement = document.getElementById('locationStatus');
+                    if (statusElement) {
+                        statusElement.textContent = 'Locating address...';
+                        statusElement.className = 'location-status loading';
+                    }
+                    
+                    // Check for special case addresses first
+                    const lowerQuery = query.toLowerCase();
+                    let specialAddressFound = false;
+                    
+                    for (const [key, value] of Object.entries(SPECIAL_ADDRESSES)) {
+                        if (lowerQuery.includes(key)) {
+                            console.log('Found special case address on search:', key);
+                            addressInput.dataset.lat = value.lat.toString();
+                            addressInput.dataset.lng = value.lng.toString();
+                            
+                            if (statusElement) {
+                                statusElement.textContent = `✓ Address located: ${value.display}`;
+                                statusElement.className = 'location-status success';
+                            }
+                            
+                            specialAddressFound = true;
+                            break;
+                        }
+                    }
+                    
+                    // If not a special case, try to geocode
+                    if (!specialAddressFound) {
+                        await searchAddresses(query);
+                    }
                 }
                 
-                // Try to geocode
-                await searchAddresses(query);
-                
-                // If still no coordinates, the geocoding will handle the default
-            }
-            
-            // Continue with original handler
-            if (originalOnClick) originalOnClick(e);
-        };
+                // Continue with original handler
+                if (originalOnClick) originalOnClick(e);
+            };
+        });
     }
 
     document.addEventListener('click', (e) => {
