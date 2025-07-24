@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Database Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #002D62;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #002D62;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Houston Food Finder - Database Update Tool</h1>
+    <p>This tool will add chain restaurants to the database to reach our goal of 1000 restaurants.</p>
+    
+    <button id="updateBtn" class="btn">Generate Updated Restaurant Database</button>
+    
+    <div id="statusContainer" class="status" style="display: none;"></div>
+    <div id="downloadContainer"></div>
+    
+    <script src="scripts/browser-update.js"></script>
+</body>
+</html> 
