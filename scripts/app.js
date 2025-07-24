@@ -1,5 +1,5 @@
 // scripts/app.js
-import { fetchRestaurants, getSelectedCuisines, getSelectedPrices, mockRestaurants, restaurantsByCuisine, restaurantsByPrice } from './restaurants.js';
+import { fetchRestaurants, getSelectedCuisines, getSelectedPrices, mockRestaurants, restaurantsByCuisine, restaurantsByPrice, verifyAllRestaurantCoordinates } from './restaurants.js';
 import { calculateDistance, geocodeLocation, requestUserLocation } from './location.js';
 import { initializeDropdown } from './dropdown.js';
 import { initializeAddressAutocomplete } from './autocomplete.js';
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('prevPageBtn').onclick = () => changePage(-1);
     document.getElementById('nextPageBtn').onclick = () => changePage(1);
     document.getElementById('searchBtn').onclick = () => searchAndShow('list');
+    document.getElementById('verifyAddressesBtn').onclick = () => verifyAllRestaurantCoordinates();
 
     initializeDropdown();
     initializeAddressAutocomplete();

@@ -107,6 +107,125 @@ export const geocodeLocation = async input => {
     return HOUSTON_DEFAULT;
 };
 
+// Verify restaurant coordinates against their addresses
+export const verifyRestaurantCoordinates = async (restaurants) => {
+    const verificationResults = {
+        verified: [],
+        needsReview: [],
+        failed: []
+    };
+    
+    const statusElement = document.getElementById('locationStatus');
+    if (statusElement) {
+        statusElement.textContent = 'Verifying restaurant coordinates...';
+        statusElement.className = 'location-status loading';
+    }
+    
+    // Process restaurants in batches to avoid rate limiting
+    const batchSize = 10;
+    const batches = [];
+    
+    for (let i = 0; i < restaurants.length; i += batchSize) {
+        batches.push(restaurants.slice(i, i + batchSize));
+    }
+    
+    for (let i = 0; i < batches.length; i++) {
+        const batch = batches[i];
+        
+        // Update status
+        if (statusElement) {
+            statusElement.textContent = `Verifying coordinates: batch ${i+1}/${batches.length}`;
+        }
+        
+        // Process each restaurant in the batch
+        const batchPromises = batch.map(async restaurant => {
+            try {
+                // Skip if missing address or coordinates
+                if (!restaurant.address || !restaurant.lat || !restaurant.lng) {
+                    return { ...restaurant, verificationStatus: 'missing_data' };
+                }
+                
+                // Geocode the address
+                const geocoded = await geocodeAddressForVerification(restaurant.address);
+                if (!geocoded) {
+                    verificationResults.failed.push(restaurant);
+                    return { ...restaurant, verificationStatus: 'geocoding_failed' };
+                }
+                
+                // Calculate distance between stored and geocoded coordinates
+                const distance = calculateDistance(
+                    restaurant.lat, restaurant.lng,
+                    geocoded.lat, geocoded.lng
+                );
+                
+                // If distance is more than 1 mile, flag for review
+                if (distance > 1) {
+                    const result = { 
+                        ...restaurant, 
+                        verificationStatus: 'needs_review',
+                        geocodedLat: geocoded.lat,
+                        geocodedLng: geocoded.lng,
+                        distanceDiff: distance
+                    };
+                    verificationResults.needsReview.push(result);
+                    return result;
+                } else {
+                    const result = { 
+                        ...restaurant, 
+                        verificationStatus: 'verified',
+                        distanceDiff: distance
+                    };
+                    verificationResults.verified.push(result);
+                    return result;
+                }
+            } catch (error) {
+                console.error(`Error verifying ${restaurant.name}:`, error);
+                verificationResults.failed.push(restaurant);
+                return { ...restaurant, verificationStatus: 'error' };
+            }
+        });
+        
+        await Promise.all(batchPromises);
+        
+        // Add a small delay between batches to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    
+    if (statusElement) {
+        statusElement.textContent = `Verification complete: ${verificationResults.verified.length} verified, ${verificationResults.needsReview.length} need review, ${verificationResults.failed.length} failed`;
+        statusElement.className = 'location-status success';
+        
+        // Reset after a few seconds
+        setTimeout(() => {
+            statusElement.textContent = 'Click to automatically use your precise GPS coordinates';
+            statusElement.className = 'location-status';
+        }, 5000);
+    }
+    
+    return verificationResults;
+};
+
+// Helper function for verification
+async function geocodeAddressForVerification(address) {
+    try {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`;
+        const response = await fetch(url);
+        if (!response.ok) return null;
+        
+        const results = await response.json();
+        if (results?.length > 0) {
+            return { 
+                lat: parseFloat(results[0].lat), 
+                lng: parseFloat(results[0].lon) 
+            };
+        }
+        return null;
+    } catch (error) {
+        console.error('Verification geocoding failed:', error);
+        return null;
+    }
+}
+
 export const generateMapsLink = address => {
     const encodedAddress = encodeURIComponent(address);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);

@@ -46,6 +46,14 @@
 .btn--search:hover { background: #025aa5; box-shadow: 0 6px 20px rgba(2,117,216,0.4); }
 .btn--search:disabled { background: #6c757d; cursor: not-allowed; transform: none; box-shadow: none; }
 
+.btn--verify {
+    background: #28a745; font-size: 1rem; padding: 12px 24px; border-radius: 25px;
+    display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+.btn--verify:hover { background: linear-gradient(135deg, #218838, #1ba87e); box-shadow: 0 6px 20px rgba(40,167,69,0.4); }
+.btn--verify:disabled { background: #6c757d; cursor: not-allowed; transform: none; box-shadow: none; }
+
 .location-status {
     font-size: 0.9rem; text-align: center; min-height: 20px; color: #6b7280;
     font-style: italic; margin-top: 0.5rem;
