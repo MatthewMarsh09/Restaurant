@@ -23,6 +23,14 @@ const COMMON_ADDRESSES = [
     "Galveston Seawall, TX"
 ];
 
+// Common street names for number-based suggestions
+const COMMON_STREETS = [
+    "Main St", "Oak Dr", "Center St", "Park Ave", "Washington St", 
+    "Broadway St", "Market St", "Westheimer Rd", "Richmond Ave", "Kirby Dr",
+    "Shepherd Dr", "Heights Blvd", "Memorial Dr", "San Felipe St", "Montrose Blvd",
+    "Fannin St", "Bellaire Blvd", "Bissonnet St", "Holcombe Blvd", "Waugh Dr"
+];
+
 const createAutocompleteContainer = () => {
     const container = document.createElement('div');
     container.id = 'autocomplete-container';
@@ -142,6 +150,48 @@ const showCommonAddresses = () => {
     container.style.display = 'block';
 };
 
+// Generate street address suggestions based on a number
+const generateStreetSuggestions = (number) => {
+    const suggestions = [];
+    
+    // Create suggestions with the number and common street names
+    COMMON_STREETS.forEach(street => {
+        suggestions.push(`${number} ${street}, Houston, TX`);
+    });
+    
+    // Add some area-specific suggestions
+    if (parseInt(number) > 1000) {
+        suggestions.push(`${number} Westheimer Rd, Houston, TX`);
+        suggestions.push(`${number} Richmond Ave, Houston, TX`);
+        suggestions.push(`${number} Memorial Dr, Houston, TX`);
+        suggestions.push(`${number} Katy Fwy, Houston, TX`);
+        suggestions.push(`${number} FM 1960, Houston, TX`);
+    }
+    
+    return suggestions;
+};
+
+// Show street number suggestions
+const showStreetSuggestions = (number) => {
+    const container = document.getElementById('autocomplete-container');
+    container.innerHTML = '';
+    
+    const header = document.createElement('div');
+    header.className = 'autocomplete-header';
+    header.textContent = 'Street Address Suggestions:';
+    container.appendChild(header);
+    
+    const fragment = document.createDocumentFragment();
+    const suggestions = generateStreetSuggestions(number);
+    
+    suggestions.forEach((address, index) => 
+        fragment.appendChild(createSuggestionItem(address, index))
+    );
+    
+    container.appendChild(fragment);
+    container.style.display = 'block';
+};
+
 const hideAutocomplete = () => {
     const container = document.getElementById('autocomplete-container');
     if (container) container.style.display = 'none';
@@ -168,6 +218,14 @@ const searchAddresses = async (query) => {
             selectSuggestion(specialSuggestion);
             return;
         }
+    }
+    
+    // Check if query is just a number or starts with a number
+    const numberMatch = query.match(/^(\d+)(\s+)?$/);
+    if (numberMatch) {
+        // Show street suggestions for this number
+        showStreetSuggestions(numberMatch[1]);
+        return;
     }
     
     // Filter common addresses that match the query
@@ -240,6 +298,9 @@ export const initializeAddressAutocomplete = () => {
             autocompleteTimeout = setTimeout(() => searchAddresses(query), 300);
         } else if (query.length === 0) {
             showCommonAddresses();
+        } else if (/^\d+$/.test(query)) {
+            // If it's just a number, show street suggestions immediately
+            showStreetSuggestions(query);
         } else {
             hideAutocomplete();
         }
